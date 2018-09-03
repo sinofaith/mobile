@@ -8,7 +8,6 @@
         <property name="show_sql">true</property>
         <property name="connection.url">jdbc:oracle:thin:@192.168.85.132:1521:orcl</property>
         <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
-        <mapping class="cn.com.sinofaith.bean.QqHtmlEntity"/>
         <mapping class="cn.com.sinofaith.bean.TAutoDxEntity"/>
         <mapping class="cn.com.sinofaith.bean.TAutoJzxxEntity"/>
         <mapping class="cn.com.sinofaith.bean.TAutoQqZhxxEntity"/>

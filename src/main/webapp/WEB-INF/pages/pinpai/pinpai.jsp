@@ -42,7 +42,7 @@
                                     <tr>
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>线索列表</strong>
+                                                <strong>品牌列表</strong>
 
                                             </div>
                                         </td>
@@ -125,8 +125,8 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="title"<c:if test="${wseachCondition=='title'}">selected="selected"</c:if>>线索名</option>
-                                            <option value="sfzhm" <c:if test="${wseachCondition=='sfzhm'}">selected="selected"</c:if> >线索文档包含号码</option>
+                                            <option value="title"<c:if test="${wseachCondition=='pinpaim'}">selected="selected"</c:if>>品牌名</option>
+                                            <%--<option value="sfzhm" <c:if test="${wseachCondition=='sfzhm'}">selected="selected"</c:if> >线索文档包含号码</option>--%>
                                             <%--&lt;%&ndash;<option value="gszcm" <c:if test="${seachCondition=='gszcm'}">selected="selected"</c:if> >公司注册账号</option>&ndash;%&gt;--%>
                                             <%--&lt;%&ndash;<option value="gsmc" <c:if test="${seachCondition=='gsmc'}">selected="selected"</c:if> >公司名称</option>&ndash;%&gt;--%>
                                             <%--<option value="bdsj" <c:if test="${zcseachCondition=='bdsj'}">selected="selected"</c:if> >手机号</option>--%>

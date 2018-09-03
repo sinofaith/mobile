@@ -460,6 +460,17 @@ function refresh(type) {
         }
     })
 }
+//bootstrap下拉菜单 鼠标悬停显示
+$(function () {
+    $(".dropdown").mouseover(function () {
+        $(this).addClass("open");
+    });
+
+    $(".dropdown").mouseleave(function(){
+        $(this).removeClass("open");
+    })
+
+})
 
 $(function(){
     document.ondragleave=function(e){
