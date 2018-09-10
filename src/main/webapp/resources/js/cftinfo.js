@@ -480,8 +480,10 @@ function downGtlxr(){
 }
 
 function getZzDetails(obj) {
-    var jyzh = $(obj).closest("tr").find("td:eq(2)").text()
-    var jylx = $(obj).closest("tr").find("td:eq(3)").text()
+    var jyzh = $(obj).closest("tr").find("td:eq(5)").text()
+    var jylx = $(obj).closest("tr").find("td:eq(7)").text()
+    alert(jyzh);
+    alert(jylx);
     window.page = 1
     var type = ""
     if( /^[a-zA-Z]([-_a-zA-Z0-9])*$/.test(jylx)){

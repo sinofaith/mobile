@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_auto_qq_friendsxx", schema = "")
 public class TAutoQqFriendsxxEntity {
-    private int id;
+    private long id;
     private String name;
     private String sfzhm;
     private String sjhm;
@@ -23,6 +23,7 @@ public class TAutoQqFriendsxxEntity {
     private String qqfriendgxqm;
     private String qqfriendqh;
     private String qqfriendqshf;
+    private long aj_id;
 
     public void setNull() {
         this.name = null;
@@ -40,12 +41,12 @@ public class TAutoQqFriendsxxEntity {
     }
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false,precision = 0)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -149,42 +150,14 @@ public class TAutoQqFriendsxxEntity {
         this.insertTime = insertTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TAutoQqFriendsxxEntity that = (TAutoQqFriendsxxEntity) o;
-
-        if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (sfzhm != null ? !sfzhm.equals(that.sfzhm) : that.sfzhm != null) return false;
-        if (sjhm != null ? !sjhm.equals(that.sjhm) : that.sjhm != null) return false;
-        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
-        if (qq != null ? !qq.equals(that.qq) : that.qq != null) return false;
-        if (fdqq != null ? !fdqq.equals(that.fdqq) : that.fdqq != null) return false;
-        if (friendqqnc != null ? !friendqqnc.equals(that.friendqqnc) : that.friendqqnc != null) return false;
-        if (friendqqsex != null ? !friendqqsex.equals(that.friendqqsex) : that.friendqqsex != null) return false;
-        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null) return false;
-        if (insertTime != null ? !insertTime.equals(that.insertTime) : that.insertTime != null) return false;
-
-        return true;
+    @Basic
+    @Column(name = "aj_id", nullable = false,precision = 0)
+    public long getAj_id() {
+        return aj_id;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (sfzhm != null ? sfzhm.hashCode() : 0);
-        result = 31 * result + (sjhm != null ? sjhm.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (qq != null ? qq.hashCode() : 0);
-        result = 31 * result + (fdqq != null ? fdqq.hashCode() : 0);
-        result = 31 * result + (friendqqnc != null ? friendqqnc.hashCode() : 0);
-        result = 31 * result + (friendqqsex != null ? friendqqsex.hashCode() : 0);
-        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
-        result = 31 * result + (insertTime != null ? insertTime.hashCode() : 0);
-        return result;
+    public void setAj_id(long aj_id) {
+        this.aj_id = aj_id;
     }
 
     @Basic
@@ -225,5 +198,43 @@ public class TAutoQqFriendsxxEntity {
 
     public void setQqfriendqshf(String qqfriendqshf) {
         this.qqfriendqshf = qqfriendqshf;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TAutoQqFriendsxxEntity that = (TAutoQqFriendsxxEntity) o;
+
+        if (id != that.id) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (sfzhm != null ? !sfzhm.equals(that.sfzhm) : that.sfzhm != null) return false;
+        if (sjhm != null ? !sjhm.equals(that.sjhm) : that.sjhm != null) return false;
+        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
+        if (qq != null ? !qq.equals(that.qq) : that.qq != null) return false;
+        if (fdqq != null ? !fdqq.equals(that.fdqq) : that.fdqq != null) return false;
+        if (friendqqnc != null ? !friendqqnc.equals(that.friendqqnc) : that.friendqqnc != null) return false;
+        if (friendqqsex != null ? !friendqqsex.equals(that.friendqqsex) : that.friendqqsex != null) return false;
+        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null) return false;
+        if (insertTime != null ? !insertTime.equals(that.insertTime) : that.insertTime != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (sfzhm != null ? sfzhm.hashCode() : 0);
+        result = 31 * result + (sjhm != null ? sjhm.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (qq != null ? qq.hashCode() : 0);
+        result = 31 * result + (fdqq != null ? fdqq.hashCode() : 0);
+        result = 31 * result + (friendqqnc != null ? friendqqnc.hashCode() : 0);
+        result = 31 * result + (friendqqsex != null ? friendqqsex.hashCode() : 0);
+        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
+        result = 31 * result + (insertTime != null ? insertTime.hashCode() : 0);
+        return result;
     }
 }

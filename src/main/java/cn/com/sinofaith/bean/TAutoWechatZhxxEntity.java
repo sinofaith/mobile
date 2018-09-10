@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_auto_wechat_zhxx", schema = "")
 public class TAutoWechatZhxxEntity {
-    private int id;
+    private long id;
     private String name;
     private String sfzhm;
     private String sjhm;
@@ -24,6 +24,8 @@ public class TAutoWechatZhxxEntity {
     private String sheng;
     private String shi;
     private String wxh;
+    private String gxqm;
+    private long aj_id;
 
     public void setNull() {
         this.name = null;
@@ -43,12 +45,12 @@ public class TAutoWechatZhxxEntity {
     }
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false,precision = 0)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -165,7 +167,7 @@ public class TAutoWechatZhxxEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (sfzhm != null ? sfzhm.hashCode() : 0);
         result = 31 * result + (sjhm != null ? sjhm.hashCode() : 0);
@@ -238,8 +240,6 @@ public class TAutoWechatZhxxEntity {
         this.wxh = wxh;
     }
 
-    private String gxqm;
-
     @Basic
     @Column(name = "gxqm")
     public String getGxqm() {
@@ -248,5 +248,15 @@ public class TAutoWechatZhxxEntity {
 
     public void setGxqm(String gxqm) {
         this.gxqm = gxqm;
+    }
+
+    @Basic
+    @Column(name = "aj_id", nullable = false,precision = 0)
+    public long getAj_id() {
+        return aj_id;
+    }
+
+    public void setAj_id(long aj_id) {
+        this.aj_id = aj_id;
     }
 }

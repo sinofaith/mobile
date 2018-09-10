@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Entity
 @Table(name = "t_auto_wechat_ltjl", schema = "")
 public class TAutoWechatLtjlEntity {
-    private int id;
+    private long id;
     private String fswechatno;
     private String fswechatnc;
     private String fstime;
@@ -17,11 +17,13 @@ public class TAutoWechatLtjlEntity {
     private String jsfriendnc;
     private String fslx;
     private byte[] fanr;
+    private String fanrs;
     private String lujing;
     private String dataType;
     private String insertTime;
     private String uNumber;
     private String uName;
+    private long aj_id;
 
     public void setNull() {
         this.fswechatno = null;
@@ -34,15 +36,16 @@ public class TAutoWechatLtjlEntity {
         this.lujing = null;
         this.uName=null;
         this.uNumber=null;
+        this.fanrs=null;
     }
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false,precision = 0)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -170,7 +173,7 @@ public class TAutoWechatLtjlEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) id;
         result = 31 * result + (fswechatno != null ? fswechatno.hashCode() : 0);
         result = 31 * result + (fswechatnc != null ? fswechatnc.hashCode() : 0);
         result = 31 * result + (fstime != null ? fstime.hashCode() : 0);
@@ -202,5 +205,23 @@ public class TAutoWechatLtjlEntity {
 
     public void setuName(String uName) {
         this.uName = uName;
+    }
+
+    @Basic
+    @Column(name = "aj_id", nullable = false,precision = 0)
+    public long getAj_id() {
+        return aj_id;
+    }
+
+    public void setAj_id(long aj_id) {
+        this.aj_id = aj_id;
+    }
+
+    public String getFanrs() {
+        return fanrs;
+    }
+
+    public void setFanrs(String fanrs) {
+        this.fanrs = fanrs;
     }
 }

@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Entity
 @Table(name = "t_auto_qq_ltjl", schema = "")
 public class TAutoQqLtjlEntity {
-    private int id;
+    private long id;
     private String fsqq;
     private String fsqqnc;
     private String fstime;
@@ -17,11 +17,13 @@ public class TAutoQqLtjlEntity {
     private String jsqqnc;
     private String fslx;
     private byte[] fanr;
+    private String fanrs;
     private String lujing;
     private String dataType;
     private String insertTime;
     private String uName;
     private String uNumber;
+    private long aj_id;
 
     public void setNull() {
         this.fsqq = null;
@@ -37,12 +39,12 @@ public class TAutoQqLtjlEntity {
     }
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false,precision = 0)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -172,7 +174,7 @@ public class TAutoQqLtjlEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) id;
         result = 31 * result + (fsqq != null ? fsqq.hashCode() : 0);
         result = 31 * result + (fsqqnc != null ? fsqqnc.hashCode() : 0);
         result = 31 * result + (fstime != null ? fstime.hashCode() : 0);
@@ -204,5 +206,23 @@ public class TAutoQqLtjlEntity {
 
     public void setuNumber(String uNumber) {
         this.uNumber = uNumber;
+    }
+
+    @Basic
+    @Column(name = "aj_id", nullable = false,precision = 0)
+    public long getAj_id() {
+        return aj_id;
+    }
+
+    public void setAj_id(long aj_id) {
+        this.aj_id = aj_id;
+    }
+
+    public String getFanrs() {
+        return fanrs;
+    }
+
+    public void setFanrs(String fanrs) {
+        this.fanrs = fanrs;
     }
 }
