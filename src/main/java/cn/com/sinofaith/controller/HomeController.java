@@ -9,6 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
     @RequestMapping()
     public ModelAndView home(){
-        return new ModelAndView("pinpai/pinpai");
+        return new ModelAndView("case/case");
     }
 }

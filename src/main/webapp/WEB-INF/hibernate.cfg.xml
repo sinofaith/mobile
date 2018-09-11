@@ -19,5 +19,8 @@
         <mapping class="cn.com.sinofaith.bean.TAutoWechatZhxxEntity"/>
         <mapping class="cn.com.sinofaith.bean.TAutoWechatFriendsxxEntity"/>
         <mapping class="cn.com.sinofaith.bean.TAutoWechatLtjlEntity"/>
+        <mapping class="cn.com.sinofaith.bean.BrandEntity"/>
+        <mapping class="cn.com.sinofaith.bean.CaseEntity"/>
+        <mapping class="cn.com.sinofaith.bean.RegionEntity"/>
     </session-factory>
 </hibernate-configuration>
