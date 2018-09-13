@@ -15,11 +15,12 @@
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
-<script src="<c:url value="/resources/js/bootstrap.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/alertify/js/alertify.min.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
-<%--<script src="<c:url value="/resources/js/aj.js"/>" type="text/javascript"></script>--%>
 <script src="<c:url value="/resources/js/case/case.js"/>" type="text/javascript"></script>
+<link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
+<script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
+<script src="<c:url value="/resources/js/bootstrap.js"/> "></script>
 <%--详情模块脚本--%>
 <script type="text/javascript">
     try{ace.settings.check('main-container','fixed')}catch(e){}
@@ -189,10 +190,11 @@
                                class='txt casename'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('casename')" onblur="getCase()" >
                     <br>
                     所属品牌:<input type="text" name = 'brandname' id ='brandname'
-                               class='txt brandname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('brandname')" >
+                               class='txt brandname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('brandname');getBrandName()" onfocus="getBrandNameOnfocus()">
                     <br>
                     所属区域:<input type="text" name = 'regionname' id ='regionname'
-                               class='txt regionname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('regionname')" >
+                               class='txt regionname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('regionname');getRegionName()"
+                                 onfocus="getRegionNameOnfocus()">
 
 
                 </div>

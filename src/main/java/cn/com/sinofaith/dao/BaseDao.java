@@ -10,8 +10,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import cn.com.sinofaith.bean.TAutoQqZhxxEntity;
 import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;

@@ -7,6 +7,7 @@ import cn.com.sinofaith.util.TimeFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +22,17 @@ public class BrandService {
         }else {
             return null;
         }
+    }
+
+    public List<String> getDopage(String brandName){
+        List<BrandEntity> listb = bd.doPage("from BrandEntity where brandname like '%"+brandName+"%'",1,100);
+        List<String> lists = new ArrayList<>();
+        if(listb.size()>0){
+            for(BrandEntity be:listb){
+                lists.add(be.getBrandName());
+            }
+        }
+        return lists;
     }
 
     public long add(String brandname){

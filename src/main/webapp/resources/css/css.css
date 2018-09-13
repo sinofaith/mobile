@@ -362,3 +362,10 @@ a:hover{ transition: color 0.2s;}
 .drag-area strong{
     font-size: 18px;
 }
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* 防止水平滚动条 */
+    overflow-x: hidden;
+}

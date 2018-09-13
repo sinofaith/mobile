@@ -1,10 +1,58 @@
+$(function () {
+    $( "#brandname" ).autocomplete({
+
+    });
+    $( "#regionname" ).autocomplete({
+
+    });
+})
+
+function getBrandNameOnfocus() {
+    var e = jQuery.Event("keydown");//模拟一个键盘事件
+    e.keyCode = 8;//keyCode=8是空格
+    $("#brandname").trigger(e);
+    $( "#brandname" ).autocomplete({
+        source: "/mobile/brand/getBrandName",
+        minLength: 0
+    });
+}
+
+
+function getRegionNameOnfocus() {
+    var e = jQuery.Event("keydown");//模拟一个键盘事件
+    e.keyCode = 8;//keyCode=8是空格
+    $("#regionname").trigger(e);
+    $( "#regionname" ).autocomplete({
+        source: "/mobile/region/getRegionName",
+        minLength: 0
+    });
+}
+
+function getBrandName() {
+    $( "#brandname" ).autocomplete({
+        source: "/mobile/brand/getBrandName",
+        minLength: 2
+    });
+};
+
+function getRegionName() {
+    $( "#regionname" ).autocomplete({
+        source: "/mobile/region/getRegionName",
+        minLength: 2
+    });
+};
+
 function destroyTooltip(name) {
     $("."+name).tooltip('destroy');
 }
 
+
 function getCase() {
     var flag=false;
     var casename = $("#casename").val().trim();
+    if(casename===''){
+        return flag
+    }
     $.ajax({
         url: "/mobile/case/getCase?casename="+casename,
         type: 'get',
@@ -47,10 +95,12 @@ function addCase() {
         return;
     }
     $(".btn").attr("disabled","true");
-    var Controller = "/mobile/brand/add"; // 接收后台地址
+    var Controller = "/mobile/case/add"; // 接收后台地址
     // FormData 对象
     var form = new FormData();
+    form.append("casename",casename);
     form.append("brandname", brandname); // 可以增加表单数据
+    form.append("regionname",regionname);
     var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
     xhr.open("post", Controller, true);
     xhr.onload = function() {
@@ -61,7 +111,7 @@ function addCase() {
             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
         }
         if(xhr.responseText==303){
-            $("#brandname").attr('title',"品牌名已存在").tooltip('show');
+            $("#brandname").attr('title',"案件名已存在").tooltip('show');
         }
         if(xhr.responseText==404||xhr.responseText==400){
             alertify.alert("添加失败")

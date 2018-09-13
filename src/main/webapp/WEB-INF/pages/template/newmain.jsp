@@ -1,4 +1,4 @@
-<%--
+c<%--
   Created by IntelliJ IDEA.
   User: guibin
   Date: 15/1/15
@@ -15,6 +15,8 @@
     <title>手机取证报告分析系统</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
+    <script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
     <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/sidebar.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/widgets.css"/>" rel="stylesheet">
@@ -113,6 +115,8 @@
 
     <script src="<c:url value="/resources/thirdparty/assets/js/ace-elements.min.js"/>"></script>
     <script src="<c:url value="/resources/thirdparty/assets/js/ace.min.js"/>"></script>
+    <link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
+    <script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 
     <style>
         ul li a:hover {
@@ -191,11 +195,11 @@
 </header>
 
 
-<script type="text/javascript">
-    $(function(){
-    var session_value = ${sessionScope.hasUnread};
-    console.log(session_value);
-        if(session_value)$('#red').css('display', 'block');
-        else $('#red').css('display', 'none');
-    })
-</script>
+<%--<script type="text/javascript">--%>
+    <%--$(function(){--%>
+    <%--var session_value = ${sessionScope.hasUnread};--%>
+    <%--console.log(session_value);--%>
+        <%--if(session_value)$('#red').css('display', 'block');--%>
+        <%--else $('#red').css('display', 'none');--%>
+    <%--})--%>
+<%--</script>--%>

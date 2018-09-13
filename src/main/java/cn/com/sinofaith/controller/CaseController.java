@@ -1,9 +1,12 @@
 package cn.com.sinofaith.controller;
 
+import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
+import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.brand.BrandService;
 import cn.com.sinofaith.service.brand.CaseService;
+import cn.com.sinofaith.service.brand.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -27,6 +30,8 @@ public class CaseController {
     private BrandService bs;
     @Autowired
     private CaseService cs;
+    @Autowired
+    private RegionService rs;
     @RequestMapping()
     public ModelAndView home(HttpSession httpSession){
         ModelAndView mav = new ModelAndView("redirect:/case/seach?pageNo=1");
@@ -78,13 +83,20 @@ public class CaseController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST,produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String add(@RequestParam("brandname") String brandname){
-        if(bs.getByname(brandname)==null){
-            if(bs.add(brandname)>0) {
-                return "200";
-            }
-            return "404";
+    public String add(@RequestParam("casename")String casename,
+                      @RequestParam("brandname") String brandname,@RequestParam("regionname")String regionname){
+
+        BrandEntity be = bs.getByname(brandname);
+        RegionEntity re = rs.getByname(regionname);
+        if(be==null){
+            be.setId(bs.add(brandname));
         }
-        return "303";
+        if(re==null){
+            re.setId(rs.add(regionname));
+        }
+
+        cs.add(casename,be.getId(),re.getId());
+
+        return "200";
     }
 }

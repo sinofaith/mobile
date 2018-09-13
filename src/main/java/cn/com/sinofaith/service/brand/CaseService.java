@@ -4,6 +4,7 @@ import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.dao.brand.CaseDao;
 import cn.com.sinofaith.form.CaseForm;
 import cn.com.sinofaith.page.Page;
+import cn.com.sinofaith.util.TimeFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +62,14 @@ public class CaseService {
         }
 
         return seach.toString();
+    }
+
+    public long add(String casename,long brand_id,long region_id){
+        CaseEntity be = new CaseEntity();
+        be.setCaseName(casename);
+        be.setBrand_id(brand_id);
+        be.setRegion_id(region_id);
+        be.setInserttime(TimeFormatUtil.getDate("/"));
+        return (long)cd.save(be);
     }
 }

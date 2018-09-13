@@ -1,5 +1,5 @@
 $(function () { $('#myModal').on('hide.bs.modal', function () {
-    var tbody = window.document.getElementById("result")
+    var tbody = window.document.getElementById("result");
     if(tbody!=null) {
         tbody.innerHTML = ""
     }
@@ -7,7 +7,7 @@ $(function () { $('#myModal').on('hide.bs.modal', function () {
 });
 
 $(function () { $('#myModal1').on('hide.bs.modal', function () {
-    var tbody = window.document.getElementById("result")
+    var tbody = window.document.getElementById("result");
     if(tbody!=null) {
         tbody.innerHTML = ""
     }
@@ -25,7 +25,7 @@ $(function () {
                 url:urla,
                 type:"GET",
                 beforeSend: function () {
-                    $('.delete').css('disabled','true')
+                    $('.delete').css('disabled','true');
                     setTimeout(function () {document.getElementById("seachDetail").submit()},1500);
                 },
                 success:function (data) {
@@ -101,11 +101,11 @@ function deleteWord() {
     }
     if(check_val.length<1){
         alertify.set('notifier','position', 'top-center');
-        alertify.error("请勾选至少一个文档名")
+        alertify.error("请勾选至少一个文档名");
         return;
     }
     var flag = confirm("确定删除?");
-    var  url = "/word/title/delete?ids="+check_val
+    var  url = "/word/title/delete?ids="+check_val;
     if(flag){
         $("#_form").ajaxSubmit({
             url:url,
@@ -215,7 +215,7 @@ function destroyTooltip() {
 var page = 1
 var is_running = false
 function getSfDetails(obj,type) {
-    var hm = $(obj).closest("tr").find("td:eq(0)").text().trim()
+    var hm = $(obj).closest("tr").find("td:eq(0)").text().trim();
     if(type=="sfzhm"){
         hm = hm.substr(0,18)
     }else{
@@ -223,8 +223,8 @@ function getSfDetails(obj,type) {
     }
 
     window.page = 1
-    var tbody = window.document.getElementById("result")
-    var url = "/word/title/getDetails"
+    var tbody = window.document.getElementById("result");
+    var url = "/word/title/getDetails";
     $.ajax({
         type:"post",
         dataType:"json",
@@ -234,8 +234,8 @@ function getSfDetails(obj,type) {
             page:parseInt(page)
         },
         success:function (msg) {
-            var data = msg.list
-            var str = ""
+            var data = msg.list;
+            var str = "";
             for (i in data){
                 if(i%2==0){
                     str+="<tr align='center' style='display:table;width:100%;table-layout:fixed;'>"
@@ -258,9 +258,9 @@ function getSfDetails(obj,type) {
 
 
 function getWordList() {
-    var tbody = window.document.getElementById("result")
-    window.page = 1
-    var url = "/word/title/getWordList"
+    var tbody = window.document.getElementById("result");
+    window.page = 1;
+    var url = "/word/title/getWordList";
     $.ajax({
         type:"post",
         dataType:"json",
@@ -269,8 +269,8 @@ function getWordList() {
             page:parseInt(page)
         },
         success:function (msg) {
-            var data = msg.list
-            var str = ""
+            var data = msg.list;
+            var str = "";
             for (i in data){
                 if(i%2==0){
                     str+="<tr align='center' style='display:table;width:100%;table-layout:fixed;'>"
@@ -304,16 +304,16 @@ function table_Check() {
     });
 }
 function scrollH(){
-    var tbody = window.document.getElementById("result")
+    var tbody = window.document.getElementById("result");
     var allRow = $("#allRow").val()
     var scrollT = parseFloat(tbody.scrollTop) + parseFloat(tbody.clientHeight)
     var scrollH = parseFloat(tbody.scrollHeight)
     if (1 >= scrollH - scrollT && tbody.scrollTop != 0 && tbody.childNodes.length < allRow) {
         if(is_running==false) {
             is_running = true
-            window.page = page += 1
+            window.page = page += 1;
 
-            var url = "/word/title/getWordList"
+            var url = "/word/title/getWordList";
             $.ajax({
                 type: "post",
                 dataType: "json",
@@ -322,8 +322,8 @@ function scrollH(){
                     page: parseInt(window.page)
                 },
                 success: function (msg) {
-                    var data = msg.list
-                    var str = ""
+                    var data = msg.list;
+                    var str = "";
                     for (i in data) {
                         if(i%2==0){
                             str+="<tr align='center' style='display:table;width:100%;table-layout:fixed;'>"
@@ -335,8 +335,8 @@ function scrollH(){
                             "<td width=\"5%\">"+data[i].inserttime+"</td>"+
                             "</tr>";
                     }
-                    $("#result").append(str)
-                    $("#allRow").attr("value", msg.totalRecords)
+                    $("#result").append(str);
+                    $("#allRow").attr("value", msg.totalRecords);
                     // title.innerText ="<"+jyzh+","+jylx+">"
                     // table_Check();
                     is_running = false
@@ -346,17 +346,17 @@ function scrollH(){
     }
 }
 function scrollF() {
-    var tbody = window.document.getElementById("result")
-    var allRow = $("#allRow").val()
-    var scrollT = parseFloat(tbody.scrollTop) + parseFloat(tbody.clientHeight)
-    var scrollH = parseFloat(tbody.scrollHeight)
+    var tbody = window.document.getElementById("result");
+    var allRow = $("#allRow").val();
+    var scrollT = parseFloat(tbody.scrollTop) + parseFloat(tbody.clientHeight);
+    var scrollH = parseFloat(tbody.scrollHeight);
     if (1 >= scrollH - scrollT && tbody.scrollTop != 0 && tbody.childNodes.length < allRow) {
         if(is_running==false) {
-            is_running = true
+            is_running = true;
             var hm = $("#hm").val();
-            window.page = page += 1
+            window.page = page += 1;
 
-            var url = "/word/title/getDetails"
+            var url = "/word/title/getDetails";
             $.ajax({
                 type: "post",
                 dataType: "json",
@@ -366,8 +366,8 @@ function scrollF() {
                     page: parseInt(window.page)
                 },
                 success: function (msg) {
-                    var data = msg.list
-                    var str = ""
+                    var data = msg.list;
+                    var str = "";
                     for (i in data) {
                         if(i%2==0){
                             str+="<tr align='center' style='display:table;width:100%;table-layout:fixed;'>"
@@ -380,9 +380,9 @@ function scrollF() {
                             "<td width=\"8%\">" + data[i].inserttime + "</td>"+
                             "</tr>";
                     }
-                    $("#result").append(str)
+                    $("#result").append(str);
                     $("#hm").attr("value", hm);
-                    $("#allRow").attr("value", msg.totalRecords)
+                    $("#allRow").attr("value", msg.totalRecords);
                     // title.innerText ="<"+jyzh+","+jylx+">"
                     is_running = false
                 }
@@ -417,7 +417,7 @@ function addUser() {
         $(".repassword").attr('title',"两次密码不一致").tooltip('show');
         return
     }
-    $(".btn").attr("disabled","true")
+    $(".btn").attr("disabled","true");
     var Controller = "/word/user/add"; // 接收后台地址
     // FormData 对象
     var form = new FormData();
@@ -429,7 +429,7 @@ function addUser() {
     xhr.onload = function() {
         if(xhr.responseText==200){
             alertify.alert("添加完成!");
-            $(".btn").attr("disabled","true")
+            $(".btn").attr("disabled","true");
             $('#myModal').modal('hide');
             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
         }
@@ -453,7 +453,7 @@ function refresh(type) {
     }else{
         alertify.success("全部文档统计结果")
     }
-    var url = "/word/sfzhm/flg?flg="+flg
+    var url = "/word/sfzhm/flg?flg="+flg;
     $.get(url,function (data) {
         if(data==200){
             setTimeout(function (){document.getElementById("seachDetail").submit()},1800);
@@ -491,14 +491,14 @@ $(function(){
     function tm_upload(){
         var uploadArea=document.getElementById("upload-area");
         //2、通过HTML5拖拽事件，ondrop，然后通过拖动区域监听浏览器的drop事件达到文件上传的目的
-        var checkBox = 0
+        var checkBox = 0;
         uploadArea.addEventListener("drop", function(e){
             e.preventDefault();
             //3、从事件event中获取拖拽到浏览器的文件信息
             var fileList=e.dataTransfer.files;
             if(fileList.length>10){
                 alertify.set('notifier','position', 'top-center');
-                alertify.error("拖拽上传只支持10个以内文件")
+                alertify.error("拖拽上传只支持10个以内文件");
                 return
             }
             var xhr = new XMLHttpRequest();
@@ -530,14 +530,14 @@ $(function(){
                             setTimeout(function () {document.getElementById("seachDetail").submit()},3000);
                         }else{
                             alertify.set('notifier','position', 'top-center');
-                            alertify.error("错误!请联系管理员")
+                            alertify.error("错误!请联系管理员");
                             return
                         }
                     };
                     xhr.upload.addEventListener("progress", progressFunction, false);
                 }else{
                     alertify.set('notifier','position', 'top-center');
-                    alertify.error("拖拽文件中包含非Word文件")
+                    alertify.error("拖拽文件中包含非Word文件");
                     // if(fileList.length==1){
                         return
                     // }
