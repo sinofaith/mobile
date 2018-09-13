@@ -86,10 +86,10 @@
                                 <c:when test="${detailinfo!=null && detailinfo.size()!=0}">
                                     <div  class="page_nmber">
                                         <div class="mar_t_15">共${page.totalRecords}条记录 共<span id="totalPage">${page.totalPages}</span>页 当前第${page.pageNo}页<br></div>
-                                        <a href="${pageContext.request.contextPath}/qqFriends/seach?pageNo=${page.topPageNo }"><input type="button" name="fristPage" value="首页" /></a>
+                                        <a href="${pageContext.request.contextPath}/phoneqqFriends/seach?pageNo=${page.topPageNo }"><input type="button" name="fristPage" value="首页" /></a>
                                         <c:choose>
                                             <c:when test="${page.pageNo!=1}">
-                                                <a href="${pageContext.request.contextPath}/qqFriends/seach?pageNo=${page.previousPageNo }"><input type="button" name="previousPage" value="上一页" /></a>
+                                                <a href="${pageContext.request.contextPath}/phoneqqFriends/seach?pageNo=${page.previousPageNo }"><input type="button" name="previousPage" value="上一页" /></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="button" disabled="disabled" name="previousPage" value="上一页" />
@@ -97,13 +97,13 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${page.pageNo != page.totalPages}">
-                                                <a href="${pageContext.request.contextPath}/qqFriends/seach?pageNo=${page.nextPageNo }"><input type="button" name="nextPage" value="下一页" /></a>
+                                                <a href="${pageContext.request.contextPath}/phoneqqFriends/seach?pageNo=${page.nextPageNo }"><input type="button" name="nextPage" value="下一页" /></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="button" disabled="disabled" name="nextPage" value="下一页" />
                                             </c:otherwise>
                                         </c:choose>
-                                        <a href="${pageContext.request.contextPath}/qqFriends/seach?pageNo=${page.bottomPageNo }"><input type="button" name="lastPage" value="尾页" /></a>
+                                        <a href="${pageContext.request.contextPath}/phoneqqFriends/seach?pageNo=${page.bottomPageNo }"><input type="button" name="lastPage" value="尾页" /></a>
                                         <input type="number" id="num" max="${page.totalPages}" style="width: 9%" min="1"/>
                                         <input type="button" value="跳转" onclick="phoneSkip('${phone}')"/>
                                             <%--<input type="button" value="多案件分析" onclick="wordsCount()">--%>
@@ -119,7 +119,7 @@
                         <div class=" ">
 
                             <div>
-                                <form action="${pageContext.request.contextPath}/qqFriends/seachCode" method="post">
+                                <form action="${pageContext.request.contextPath}/phoneqqFriends/seachCode" method="post">
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">

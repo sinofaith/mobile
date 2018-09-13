@@ -23,7 +23,7 @@ import static java.lang.Integer.parseInt;
  * 微信群好友聊天控制器
  */
 @Controller
-@RequestMapping("/wxFriendsChat")
+@RequestMapping("/phonewxFriendsChat")
 public class WxFriendsChatxxController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class WxFriendsChatxxController {
      */
     @RequestMapping()
     public ModelAndView qqFriendChat(HttpSession session, String flag) {
-        ModelAndView mav = new ModelAndView("redirect:/wxFriendsChat/seach?pageNo=1");
+        ModelAndView mav = new ModelAndView("redirect:/phonewxFriendsChat/seach?pageNo=1");
         session.removeAttribute("wxFriendsChatxxSeachCode"); //查询条件
         session.removeAttribute("wxFriendsChatxxSeachCondition");//查询内容
         session.removeAttribute("wxFriendsChatOrder");
@@ -84,7 +84,7 @@ public class WxFriendsChatxxController {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());
         }
-        model.addAttribute("phone", "wxFriendsChat");
+        model.addAttribute("phone", "phonewxFriendsChat");
         return "phone/phoneWXfriendsChat";
     }
 
@@ -101,11 +101,11 @@ public class WxFriendsChatxxController {
         if (seachCode == null || seachCode.isEmpty()) {
             session.removeAttribute("wxFriendsChatxxSeachCode");
             session.removeAttribute("wxFriendsChatxxSeachCondition");
-            return "redirect:/wxFriendsChat/seach?pageNo=1";
+            return "redirect:/phonewxFriendsChat/seach?pageNo=1";
         }
         session.setAttribute("wxFriendsChatxxSeachCode", seachCode);
         session.setAttribute("wxFriendsChatxxSeachCondition", seachCondition);
-        return "redirect:/wxFriendsChat/seach?pageNo=1";
+        return "redirect:/phonewxFriendsChat/seach?pageNo=1";
     }
 
     /**
@@ -134,7 +134,7 @@ public class WxFriendsChatxxController {
         session.setAttribute("wxFriendsChatDesc", desc);
         session.setAttribute("wxFriendsChatlastOrder", orderby);
         session.setAttribute("wxFriendsChatOrder", orderby);
-        return "redirect:/wxFriendsChat/seach?pageNo=1";
+        return "redirect:/phonewxFriendsChat/seach?pageNo=1";
     }
 
     /**

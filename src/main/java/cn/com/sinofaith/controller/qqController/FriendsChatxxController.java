@@ -23,7 +23,7 @@ import static java.lang.Integer.parseInt;
  * qq群好友聊天控制器
  */
 @Controller
-@RequestMapping("/qqFriendsChat")
+@RequestMapping("/phoneqqFriendsChat")
 public class FriendsChatxxController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class FriendsChatxxController {
      */
     @RequestMapping()
     public ModelAndView qqFriendChat(HttpSession session, String flag) {
-        ModelAndView mav = new ModelAndView("redirect:/qqFriendsChat/seach?pageNo=1");
+        ModelAndView mav = new ModelAndView("redirect:/phoneqqFriendsChat/seach?pageNo=1");
         session.removeAttribute("friendsChatxxSeachCode"); //查询条件
         session.removeAttribute("friendsChatxxSeachCondition");//查询内容
         session.removeAttribute("friendsChatOrder");
@@ -84,7 +84,7 @@ public class FriendsChatxxController {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());
         }
-        model.addAttribute("phone", "qqFriendsChat");
+        model.addAttribute("phone", "phoneqqFriendsChat");
         return "phone/phonefriendsChat";
     }
 
@@ -101,11 +101,11 @@ public class FriendsChatxxController {
         if (seachCode == null || seachCode.isEmpty()) {
             session.removeAttribute("friendsChatxxSeachCode");
             session.removeAttribute("friendsChatxxSeachCondition");
-            return "redirect:/qqFriendsChat/seach?pageNo=1";
+            return "redirect:/phoneqqFriendsChat/seach?pageNo=1";
         }
         session.setAttribute("friendsChatxxSeachCode", seachCode);
         session.setAttribute("friendsChatxxSeachCondition", seachCondition);
-        return "redirect:/qqFriendsChat/seach?pageNo=1";
+        return "redirect:/phoneqqFriendsChat/seach?pageNo=1";
     }
 
     /**
@@ -134,7 +134,7 @@ public class FriendsChatxxController {
         session.setAttribute("friendsChatDesc", desc);
         session.setAttribute("friendsChatlastOrder", orderby);
         session.setAttribute("friendsChatOrder", orderby);
-        return "redirect:/qqFriendsChat/seach?pageNo=1";
+        return "redirect:/phoneqqFriendsChat/seach?pageNo=1";
     }
 
     /**

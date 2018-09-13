@@ -2,7 +2,6 @@ package cn.com.sinofaith.service.wxPhone;
 
 import cn.com.sinofaith.bean.TAutoWechatLtjlEntity;
 import cn.com.sinofaith.dao.wxPhone.WxFriendChatxxDao;
-import cn.com.sinofaith.form.WxForm;
 import cn.com.sinofaith.page.Page;
 import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
@@ -50,11 +49,17 @@ public class WxFriendChatxxSerivce {
      */
     public Page queryForPage(int currentPage, int pageSize, String seach, long id) {
         Page page = new Page();
-        // 封装wuliu_relation表
-        List<WxForm> wxForms = null;
+        List<TAutoWechatLtjlEntity> wxForms = null;
         int allRow = fcDao.getAllRowCounts(seach,id);
         if(allRow>0){
             wxForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
+            // 将字节转成字符串
+            for(TAutoWechatLtjlEntity ltjl : wxForms){
+                ltjl.setFanrs(new String(ltjl.getFanr()));
+            }
+            for (int i = 0; i <wxForms.size(); i++) {
+                wxForms.get(i).setId((currentPage-1)*pageSize+i+1);
+            }
             // 封装page
             page.setPageNo(currentPage);
             page.setList(wxForms);
@@ -81,6 +86,9 @@ public class WxFriendChatxxSerivce {
             // 将字节转成字符串
             for(TAutoWechatLtjlEntity ltjl : ltjls){
                 ltjl.setFanrs(new String(ltjl.getFanr()));
+            }
+            for (int i = 0; i <ltjls.size(); i++) {
+                ltjls.get(i).setId((currentPage-1)*pageSize+i+1);
             }
             page.setPageSize(pageSize);
             page.setTotalRecords(rowAll);

@@ -35,6 +35,9 @@ public class WxZhxxService {
         List<TAutoWechatZhxxEntity> zhxxs = null;
         if (rowAll>0) {
             zhxxs = zhxxDao.getDoPage(currentPage,pageSize,dc);
+            for (int i = 0; i <zhxxs.size(); i++) {
+                zhxxs.get(i).setId((currentPage-1)*pageSize+i+1);
+            }
             // 封装page
             page.setPageSize(pageSize);
             page.setTotalRecords(rowAll);

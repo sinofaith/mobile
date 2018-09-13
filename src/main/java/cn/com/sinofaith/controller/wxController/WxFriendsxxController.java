@@ -21,7 +21,7 @@ import static java.lang.Integer.parseInt;
  * 手机微信好友群信息控制器
  */
 @Controller
-@RequestMapping("/wxFriends")
+@RequestMapping("/phonewxFriends")
 public class WxFriendsxxController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class WxFriendsxxController {
 
     @RequestMapping()
     public ModelAndView phonefriendsxx(HttpSession session, String flag){
-        ModelAndView mav = new ModelAndView("redirect:/wxFriends/seach?pageNo=1");
+        ModelAndView mav = new ModelAndView("redirect:/phonewxFriends/seach?pageNo=1");
         session.removeAttribute("wxFriendsxxSeachCode"); //查询条件
         session.removeAttribute("wxFriendsxxSeachCondition");//查询内容
 //        session.removeAttribute("wuliuRelationOrder");
@@ -70,7 +70,7 @@ public class WxFriendsxxController {
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());
         }
-        model.addAttribute("phone","wxFriends");
+        model.addAttribute("phone","phonewxFriends");
         return "phone/phoneWXfriends";
     }
 
@@ -87,11 +87,11 @@ public class WxFriendsxxController {
         if(seachCode==null && seachCode.isEmpty()){
             session.removeAttribute("wxFriendsxxSeachCode");
             session.removeAttribute("wxFriendsxxSeachCondition");
-            return "redirect:/wxFriends/seach?pageNo=1";
+            return "redirect:/phonewxFriends/seach?pageNo=1";
         }
         session.setAttribute("wxFriendsxxSeachCode",seachCode);
         session.setAttribute("wxFriendsxxSeachCondition",seachCondition);
-        return "redirect:/wxFriends/seach?pageNo=1";
+        return "redirect:/phonewxFriends/seach?pageNo=1";
     }
 
 }

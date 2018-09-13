@@ -25,7 +25,7 @@ function getFriendChatDetails(obj) {
         type="jylx"
     }*/
     var tbody = window.document.getElementById("result")
-    var url = "/mobile/qqFriendChat/getDetails"
+    var url = "/mobile/phoneqqFriendChat/getDetails"
     $.ajax({
         type:"post",
         dataType:"json",
@@ -77,7 +77,7 @@ function orderByFilter(filter) {
     var fsqq = $("#fsqq").val();
     var jsqq = $("#jsqq").val();
     window.page = 1
-    var url = "/mobile/qqFriendChat/getDetails"
+    var url = "/mobile/phoneqqFriendChat/getDetails"
     $.ajax({
         type:"post",
         dataType:"json",
@@ -104,10 +104,10 @@ function orderByFilter(filter) {
                     "<td width=\"8%\">"+data[i].jsqqno+"</td>"+
                     "<td width=\"7%\">"+data[i].jsqqnc+"</td>"+
                     "<td width=\"7%\">"+data[i].fslx+"</td>"+
-                    "<td width=\"25%\" title="+data[i].fanrs+">" +
+                    "<td width=\"25%\" title='"+data[i].fanrs+"'>" +
                     "<div style=\"width: 100%;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;\">"+data[i].fanrs+"</div>" +
                     "</td>"+
-                    "<td width=\"10%\" title="+data[i].lujing+">" +
+                    "<td width=\"10%\" title='"+data[i].lujing+"'>" +
                     "<div style=\"width:100%;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;\">"+data[i].lujing+"</div>" +
                     "</td>"+
                     "<td width=\"8%\">"+data[i].dataType+"</td>"+

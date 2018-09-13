@@ -40,6 +40,14 @@
                                     </tr>
                                     <tr align="center">
                                         <td width="5%">序号</td>
+                                        <td width="8%">发送QQ号</td>
+                                        <td width="8%">发送QQ昵称</td>
+                                        <td width="8%"><a href="${pageContext.request.contextPath}/phoneqqFriendChat/order?orderby=fstime">发送时间</a></td>
+                                        <td width="5%">接收QQ号</td>
+                                        <td width="8%">接收QQ昵称</td>
+                                        <td width="8%">发送类型</td>
+                                        <td width="15%">发送内容</td>
+                                        <%--<td width="5%">序号</td>
                                         <td width="5%">姓名</td>
                                         <td width="10%">身份证号码</td>
                                         <td width="8%">手机号码</td>
@@ -47,23 +55,23 @@
                                         <td width="8%">发送QQ昵称</td>
                                         <td width="5%">接收QQ号</td>
                                         <td width="8%">接收QQ昵称</td>
-                                        <td width="8%"><a href="${pageContext.request.contextPath}/qqFriendChat/order?orderby=num">聊天总次数</a></td>
+                                        <td width="8%"><a href="${pageContext.request.contextPath}/phoneqqFriendChat/order?orderby=num">聊天总次数</a></td>--%>
                                     </tr>
                                     <%--<form action="" method="post" id="_form">--%>
                                     <%--</form>--%>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center" >${item.id}</td>
-                                            <td align="center">${item.name}</td>
-                                            <td align="center"title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
-                                            <td align="center">${item.sjhm}</td>
                                             <td align="center">${item.fsqq}</td>
                                             <td align="center">${item.fsqqnc}</td>
+                                            <td align="center">${item.fstime}</td>
                                             <td align="center">${item.jsqqno}</td>
                                             <td align="center">${item.jsqqnc}</td>
-                                            <td align="center">
+                                            <td align="center">${item.fslx}</td>
+                                            <td align="center"title="${item.fanrs}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fanrs}</div></td>
+                                            <%--<td align="center">
                                                 <button  data-toggle="modal" data-target="#myModal" onclick="getFriendChatDetails(this)">${item.num}</button>
-                                            </td>
+                                            </td>--%>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -81,10 +89,10 @@
                                 <c:when test="${detailinfo!=null && detailinfo.size()!=0}">
                                     <div  class="page_nmber">
                                         <div class="mar_t_15">共${page.totalRecords}条记录 共<span id="totalPage">${page.totalPages}</span>页 当前第${page.pageNo}页<br></div>
-                                        <a href="${pageContext.request.contextPath}/qqFriendChat/seach?pageNo=${page.topPageNo }"><input type="button" name="fristPage" value="首页" /></a>
+                                        <a href="${pageContext.request.contextPath}/phoneqqFriendChat/seach?pageNo=${page.topPageNo }"><input type="button" name="fristPage" value="首页" /></a>
                                         <c:choose>
                                             <c:when test="${page.pageNo!=1}">
-                                                <a href="${pageContext.request.contextPath}/qqFriendChat/seach?pageNo=${page.previousPageNo }"><input type="button" name="previousPage" value="上一页" /></a>
+                                                <a href="${pageContext.request.contextPath}/phoneqqFriendChat/seach?pageNo=${page.previousPageNo }"><input type="button" name="previousPage" value="上一页" /></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="button" disabled="disabled" name="previousPage" value="上一页" />
@@ -92,13 +100,13 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${page.pageNo != page.totalPages}">
-                                                <a href="${pageContext.request.contextPath}/qqFriendChat/seach?pageNo=${page.nextPageNo }"><input type="button" name="nextPage" value="下一页" /></a>
+                                                <a href="${pageContext.request.contextPath}/phoneqqFriendChat/seach?pageNo=${page.nextPageNo }"><input type="button" name="nextPage" value="下一页" /></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="button" disabled="disabled" name="nextPage" value="下一页" />
                                             </c:otherwise>
                                         </c:choose>
-                                        <a href="${pageContext.request.contextPath}/qqFriendChat/seach?pageNo=${page.bottomPageNo }"><input type="button" name="lastPage" value="尾页" /></a>
+                                        <a href="${pageContext.request.contextPath}/phoneqqFriendChat/seach?pageNo=${page.bottomPageNo }"><input type="button" name="lastPage" value="尾页" /></a>
                                         <input type="number" id="num" max="${page.totalPages}" style="width: 9%" min="1"/>
                                         <input type="button" value="跳转" onclick="phoneSkip('${phone}')"/>
                                             <%--<input type="button" value="多案件分析" onclick="wordsCount()">--%>
@@ -114,13 +122,13 @@
                         <div class=" ">
 
                             <div>
-                                <form action="${pageContext.request.contextPath}/qqFriendChat/seachCode" method="post">
+                                <form action="${pageContext.request.contextPath}/phoneqqFriendChat/seachCode" method="post">
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="name" <c:if test="${friendChatxxSeachCondition=='name'}">selected="selected"</c:if>>姓名</option>
                                             <option value="fsqq"<c:if test="${friendChatxxSeachCondition=='qq'}">selected="selected"</c:if>>发送QQ号</option>
                                             <option value="jsqqno" <c:if test="${friendChatxxSeachCondition=='jsqqno'}">selected="selected"</c:if> >接收QQ号</option>
+                                            <option value="fslx" <c:if test="${friendChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${friendChatxxSeachCode}</textarea>

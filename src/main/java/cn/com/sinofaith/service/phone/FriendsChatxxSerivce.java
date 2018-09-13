@@ -51,10 +51,17 @@ public class FriendsChatxxSerivce {
     public Page queryForPage(int currentPage, int pageSize, String seach, long id) {
         Page page = new Page();
         // 封装wuliu_relation表
-        List<QqForm> qqForms = null;
+        List<TAutoQqLtjlEntity> qqForms = null;
         int allRow = fcDao.getAllRowCounts(seach,id);
         if(allRow>0){
             qqForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
+            // 将字节转成字符串
+            for(TAutoQqLtjlEntity ltjl : qqForms){
+                ltjl.setFanrs(new String(ltjl.getFanr()));
+            }
+            for (int i = 0; i <qqForms.size(); i++) {
+                qqForms.get(i).setId((currentPage-1)*pageSize+i+1);
+            }
             // 封装page
             page.setPageNo(currentPage);
             page.setList(qqForms);
@@ -81,6 +88,9 @@ public class FriendsChatxxSerivce {
             // 将字节转成字符串
             for(TAutoQqLtjlEntity ltjl : ltjls){
                 ltjl.setFanrs(new String(ltjl.getFanr()));
+            }
+            for (int i = 0; i <ltjls.size(); i++) {
+                ltjls.get(i).setId((currentPage-1)*pageSize+i+1);
             }
             page.setPageSize(pageSize);
             page.setTotalRecords(rowAll);

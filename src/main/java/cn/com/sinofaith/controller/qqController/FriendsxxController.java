@@ -21,7 +21,7 @@ import static java.lang.Integer.parseInt;
  * 手机qq好友群信息控制器
  */
 @Controller
-@RequestMapping("/qqFriends")
+@RequestMapping("/phoneqqFriends")
 public class FriendsxxController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class FriendsxxController {
 
     @RequestMapping()
     public ModelAndView phonefriendsxx(HttpSession session, String flag){
-        ModelAndView mav = new ModelAndView("redirect:/qqFriends/seach?pageNo=1");
+        ModelAndView mav = new ModelAndView("redirect:/phoneqqFriends/seach?pageNo=1");
         session.removeAttribute("friendsxxSeachCode"); //查询条件
         session.removeAttribute("friendsxxSeachCondition");//查询内容
 //        session.removeAttribute("wuliuRelationOrder");
@@ -70,7 +70,7 @@ public class FriendsxxController {
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());
         }
-        model.addAttribute("phone","qqFriends");
+        model.addAttribute("phone","phoneqqFriends");
         return "phone/phonefriends";
     }
 
@@ -87,11 +87,11 @@ public class FriendsxxController {
         if(seachCode==null && seachCode.isEmpty()){
             session.removeAttribute("friendsxxSeachCode");
             session.removeAttribute("friendsxxSeachCondition");
-            return "redirect:/qqFriends/seach?pageNo=1";
+            return "redirect:/phoneqqFriends/seach?pageNo=1";
         }
         session.setAttribute("friendsxxSeachCode",seachCode);
         session.setAttribute("friendsxxSeachCondition",seachCondition);
-        return "redirect:/qqFriends/seach?pageNo=1";
+        return "redirect:/phoneqqFriends/seach?pageNo=1";
     }
 
 }

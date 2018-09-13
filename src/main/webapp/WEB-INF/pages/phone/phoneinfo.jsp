@@ -52,15 +52,13 @@
                                         <td width="8%">关联账号</td>
                                         <td width="8%">个性签名</td>
                                     </tr>
-                                    <%--<form action="" method="post" id="_form">--%>
-                                    <%--</form>--%>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
-                                            <td align="center" >${item.id}</td>
+                                            <td align="center">${item.id}</td>
                                             <td align="center">${item.qq}</td>
                                             <td align="center" title="${item.mima}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mima}</div></td>
                                             <td align="center">${item.name}</td>
-                                            <td align="center"title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
+                                            <td align="center" title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
                                             <td align="center">${item.sjhm}</td>
                                             <td align="center">${item.sex}</td>
                                             <td align="center">${item.age}</td>
@@ -117,7 +115,6 @@
 
                         <div class=" ">
 
-                            <div>
                                 <form action="${pageContext.request.contextPath}/phone/seachCode" method="post">
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
