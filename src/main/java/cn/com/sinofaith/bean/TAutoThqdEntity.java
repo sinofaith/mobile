@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_auto_thqd", schema = "")
 public class TAutoThqdEntity {
-    private int id;
+    private long id;
     private String uNumber;
     private String pNumber;
     private String callDate;
@@ -20,6 +20,7 @@ public class TAutoThqdEntity {
     private String pName;
     private String insertTime;
     private String flg;
+    private long aj_id;
 
     public void setNull() {
         this.uNumber = null;
@@ -34,12 +35,12 @@ public class TAutoThqdEntity {
     }
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false,precision = 0)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -153,6 +154,16 @@ public class TAutoThqdEntity {
         this.flg = flg;
     }
 
+    @Basic
+    @Column(name = "aj_id", nullable = false,precision = 0)
+    public long getAj_id() {
+        return aj_id;
+    }
+
+    public void setAj_id(long aj_id) {
+        this.aj_id = aj_id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -178,7 +189,7 @@ public class TAutoThqdEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) id;
         result = 31 * result + (uNumber != null ? uNumber.hashCode() : 0);
         result = 31 * result + (pNumber != null ? pNumber.hashCode() : 0);
         result = 31 * result + (callDate != null ? callDate.hashCode() : 0);

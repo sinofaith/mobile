@@ -20,7 +20,7 @@ import static java.lang.Integer.parseInt;
  * 手机qq账户信息控制器
  */
 @Controller
-@RequestMapping("/phone")
+@RequestMapping("/phoneZhxx")
 public class ZhxxController {
 
     @Autowired
@@ -28,15 +28,12 @@ public class ZhxxController {
 
     @RequestMapping()
     public ModelAndView phoneZhxx(String flag, HttpSession session){
-        ModelAndView mav = new ModelAndView("redirect:/phone/seach?pageNo=1");
-        session.removeAttribute("zhxxSeachCode"); //查询条件
-        session.removeAttribute("zhxxSeachCondition");//查询内容
+        ModelAndView mav = new ModelAndView("redirect:/phoneZhxx/seach?pageNo=1");
+        session.removeAttribute("zhxxSeachCode"); //查询内容
+        session.removeAttribute("zhxxSeachCondition");//查询条件
 //        session.removeAttribute("wuliuRelationOrder");
 //        session.removeAttribute("wuliuRelationlastOrder");
 //        session.removeAttribute("wuliuRelationDesc");
-        if(flag==null){
-            flag = "a1";
-        }
         session.setAttribute("flag", flag);
         return mav;
     }
@@ -71,7 +68,7 @@ public class ZhxxController {
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());
         }
-        model.addAttribute("phone","phone");
+        model.addAttribute("phone","phoneZhxx");
         return "phone/phoneinfo";
     }
 
@@ -88,11 +85,11 @@ public class ZhxxController {
         if(seachCode==null && seachCode.isEmpty()){
             session.removeAttribute("zhxxSeachCode");
             session.removeAttribute("zhxxSeachCondition");
-            return "redirect:/phone/seach?pageNo=1";
+            return "redirect:/phoneZhxx/seach?pageNo=1";
         }
         session.setAttribute("zhxxSeachCode",seachCode);
         session.setAttribute("zhxxSeachCondition",seachCondition);
-        return "redirect:/phone/seach?pageNo=1";
+        return "redirect:/phoneZhxx/seach?pageNo=1";
     }
 
 }

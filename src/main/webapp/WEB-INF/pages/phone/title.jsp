@@ -3,10 +3,27 @@
 
 <span class="tab_nav">
     <span class="dropdown">
-        <a href="#" onclick="skip('a1','phone')" <c:if test="${flag=='a1'||flag=='a2'||flag=='a3'||flag=='a4'||flag=='a5'}">class="addactive"</c:if> id="dropdownMenu1" data-toggle="dropdown">QQ</a>
+        <a href="#" onclick="skip('a11','phone')" <c:if test="${flag=='a11'||flag=='a12'||flag=='a13'||flag=='a14'}">class="addactive"</c:if> id="dropdownMenu3" data-toggle="dropdown">手机</a>
         <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 8px; margin-left: -288px">
             <li role="presentation">
-                <a id="a1" role="menuitem" tabindex="1" href="JavaScript:void(0);" onclick="skip('a1','phone')" style="width: 265px; <c:if test="${flag=='a1'}">background: #09CEB8</c:if>">QQ账户信息</a>
+                <a id="a11" role="menuitem" tabindex="1" href="JavaScript:void(0);" onclick="skip('a11','phone')" style="width: 265px; <c:if test="${flag=='a11'}">background: #09CEB8</c:if>">机主信息</a>
+            </li>
+            <li role="presentation">
+                <a id="a12" role="menuitem" tabindex="2" href="JavaScript:void(0);" onclick="skip('a12','phoneTxl')" style="width: 265px; <c:if test="${flag=='a12'}">background: #09CEB8</c:if>">通讯录</a>
+            </li>
+            <li role="presentation">
+                <a id="a13" role="menuitem" tabindex="3" href="JavaScript:void(0);" onclick="skip('a13','phoneThqd')" style="width: 265px; <c:if test="${flag=='a13'}">background: #09CEB8</c:if>">通话清单</a>
+            </li>
+            <li role="presentation">
+                <a id="a14" role="menuitem" tabindex="4" href="JavaScript:void(0);" onclick="skip('a14','phoneDx')" style="width: 265px; <c:if test="${flag=='a14'}">background: #09CEB8</c:if>">短信信息</a>
+            </li>
+        </span>
+    </span>
+    <span class="dropdown">
+        <a href="#" onclick="skip('a1','phoneZhxx')" <c:if test="${flag=='a1'||flag=='a2'||flag=='a3'||flag=='a4'||flag=='a5'}">class="addactive"</c:if> id="dropdownMenu1" data-toggle="dropdown">QQ</a>
+        <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 8px; margin-left: -288px">
+            <li role="presentation">
+                <a id="a1" role="menuitem" tabindex="1" href="JavaScript:void(0);" onclick="skip('a1','phoneZhxx')" style="width: 265px; <c:if test="${flag=='a1'}">background: #09CEB8</c:if>">QQ账户信息</a>
             </li>
             <li role="presentation">
                 <a id="a2" role="menuitem" tabindex="2" href="JavaScript:void(0);" onclick="skip('a2','phoneqqFriend')" style="width: 265px; <c:if test="${flag=='a2'}">background: #09CEB8</c:if>">QQ好友信息</a>

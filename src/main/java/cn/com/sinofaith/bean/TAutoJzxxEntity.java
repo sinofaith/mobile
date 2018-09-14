@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_auto_jzxx", schema = "", catalog = "")
 public class TAutoJzxxEntity {
-    private int id;
+    private long id;
     private String name;
     private String biem;
     private String sex;
@@ -31,6 +31,9 @@ public class TAutoJzxxEntity {
     private String gsd;
     private String dataType;
     private String insertTime;
+    private String iccid;
+    private long aj_id;
+
 
     public void setNull(){
         this.biem = null;
@@ -64,15 +67,13 @@ public class TAutoJzxxEntity {
         this.iccid = iccid;
     }
 
-    private String iccid;
-
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false,precision = 0)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -296,6 +297,16 @@ public class TAutoJzxxEntity {
         this.insertTime = insertTime;
     }
 
+    public long getAj_id() {
+        return aj_id;
+    }
+
+    @Basic
+    @Column(name = "aj_id", nullable = false,precision = 0)
+    public void setAj_id(long aj_id) {
+        this.aj_id = aj_id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -332,7 +343,7 @@ public class TAutoJzxxEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (biem != null ? biem.hashCode() : 0);
         result = 31 * result + (sex != null ? sex.hashCode() : 0);

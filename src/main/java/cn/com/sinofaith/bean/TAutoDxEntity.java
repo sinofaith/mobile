@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_auto_dx", schema = "")
 public class TAutoDxEntity {
-    private int id;
+    private long id;
     private String uName;
     private String uNumber;
     private String pName;
@@ -18,6 +18,7 @@ public class TAutoDxEntity {
     private String sendTime;
     private String sendType;
     private String dataType;
+    private long aj_id;
 
     public void setNull () {
         this.uName = null;
@@ -30,12 +31,12 @@ public class TAutoDxEntity {
     }
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false,precision = 0)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -129,6 +130,16 @@ public class TAutoDxEntity {
         this.dataType = dataType;
     }
 
+    @Basic
+    @Column(name = "aj_id", nullable = false,precision = 0)
+    public long getAj_id() {
+        return aj_id;
+    }
+
+    public void setAj_id(long aj_id) {
+        this.aj_id = aj_id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -152,7 +163,7 @@ public class TAutoDxEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) id;
         result = 31 * result + (uName != null ? uName.hashCode() : 0);
         result = 31 * result + (uNumber != null ? uNumber.hashCode() : 0);
         result = 31 * result + (pName != null ? pName.hashCode() : 0);

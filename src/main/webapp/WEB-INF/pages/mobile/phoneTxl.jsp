@@ -19,7 +19,7 @@
 <script src="<c:url value="/resources/js/qq/qq.js"/> "></script>
 
 <div class="tab_div">
-    <%@include file="title.jsp" %>
+    <%@include file="../phone/title.jsp" %>
     <ul >
         <div class="main-container-inner " style="margin-bottom: 10px">
             <div class="width_100 pos_re_block">
@@ -31,47 +31,40 @@
 
                                 <table class="table  table-hover table_style table_list1 " id="aa" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
                                     <tr>
-                                        <td colspan="12"  align="center" class="dropdown_index" style="background-color: #eee;">
+                                        <td colspan="7"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>QQ账户信息</strong>
+                                                <strong>通讯录</strong>
 
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
                                         <td width="5%">序号</td>
-                                        <td width="8%">QQ号</td>
-                                        <td width="8%">密码</td>
-                                        <td width="8%">姓名</td>
-                                        <td width="10%">身份证号码</td>
-                                        <td width="8%">手机号码</td>
-                                        <td width="5%">性别</td>
-                                        <td width="5%">年龄</td>
-                                        <td width="8%">出生日期</td>
-                                        <td width="8%">所在地</td>
-                                        <td width="8%">关联账号</td>
-                                        <td width="8%">个性签名</td>
+                                        <td width="8%">用户姓名</td>
+                                        <td width="12%">用户号码</td>
+                                        <td width="8%">对方姓名</td>
+                                        <td width="12%">对方号码1</td>
+                                        <td width="12%">对方号码2</td>
+                                        <td width="10%">数据来源</td>
                                     </tr>
+                                    <%--<form action="" method="post" id="_form">--%>
+                                    <%--</form>--%>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
-                                            <td align="center">${item.id}</td>
-                                            <td align="center">${item.qq}</td>
-                                            <td align="center" title="${item.mima}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mima}</div></td>
-                                            <td align="center">${item.name}</td>
-                                            <td align="center" title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
-                                            <td align="center">${item.sjhm}</td>
-                                            <td align="center">${item.sex}</td>
-                                            <td align="center">${item.age}</td>
-                                            <td align="center">${item.birthday}</td>
-                                            <td align="center">${item.szd}</td>
-                                            <td align="center">${item.glzh}</td>
-                                            <td align="center" title="${item.gxqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.gxqm}</div></td>
+                                            <td align="center" >${item.id}</td>
+                                            <td align="center">${item.uName}</td>
+                                            <td align="center">${item.uNumber}</td>
+                                            <td align="center">${item.pName}</td>
+                                            <td align="center">${item.pNumber1}</td>
+                                            <td align="center">${item.pNumber2}</td>
+                                            <td align="center">${item.dataType}</td>
+                                            <%--<td align="center" title="${item.mac}"><div style="width:140px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mac}</div></td>--%>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
                                         <c:when test="${detailinfo ==null || detailinfo.size()==0}">
                                             <tr>
-                                                <td colspan="12" align="center"> 无数据 </td>
+                                                <td colspan="7" align="center"> 无数据 </td>
                                             </tr>
                                         </c:when>
                                     </c:choose>
@@ -83,10 +76,10 @@
                                 <c:when test="${detailinfo!=null && detailinfo.size()!=0}">
                                     <div  class="page_nmber">
                                         <div class="mar_t_15">共${page.totalRecords}条记录 共<span id="totalPage">${page.totalPages}</span>页 当前第${page.pageNo}页<br></div>
-                                        <a href="${pageContext.request.contextPath}/phoneZhxx/seach?pageNo=${page.topPageNo }"><input type="button" name="fristPage" value="首页" /></a>
+                                        <a href="${pageContext.request.contextPath}/phoneTxl/seach?pageNo=${page.topPageNo }"><input type="button" name="fristPage" value="首页" /></a>
                                         <c:choose>
                                             <c:when test="${page.pageNo!=1}">
-                                                <a href="${pageContext.request.contextPath}/phoneZhxx/seach?pageNo=${page.previousPageNo }"><input type="button" name="previousPage" value="上一页" /></a>
+                                                <a href="${pageContext.request.contextPath}/phoneTxl/seach?pageNo=${page.previousPageNo }"><input type="button" name="previousPage" value="上一页" /></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="button" disabled="disabled" name="previousPage" value="上一页" />
@@ -94,13 +87,13 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${page.pageNo != page.totalPages}">
-                                                <a href="${pageContext.request.contextPath}/phoneZhxx/seach?pageNo=${page.nextPageNo }"><input type="button" name="nextPage" value="下一页" /></a>
+                                                <a href="${pageContext.request.contextPath}/phoneTxl/seach?pageNo=${page.nextPageNo }"><input type="button" name="nextPage" value="下一页" /></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="button" disabled="disabled" name="nextPage" value="下一页" />
                                             </c:otherwise>
                                         </c:choose>
-                                        <a href="${pageContext.request.contextPath}/phoneZhxx/seach?pageNo=${page.bottomPageNo }"><input type="button" name="lastPage" value="尾页" /></a>
+                                        <a href="${pageContext.request.contextPath}/phoneTxl/seach?pageNo=${page.bottomPageNo }"><input type="button" name="lastPage" value="尾页" /></a>
                                         <input type="number" id="num" max="${page.totalPages}" style="width: 9%" min="1">
                                         <input type="button" value="跳转" onclick="phoneSkip('${phone}')"/>
                                             <%--<input type="button" value="多案件分析" onclick="wordsCount()">--%>
@@ -115,20 +108,19 @@
 
                         <div class=" ">
 
-                                <form action="${pageContext.request.contextPath}/phoneZhxx/seachCode" method="post">
+                            <div>
+                                <form action="${pageContext.request.contextPath}/phoneTxl/seachCode" method="post">
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="qq"<c:if test="${zhxxSeachCondition=='qq'}">selected="selected"</c:if>>QQ号</option>
-                                            <option value="name" <c:if test="${zhxxSeachCondition=='name'}">selected="selected"</c:if>>姓名</option>
-                                            <option value="sjhm" <c:if test="${zhxxSeachCondition=='sjhm'}">selected="selected"</c:if>>手机号码</option>
-                                            <option value="sfzhm" <c:if test="${zhxxSeachCondition=='sfzhm'}">selected="selected"</c:if>>身份证号码</option>
-                                            <%--<option value="bdsj" <c:if test="${zcseachCondition=='bdsj'}">selected="selected"</c:if> >手机号</option>--%>
-                                            <%--<option value="yhzh" <c:if test="${zcseachCondition=='yhzh'}">selected="selected"</c:if> >银行账号</option>--%>
-
+                                            <option value="uName" <c:if test="${phoneTxlSeachCondition=='uName'}">selected="selected"</c:if>>用户姓名</option>
+                                            <option value="uNumber"<c:if test="${phoneTxlSeachCondition=='uNumber'}">selected="selected"</c:if>>用户号码</option>
+                                            <option value="pName"<c:if test="${phoneTxlSeachCondition=='pName'}">selected="selected"</c:if>>对方姓名</option>
+                                            <option value="pNumber1" <c:if test="${phoneTxlSeachCondition=='pNumber1'}">selected="selected"</c:if>>对方号码1</option>
+                                            <option value="pNumber2" <c:if test="${phoneTxlSeachCondition=='pNumber2'}">selected="selected"</c:if>>对方号码2</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${zhxxSeachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${phoneTxlSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>
