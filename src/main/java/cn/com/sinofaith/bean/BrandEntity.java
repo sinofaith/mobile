@@ -7,7 +7,7 @@ import java.util.Set;
 @Entity
 @Table(name="t_brand",schema = "")
 public class BrandEntity {
-    private long id;
+    private long id = -1;
     //品牌名
     private String brandName;
     private String inserttime;

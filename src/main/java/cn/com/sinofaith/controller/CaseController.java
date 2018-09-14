@@ -9,7 +9,6 @@ import cn.com.sinofaith.service.brand.CaseService;
 import cn.com.sinofaith.service.brand.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,10 +87,11 @@ public class CaseController {
 
         BrandEntity be = bs.getByname(brandname);
         RegionEntity re = rs.getByname(regionname);
-        if(be==null){
-            be.setId(bs.add(brandname));
+        if(be.getId()==-1){
+            long brandid= bs.add(brandname);
+            be.setId(brandid);
         }
-        if(re==null){
+        if(re.getId()==-1){
             re.setId(rs.add(regionname));
         }
 

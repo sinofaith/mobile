@@ -14,6 +14,8 @@ public class BrandDao extends BaseDao<BrandEntity>{
     }
 
     public long insert(BrandEntity be){
-        return (long)save(be);
+        long a = (long)save(be);
+        System.out.println(a);
+        return a;
     }
 }

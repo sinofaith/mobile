@@ -20,7 +20,7 @@ public class BrandService {
         if(list.size()>0){
             return list.get(0);
         }else {
-            return null;
+            return new BrandEntity();
         }
     }
 
@@ -39,7 +39,9 @@ public class BrandService {
         BrandEntity be = new BrandEntity();
         be.setBrandName(brandname);
         be.setInserttime(TimeFormatUtil.getDate("/"));
-        return bd.insert(be);
+        long a = bd.insert(be);
+        System.out.println(a);
+        return a;
     }
 
 }

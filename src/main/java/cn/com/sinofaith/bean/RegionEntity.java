@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_region")
 public class RegionEntity {
-    private long id;
+    private long id =-1;
     private String regionName;
     private String inserttime;
 

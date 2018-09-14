@@ -19,7 +19,7 @@ public class RegionService {
         if(list.size()>0){
             return list.get(0);
         }else {
-            return null;
+            return new RegionEntity();
         }
     }
 

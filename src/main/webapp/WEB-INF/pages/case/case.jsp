@@ -60,6 +60,7 @@
                                     </form>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
+
                                             <td align="center">${item.xh}</td>
                                             <td align="center">${item.caseName}</td>
                                             <td align="center">${item.brandName}</td>
@@ -100,7 +101,7 @@
                                         </c:choose>
                                         <a href="/mobile/case/seach?pageNo=${page.bottomPageNo }"><input type="button" name="lastPage" value="尾页" /></a>
                                         <input type="number" id="num" max="${page.totalPages}" style="width: 9%" min="1">
-                                        <input type="button" value="跳转" onclick="wordSkip('title')">
+                                        <input type="button" value="跳转" onclick="caseSkip('case')">
                                             <%--<input type="button" value="多案件分析" onclick="wordsCount()">--%>
                                         <%--<input type="button" data-toggle="modal" data-target="#myModal1" onclick="getWordList()" value="删除文档"/>--%>
                                     </div>
