@@ -4,9 +4,7 @@ import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.page.Page;
-import cn.com.sinofaith.service.brand.BrandService;
 import cn.com.sinofaith.service.brand.CaseService;
-import cn.com.sinofaith.service.brand.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.synth.Region;
-import java.util.Arrays;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
@@ -44,7 +39,7 @@ public class CaseController {
         RegionEntity re = (RegionEntity) req.getSession().getAttribute("region");
         String seachCondition = (String) req.getSession().getAttribute("bseachCondition");
         String seachCode = (String) req.getSession().getAttribute("bseachCode");
-        String seach = cs.getSeach(seachCode,seachCondition);
+        String seach = cs.getSeach(seachCode,seachCondition,re !=null?re:new RegionEntity());
         Page page = cs.queryForPage(parseInt(pageNo),10,seach);
         mav.addObject("page",page);
         mav.addObject("bseachCode",seachCode);

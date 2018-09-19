@@ -1,16 +1,15 @@
 package cn.com.sinofaith.service.brand;
 
 import cn.com.sinofaith.bean.CaseEntity;
+import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.dao.brand.CaseDao;
 import cn.com.sinofaith.form.CaseForm;
 import cn.com.sinofaith.page.Page;
-import cn.com.sinofaith.util.DBUtil;
 import cn.com.sinofaith.util.TimeFormatUtil;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,21 +59,17 @@ public class CaseService {
     }
 
 
-    public String getSeach(String seachCode, String seachCondition){
+    public String getSeach(String seachCode, String seachCondition, RegionEntity re){
         StringBuffer seach = new StringBuffer();
 
         if(seachCode!=null){
             seachCode = seachCode.replace("\r\n","").replace("，","").replace(" ","").replace(" ","").replace("\t","");
-            if("casename".equals(seachCondition)){
-                seach.append(" and c."+seachCondition + " like '%"+seachCode+"%'");
-            } else if("brandname".equals(seachCondition)){
-                seach.append(" and b." + seachCondition + " like '%"  + seachCode + "%'");
-            }else if("regionname".equals(seachCondition)){
-                seach.append(" and r."+seachCondition+" like '%"+seachCode+"%'");
-            }
+            seach.append(" and c."+seachCondition + " like '%"+seachCode+"%'");
         }else{
             seach.append(" and ( 1=1 ) ");
         }
+
+        seach.append(" and c.region_id ="+re.getRegionId());
 
         return seach.toString();
     }

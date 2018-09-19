@@ -122,9 +122,8 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="casename"<c:if test="${bseachCondition=='casename'}">selected="selected"</c:if>>案件名</option>
-                                            <option value="brandname"<c:if test="${bseachCondition=='brandname'}">selected="selected"</c:if>>所属品牌</option>
-                                            <option value="regionname"<c:if test="${bseachCondition=='regionname'}">selected="selected"</c:if>>所属区域</option>
+                                            <option value="case_name"<c:if test="${bseachCondition=='case_name'}">selected="selected"</c:if>>案件名</option>
+                                            <option value="creater"<c:if test="${bseachCondition=='creater'}">selected="selected"</c:if>>创建人</option>
                                             <%--<option value="sfzhm" <c:if test="${wseachCondition=='sfzhm'}">selected="selected"</c:if> >线索文档包含号码</option>--%>
                                             <%--&lt;%&ndash;<option value="gszcm" <c:if test="${seachCondition=='gszcm'}">selected="selected"</c:if> >公司注册账号</option>&ndash;%&gt;--%>
                                             <%--&lt;%&ndash;<option value="gsmc" <c:if test="${seachCondition=='gsmc'}">selected="selected"</c:if> >公司名称</option>&ndash;%&gt;--%>
