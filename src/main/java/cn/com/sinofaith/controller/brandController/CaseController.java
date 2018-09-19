@@ -1,4 +1,4 @@
-package cn.com.sinofaith.controller;
+package cn.com.sinofaith.controller.brandController;
 
 import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.synth.Region;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,11 +27,7 @@ import static java.lang.Integer.parseInt;
 @RequestMapping("/case")
 public class CaseController {
     @Autowired
-    private BrandService bs;
-    @Autowired
     private CaseService cs;
-    @Autowired
-    private RegionService rs;
     @RequestMapping()
     public ModelAndView home(HttpSession httpSession){
         ModelAndView mav = new ModelAndView("redirect:/case/seach?pageNo=1");
@@ -43,7 +40,8 @@ public class CaseController {
     @RequestMapping(value = "/seach")
     public ModelAndView getCase(@RequestParam("pageNo") String pageNo, HttpServletRequest req){
         ModelAndView mav = new ModelAndView("case/case");
-
+        BrandEntity be = (BrandEntity) req.getSession().getAttribute("brand");
+        RegionEntity re = (RegionEntity) req.getSession().getAttribute("region");
         String seachCondition = (String) req.getSession().getAttribute("bseachCondition");
         String seachCode = (String) req.getSession().getAttribute("bseachCode");
         String seach = cs.getSeach(seachCode,seachCondition);
@@ -52,6 +50,8 @@ public class CaseController {
         mav.addObject("bseachCode",seachCode);
         mav.addObject("bseachCondition",seachCondition);
         mav.addObject("detailinfo",page.getList());
+        mav.addObject("brand",be);
+        mav.addObject("region",re);
         return mav;
     }
 
@@ -71,9 +71,9 @@ public class CaseController {
     }
     @RequestMapping(value = "/getCase",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String getCase(@RequestParam("casename") String casename){
-        List<CaseEntity> list = cs.getCaseByName(casename);
-        if(list.size()>0){
+    public String getCase(@RequestParam("caseName") String caseName,@RequestParam("regionId")String regionId){
+        CaseEntity ce = cs.getCase(caseName,Long.parseLong(regionId));
+        if(ce.getCaseId()!=-1){
             return "303";
         }
         return "200";
@@ -82,21 +82,15 @@ public class CaseController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST,produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String add(@RequestParam("casename")String casename,
-                      @RequestParam("brandname") String brandname,@RequestParam("regionname")String regionname){
+    public String add(@RequestParam("caseName")String caseName,
+                      @RequestParam("creater") String creater,@RequestParam("regionId")String regionId){
 
-        BrandEntity be = bs.getByname(brandname);
-        RegionEntity re = rs.getByname(regionname);
-        if(be.getId()==-1){
-            long brandid= bs.add(brandname);
-            be.setId(brandid);
+        CaseEntity ce = cs.getCase(caseName,Long.parseLong(regionId));
+        if(ce.getCaseId()!=-1){
+            return "303";
+        }else {
+            cs.add(caseName,creater,Long.parseLong(regionId));
+            return "200";
         }
-        if(re.getId()==-1){
-            re.setId(rs.add(regionname));
-        }
-
-        cs.add(casename,be.getId(),re.getId());
-
-        return "200";
     }
 }

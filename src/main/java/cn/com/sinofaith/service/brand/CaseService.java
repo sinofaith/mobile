@@ -4,7 +4,10 @@ import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.dao.brand.CaseDao;
 import cn.com.sinofaith.form.CaseForm;
 import cn.com.sinofaith.page.Page;
+import cn.com.sinofaith.util.DBUtil;
 import cn.com.sinofaith.util.TimeFormatUtil;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,18 @@ import java.util.Map;
 public class CaseService {
     @Autowired
     private CaseDao cd;
+
+    public CaseEntity getCase(String caseName,long regionId){
+        DetachedCriteria dc = DetachedCriteria.forClass(CaseEntity.class);
+        dc.add(Restrictions.eq("caseName",caseName));
+        dc.add(Restrictions.eq("regionId",regionId));
+        List<CaseEntity> list = cd.getDoPage(1,10,dc);
+        if(list.size()>0){
+            return list.get(0);
+        }else {
+            return new CaseEntity();
+        }
+    }
 
     public List<CaseEntity> getCaseByName(String casename){
        return cd.find("from CaseEntity where casename = '"+casename+"'");
@@ -64,11 +79,11 @@ public class CaseService {
         return seach.toString();
     }
 
-    public long add(String casename,long brand_id,long region_id){
+    public long add(String caseName,String creater,long region_id){
         CaseEntity be = new CaseEntity();
-        be.setCaseName(casename);
-        be.setBrand_id(brand_id);
-        be.setRegion_id(region_id);
+        be.setCaseName(caseName);
+        be.setCreater(creater);
+        be.setRegionId(region_id);
         be.setInserttime(TimeFormatUtil.getDate("/"));
         return (long)cd.save(be);
     }

@@ -1,13 +1,13 @@
 package cn.com.sinofaith.form;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 public class CaseForm {
     private long xh;
-    private String id;
+    private BigDecimal id;
     private String caseName;
-    private String brandName;
-    private String regionName;
+    private String creater;
     private String inserttime;
 
     public long getXh() {
@@ -18,11 +18,11 @@ public class CaseForm {
         this.xh = xh;
     }
 
-    public String getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -34,20 +34,12 @@ public class CaseForm {
         this.caseName = caseName;
     }
 
-    public String getBrandName() {
-        return brandName;
+    public String getCreater() {
+        return creater;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
-
-    public String getRegionName() {
-        return regionName;
-    }
-
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
+    public void setCreater(String creater) {
+        this.creater = creater;
     }
 
     public String getInserttime() {
@@ -58,14 +50,11 @@ public class CaseForm {
         this.inserttime = inserttime;
     }
 
-
-
     public CaseForm mapToForm(Map map){
         CaseForm zzf = new CaseForm();
-        zzf.setId(map.get("ID").toString());
-        zzf.setCaseName((String) map.get("CASENAME"));
-        zzf.setBrandName((String)map.get("BRANDNAME"));
-        zzf.setRegionName((String)map.get("REGIONNAME"));
+        zzf.setId((BigDecimal)map.get("CASE_ID"));
+        zzf.setCaseName((String) map.get("CASE_NAME"));
+        zzf.setCreater((String)map.get("CREATER"));
         zzf.setInserttime((String)map.get("INSERTTIME"));
         return zzf;
     }

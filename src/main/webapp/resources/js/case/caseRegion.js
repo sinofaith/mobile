@@ -1,8 +1,8 @@
 $(function () {
-    $( "#brandname" ).autocomplete({
+    $( "#regionname" ).autocomplete({
 
     });
-    $( "#regionname" ).autocomplete({
+    $( "#rolename" ).autocomplete({
 
     });
 })
@@ -14,39 +14,52 @@ function getRegionNameOnfocus() {
     e.keyCode = 8;//keyCode=8是空格
     $("#regionname").trigger(e);
     $( "#regionname" ).autocomplete({
-        source: "/mobile/region/getRegionName",
+        source: "/mobile/caseRegion/getRegionName",
         minLength: 0
     });
 }
-
-
 function getRegionName() {
     $( "#regionname" ).autocomplete({
-        source: "/mobile/region/getRegionName",
+        source: "/mobile/caseRegion/getRegionName",
         minLength: 2
     });
 };
 
+function getRoleNameOnfocus() {
+    var e = jQuery.Event("keydown");//模拟一个键盘事件
+    e.keyCode = 8;//keyCode=8是空格
+    $("#rolename").trigger(e);
+    $( "#rolename" ).autocomplete({
+        source: "/mobile/caseRegion/getRoleName",
+        minLength: 0
+    });
+}
+function getRoleName() {
+    $( "#rolename" ).autocomplete({
+        source: "/mobile/caseRegion/getRoleName",
+        minLength: 2
+    });
+};
 function destroyTooltip(name) {
     $("."+name).tooltip('destroy');
 }
 
 
-function getCase() {
+function getRegion() {
     var flag=false;
-    var regionId = $("#regionId").val().trim();
-    var casename = $("#casename").val().trim();
-    if(casename===''||regionId===''){
-        return flag;
+    var unitId = $("#unitId").val().trim();
+    var regionname = $("#regionname").val().trim();
+    if(unitId===''||regionname==''){
+        return flag
     }
     $.ajax({
-        url: "/mobile/case/getCase?caseName="+casename+"&regionId="+regionId,
+        url: "/mobile/caseRegion/getRegion?unitId="+unitId+"&regionName="+regionname,
         type: 'get',
         async: false,
         dataType: 'text',
         success: function(result,status) {
             if(result==="303"){
-                $("#casename").attr('title',"案件名已存在").tooltip('show');
+                $("#regionname").attr('title',"区域已存在").tooltip('show');
                 flag=false;
             }else{
                 if(status==="success"){
@@ -60,36 +73,34 @@ function getCase() {
     return flag;
 }
 
-function addCase() {
-    var flag = getCase();
-
-    var regionId = $("#regionId").val().trim();
-    if(regionId==''){
-        $("#brandname").attr('title',"所属品牌不能为空,请从品牌列表选择后添加案件").tooltip('show');
-        $("#regionname").attr('title',"所属区域不能为空,请从品牌列表选择后添加案件").tooltip('show');
-
+function addRegion() {
+    var flag = getRegion;
+    var unitId = $("#unitId").val().trim();
+    if(unitId=='') {
+        $("#brandname").attr('title', "品牌名不能为空,请从品牌列表选择后添加区域").tooltip('show');
+        $("#unitname").attr('title', "立案单位不能为空,请从品牌列表选择后添加区域").tooltip('show');
+        flag = false;
+    }
+    var regionname = $("#regionname").val().trim();
+    if(regionname==''){
+        $("#regionname").attr('title',"区域不能为空").tooltip('show');
         flag=false;
     }
-    var caseName = $("#casename").val().trim();
-    if(caseName==''){
-        $("#casename").attr('title',"案件名不能为空").tooltip('show');
-        flag=false;
-    }
-    var creater = $("#creater").val().trim();
-    if(creater==''){
-        $("#creater").attr('title',"创建人不能为空").tooltip('show');
+    var rolename = $("#rolename").val().trim();
+    if(rolename==''){
+        $("#rolename").attr('title',"角色不能为空").tooltip('show');
         flag=false;
     }
     if(flag==false){
         return;
     }
     $(".btn").attr("disabled","true");
-    var Controller = "/mobile/case/add"; // 接收后台地址
+    var Controller = "/mobile/caseRegion/add"; // 接收后台地址
     // FormData 对象
     var form = new FormData();
-    form.append("regionId",regionId);
-    form.append("caseName",caseName);
-    form.append("creater",creater);
+    form.append("unitId",unitId);
+    form.append("regionName",regionname);
+    form.append("roleName",rolename);
     var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
     xhr.open("post", Controller, true);
     xhr.onload = function() {
@@ -100,7 +111,7 @@ function addCase() {
             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
         }
         if(xhr.responseText==303){
-            $("#brandname").attr('title',"案件名已存在").tooltip('show');
+            $("#regionname").attr('title',"区域已存在").tooltip('show');
         }
         if(xhr.responseText==404||xhr.responseText==400){
             alertify.alert("添加失败")

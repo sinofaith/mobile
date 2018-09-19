@@ -30,11 +30,7 @@
 </style>
 
 <div class="tab_div">
-    <span class="tab_nav">
-        <a href="/mobile/caseBrand" >品牌列表</a>
-        <a href="/mobile/caseRegion" >区域列表</a>
-        <a href="/mobile/case" class="addactive">案件列表</a>
-    </span>
+    <span class="tab_nav"><a href="/mobile/case">案件列表</a><a href="/mobile/caseinfo" class="addactive">人员列表</a></span>
     <ul >
         <div class="main-container-inner " style="margin-bottom: 10px">
             <div class="width_100 pos_re_block">
@@ -48,27 +44,28 @@
                                     <tr>
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>案件列表(${brand.brandName}-${brand.unitName}-${region.regionName})</strong>
+                                                <strong>人员列表</strong>
 
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
                                         <td width="6%">序号</td>
-                                        <td width="10%">案件名</td>
-                                        <td width="7%">创建人</td>
-                                        <td width="12%">创建时间</td>
+                                        <td width="20%">姓名</td>
+                                        <td width="7%">性别</td>
+                                        <td width="12%">证件号码</td>
+                                        <td width="12%">手机号码</td>
                                     </tr>
                                     <form action="" method="post" id="_form">
 
                                     </form>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
-
                                             <td align="center">${item.xh}</td>
-                                            <td align="center">${item.caseName}</td>
-                                            <td align="center">${item.creater}</td>
-                                            <td align="center">${item.inserttime}</td>
+                                            <td align="center">${item.xm}</td>
+                                            <td align="center">${item.xb}</td>
+                                            <td align="center">${item.zjhm}</td>
+                                            <td align="center">${item.sjhm}</td>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -191,25 +188,16 @@
                 <span id="percentage" style="color:blue;"></span> <br>
                 <div class="file-box">
 
-                    <input type="hidden" id="regionId" value="${region.regionId}">
-                    品  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌:<input type="text" name = 'brandname' id ='brandname' value="${brand.brandName}"
-                                readonly="readonly"  class='txt brandname'  data-toggle="tooltip" data-placement="top">
-                    <br>
-                    立案单位:<input type="text" name = 'unitname' id ='unitname' value="${brand.unitName}"
-                                readonly="readonly"    class='txt unitname'  data-toggle="tooltip" data-placement="top">
-                    <br>
-
-                    区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:<input type="text" name = 'regionname' id ='regionname' value="${region.regionName}"
-                                readonly="readonly" class='txt regionname'  data-toggle="tooltip" data-placement="top">
-                    <%--<br>--%>
-                    <%--角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'rolename' id ='rolename'value="${region.roleName}"--%>
-                                 <%--readonly="readonly"class='txt rolename'  data-toggle="tooltip" data-placement="top">--%>
-                    <br>
                     案  &nbsp;件  &nbsp;名:<input type="text" name = 'casename' id ='casename'
-                               class='txt casename'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('casename')">
+                               class='txt casename'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('casename')" onblur="getCase()" >
                     <br>
-                    创  &nbsp;建  &nbsp;人:<input type="text" name = 'creater' id ='creater'
-                               class='txt creater'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('creater')">
+                    所属品牌:<input type="text" name = 'brandname' id ='brandname'
+                               class='txt brandname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('brandname');getBrandName()" onfocus="getBrandNameOnfocus()">
+                    <br>
+                    所属区域:<input type="text" name = 'regionname' id ='regionname'
+                               class='txt regionname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('regionname');getRegionName()"
+                                 onfocus="getRegionNameOnfocus()">
+
 
                 </div>
             </div>
