@@ -1,10 +1,8 @@
 package cn.com.sinofaith.controller.brandController;
 
 import cn.com.sinofaith.bean.BrandEntity;
-import cn.com.sinofaith.bean.UnitEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.brand.BrandService;
-import cn.com.sinofaith.service.brand.UnitService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

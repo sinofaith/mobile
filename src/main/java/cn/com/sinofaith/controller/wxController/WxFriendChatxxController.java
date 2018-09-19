@@ -1,7 +1,6 @@
 package cn.com.sinofaith.controller.wxController;
 
-import cn.com.sinofaith.bean.AjEntity;
-import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
+import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.TAutoWechatLtjlEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.wxPhone.WxFriendChatxxSerivce;
@@ -68,19 +67,15 @@ public class WxFriendChatxxController {
         // 排序方式(desc降，asc升)
         String desc = (String) session.getAttribute("wxFriendChatDesc");
         // 所属案件
-        AjEntity aj = (AjEntity) session.getAttribute("aj");
-
-        //------测试环境下-------
-        if (aj == null) {
-            aj = new AjEntity();
-            aj.setId(1);
+        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
+        if(aj==null){
+            return "phone/phoneWXfriendChat";
         }
-        //----------------------
 
         // 封装sql语句
         String seach = fcService.getSeach(seachCondition, seachCode, orderby, desc);
         // 封装分页对象
-        Page page = fcService.queryForPage(parseInt(pageNo), 4, seach, aj.getId());
+        Page page = fcService.queryForPage(parseInt(pageNo), 4, seach, aj.getCaseId());
         if (page != null) {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());
@@ -147,7 +142,7 @@ public class WxFriendChatxxController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/getDetails", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    /*@RequestMapping(value = "/getDetails", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getDetails(String fswechatno, String jswechatno, int page, String order, HttpSession session) {
         // 创建离线查询对象
@@ -183,6 +178,6 @@ public class WxFriendChatxxController {
         session.setAttribute("xqlastOrder", order);
         String json = fcService.getFriendChat(page, 100, dc);
         return json;
-    }
+    }*/
 
 }

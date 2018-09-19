@@ -1,6 +1,6 @@
 package cn.com.sinofaith.controller.qqController;
 
-import cn.com.sinofaith.bean.AjEntity;
+import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.TAutoQqFriendsxxEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.phone.FriendxxService;
@@ -53,12 +53,11 @@ public class FriendxxController {
         // 取出session域中的数据
         String seachCode = (String) session.getAttribute("friendxxSeachCode");
         String seachCondition = (String) session.getAttribute("friendxxSeachCondition");
-        AjEntity aj = (AjEntity) session.getAttribute("aj");
+        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
         if(aj==null){
-            aj =new AjEntity();
-            aj.setId(1);
+            return "phone/phonefriend";
         }
-        dc.add(Restrictions.eq("aj_id",aj.getId()));
+        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
         dc.add(Restrictions.isNull("qqfriendqh"));
         // 判断此时域中是否有seachCode
         if(seachCode!=null && !seachCode.isEmpty()){

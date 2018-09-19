@@ -1,6 +1,6 @@
 package cn.com.sinofaith.controller.qqController;
 
-import cn.com.sinofaith.bean.AjEntity;
+import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.phone.FriendsChatxxSerivce;
@@ -67,19 +67,14 @@ public class FriendsChatxxController {
         // 排序方式(desc降，asc升)
         String desc = (String) session.getAttribute("friendsChatDesc");
         // 所属案件
-        AjEntity aj = (AjEntity) session.getAttribute("aj");
-
-        //------测试环境下-------
-        if (aj == null) {
-            aj = new AjEntity();
-            aj.setId(1);
+        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
+        if(aj==null){
+            return "phone/phonefriendsChat";
         }
-        //----------------------
-
         // 封装sql语句
         String seach = fcService.getSeach(seachCondition, seachCode, orderby, desc);
         // 封装分页对象
-        Page page = fcService.queryForPage(parseInt(pageNo), 4, seach, aj.getId());
+        Page page = fcService.queryForPage(parseInt(pageNo), 4, seach, aj.getCaseId());
         if (page != null) {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());
@@ -146,14 +141,14 @@ public class FriendsChatxxController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/getDetails", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    /*@RequestMapping(value = "/getDetails", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getDetails(String fsqq, String jsqq, int page, String order, HttpSession session) {
         // 创建离线查询对象
         DetachedCriteria dc = DetachedCriteria.forClass(TAutoQqLtjlEntity.class);
         dc.add(Restrictions.eq("fsqq",fsqq));
         dc.add(Restrictions.eq("jsqqno",jsqq));
-        // 从session域中取出数据
+       *//* // 从session域中取出数据
         AjEntity aj = (AjEntity) session.getAttribute("aj");
         String lastOrder = (String) session.getAttribute("xqlastOrder");
         String desc = (String) session.getAttribute("xqdesc");
@@ -165,7 +160,7 @@ public class FriendsChatxxController {
         }
         //---------------------
 
-        dc.add(Restrictions.eq("aj_id",aj.getId()));
+        dc.add(Restrictions.eq("aj_id",aj.getId()));*//*
         if(order.equals(lastOrder)){
            if(desc==null || desc.equals("desc")){
                dc.addOrder(Order.desc(order));
@@ -182,6 +177,6 @@ public class FriendsChatxxController {
         session.setAttribute("xqlastOrder", order);
         String json = fcService.getFriendChat(page, 100, dc);
         return json;
-    }
+    }*/
 
 }

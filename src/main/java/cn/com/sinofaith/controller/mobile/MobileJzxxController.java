@@ -1,6 +1,6 @@
 package cn.com.sinofaith.controller.mobile;
 
-import cn.com.sinofaith.bean.AjEntity;
+import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.TAutoJzxxEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.mobile.JzxxService;
@@ -57,15 +57,11 @@ public class MobileJzxxController {
         // 将域中对象取出
         String seachCode = (String) session.getAttribute("phoneJzxxSeachCode");
         String seachCondition = (String) session.getAttribute("phoneJzxxSeachCondition");
-        AjEntity aj = (AjEntity) session.getAttribute("aj");
-
-        //-----------测试环境---------
+        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
         if(aj==null){
-            aj =new AjEntity();
-            aj.setId(1);
+            return "mobile/phoneJzxxinfo";
         }
-        //---------------------------
-        dc.add(Restrictions.eq("aj_id",aj.getId()));
+        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
         if(seachCode!=null && !seachCode.trim().equals("")){
             dc.add(Restrictions.like(seachCondition,seachCode));
         }

@@ -77,7 +77,7 @@ public class CaseController {
 
     @RequestMapping(value = "/case")
     public ModelAndView jump(@RequestParam("caseId") String regionId, HttpSession httpSession){
-        ModelAndView mav = new ModelAndView("redirect:/phone/seach?pageNo=1");
+        ModelAndView mav = new ModelAndView("redirect:/phone");
 
 
         httpSession.setAttribute("aj",cs.getById(Long.parseLong(regionId)));

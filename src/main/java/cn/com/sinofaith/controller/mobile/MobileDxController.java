@@ -1,6 +1,6 @@
 package cn.com.sinofaith.controller.mobile;
 
-import cn.com.sinofaith.bean.AjEntity;
+import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.TAutoDxEntity;
 import cn.com.sinofaith.bean.TAutoTxlEntity;
 import cn.com.sinofaith.page.Page;
@@ -62,15 +62,11 @@ public class MobileDxController {
         String seachCondition = (String) session.getAttribute("phoneDxSeachCondition");
         String lastOrder = (String) session.getAttribute("phoneDxLastOrder");
         String desc = (String) session.getAttribute("phoneDxDesc");
-        AjEntity aj = (AjEntity) session.getAttribute("aj");
-
-        //-----------测试环境---------
+        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
         if(aj==null){
-            aj =new AjEntity();
-            aj.setId(1);
+            return "mobile/phoneDx";
         }
-        //---------------------------
-        dc.add(Restrictions.eq("aj_id",aj.getId()));
+        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
         if(seachCode!=null && !seachCode.trim().equals("")){
             dc.add(Restrictions.like(seachCondition,seachCode));
         }

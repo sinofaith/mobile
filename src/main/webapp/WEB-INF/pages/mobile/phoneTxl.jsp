@@ -33,7 +33,7 @@
                                     <tr>
                                         <td colspan="7"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>通讯录</strong>
+                                                <strong>通讯录(${aj.caseName})</strong>
 
                                             </div>
                                         </td>

@@ -34,7 +34,7 @@
                                     <tr>
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>QQ群好友聊天信息</strong>
+                                                <strong>QQ群好友聊天信息(${aj.caseName})</strong>
                                             </div>
                                         </td>
                                     </tr>
