@@ -75,6 +75,15 @@ public class CaseController {
         return "200";
     }
 
+    @RequestMapping(value = "/case")
+    public ModelAndView jump(@RequestParam("caseId") String regionId, HttpSession httpSession){
+        ModelAndView mav = new ModelAndView("redirect:/phone/seach?pageNo=1");
+
+
+        httpSession.setAttribute("aj",cs.getById(Long.parseLong(regionId)));
+        return mav;
+    }
+
 
     @RequestMapping(value = "/add",method = RequestMethod.POST,produces = "text/plain;charset=UTF-8")
     @ResponseBody

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class CaseForm {
     private long xh;
-    private BigDecimal id;
+    private BigDecimal caseId;
     private String caseName;
     private String creater;
     private String inserttime;
@@ -18,12 +18,12 @@ public class CaseForm {
         this.xh = xh;
     }
 
-    public BigDecimal getId() {
-        return id;
+    public BigDecimal getCaseId() {
+        return caseId;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setCaseId(BigDecimal caseId) {
+        this.caseId = caseId;
     }
 
     public String getCaseName() {
@@ -52,7 +52,7 @@ public class CaseForm {
 
     public CaseForm mapToForm(Map map){
         CaseForm zzf = new CaseForm();
-        zzf.setId((BigDecimal)map.get("CASE_ID"));
+        zzf.setCaseId((BigDecimal)map.get("CASE_ID"));
         zzf.setCaseName((String) map.get("CASE_NAME"));
         zzf.setCreater((String)map.get("CREATER"));
         zzf.setInserttime((String)map.get("INSERTTIME"));

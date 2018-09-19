@@ -25,7 +25,7 @@
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/alertify/js/alertify.min.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/case/case.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/resources/js/case/caseRegion.js"/>" type="text/javascript"></script>
 <link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
 <script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/bootstrap.js"/> "></script>

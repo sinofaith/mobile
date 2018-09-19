@@ -66,7 +66,7 @@
                                         <tr class="${st.index%2==1 ? '':'odd' }">
 
                                             <td align="center">${item.xh}</td>
-                                            <td align="center">${item.caseName}</td>
+                                            <td align="center"><a href="/mobile/case/case?&caseId=${item.caseId}">${item.caseName}</a></td>
                                             <td align="center">${item.creater}</td>
                                             <td align="center">${item.inserttime}</td>
                                         </tr>

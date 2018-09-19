@@ -20,6 +20,11 @@ public class CaseService {
     @Autowired
     private CaseDao cd;
 
+    public CaseEntity getById(long caseId){
+        CaseEntity ce = cd.get(caseId);
+        return ce;
+    }
+
     public CaseEntity getCase(String caseName,long regionId){
         DetachedCriteria dc = DetachedCriteria.forClass(CaseEntity.class);
         dc.add(Restrictions.eq("caseName",caseName));
