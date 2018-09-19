@@ -21,12 +21,8 @@ public class BrandService {
 
         if(seachCode!=null){
             seachCode = seachCode.replace("\r\n","").replace("，","").replace(" ","").replace(" ","").replace("\t","");
-
-            if("brand_name".equals(seachCondition)){
                 seach.append(" and c."+seachCondition + " like '%"+seachCode+"%'");
-            } else if("unit_name".equals(seachCondition)){
-                seach.append(" and u." + seachCondition + " like '%"  + seachCode + "%'");
-            }
+
         }else{
             seach.append(" and ( 1=1 ) ");
         }

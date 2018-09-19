@@ -202,7 +202,7 @@
                             品&nbsp;&nbsp;牌&nbsp;&nbsp;名:<input type="text" name = 'brandname' id ='brandname'
                                                        class='txt brandname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('brandname');getBrandName()" onfocus="getBrandNameOnfocus()">
                             <br>
-                            主办单位:<input type="text" name = 'unitname' id ='unitname'
+                            立案单位:<input type="text" name = 'unitname' id ='unitname'
                                         class='txt unitname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('unitname');getUnitName()" onfocus="getUnitNameOnfocus()">
 
 
