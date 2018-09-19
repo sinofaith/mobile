@@ -5,6 +5,7 @@ import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.brand.CaseService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,5 +88,20 @@ public class CaseController {
             cs.add(caseName,creater,Long.parseLong(regionId));
             return "200";
         }
+    }
+
+
+    @RequestMapping(value = "/getCaseName",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String getRoleName(@RequestParam("term")String term){
+        Gson gson = new Gson();
+        return gson.toJson(cs.getDopage(term,"case_name"));
+    }
+
+    @RequestMapping(value = "/getCreater",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String getRegionName(@RequestParam("term")String term){
+        Gson gson = new Gson();
+        return gson.toJson(cs.getDopage(term,"creater"));
     }
 }

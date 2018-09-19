@@ -205,10 +205,10 @@
                                  <%--readonly="readonly"class='txt rolename'  data-toggle="tooltip" data-placement="top">--%>
                     <br>
                     案  &nbsp;件  &nbsp;名:<input type="text" name = 'casename' id ='casename'
-                               class='txt casename'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('casename')">
+                               class='txt casename'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('casename');getCaseName()" onfocus="getCaseNameOnfocus()" onblur="getCase()">
                     <br>
                     创  &nbsp;建  &nbsp;人:<input type="text" name = 'creater' id ='creater'
-                               class='txt creater'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('creater')">
+                               class='txt creater'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('creater');getCreater()" onfocus="getCreaterOnfocus()" >
 
                 </div>
             </div>

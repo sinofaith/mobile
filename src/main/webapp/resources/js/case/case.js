@@ -1,32 +1,45 @@
 $(function () {
-    $( "#brandname" ).autocomplete({
+    $( "#casename" ).autocomplete({
 
     });
-    $( "#regionname" ).autocomplete({
+    $( "#creater" ).autocomplete({
 
     });
 })
 
 
 
-function getRegionNameOnfocus() {
+function getCaseNameOnfocus() {
     var e = jQuery.Event("keydown");//模拟一个键盘事件
     e.keyCode = 8;//keyCode=8是空格
-    $("#regionname").trigger(e);
-    $( "#regionname" ).autocomplete({
-        source: "/mobile/region/getRegionName",
+    $("#casename").trigger(e);
+    $( "#casename" ).autocomplete({
+        source: "/mobile/case/getCaseName",
         minLength: 0
     });
 }
-
-
-function getRegionName() {
-    $( "#regionname" ).autocomplete({
-        source: "/mobile/region/getRegionName",
+function getCaseName() {
+    $( "#casename" ).autocomplete({
+        source: "/mobile/case/getCaseName",
         minLength: 2
     });
 };
 
+function getCreaterOnfocus() {
+    var e = jQuery.Event("keydown");//模拟一个键盘事件
+    e.keyCode = 8;//keyCode=8是空格
+    $("#creater").trigger(e);
+    $( "#creater" ).autocomplete({
+        source: "/mobile/case/getCreater",
+        minLength: 0
+    });
+}
+function getCreater() {
+    $( "#creater" ).autocomplete({
+        source: "/mobile/case/getCreater",
+        minLength: 2
+    });
+};
 function destroyTooltip(name) {
     $("."+name).tooltip('destroy');
 }

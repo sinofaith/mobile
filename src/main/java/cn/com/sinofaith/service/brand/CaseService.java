@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -82,4 +83,24 @@ public class CaseService {
         be.setInserttime(TimeFormatUtil.getDate("/"));
         return (long)cd.save(be);
     }
+
+    public List<String> getDopage(String regionName,String type){
+        List<CaseEntity> listr = cd.doPage("from CaseEntity where "+type+" like '%"+regionName+"%'",1,100);
+        List<String> lists = new ArrayList<>();
+        if(listr.size()>0){
+            for(CaseEntity ce:listr){
+                if("case_name".equals(type)) {
+                    lists.add(ce.getCaseName());
+                }else if("creater".equals(type)){
+                    lists.add(ce.getCreater());
+                }
+            }
+        }
+        LinkedHashSet<String> set = new LinkedHashSet<String>(lists.size());
+        set.addAll(lists);
+        lists.clear();
+        lists.addAll(set);
+        return lists;
+    }
+
 }
