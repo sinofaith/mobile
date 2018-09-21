@@ -6,9 +6,9 @@ import javax.persistence.*;
 @Table(name = "t_region")
 public class RegionEntity {
     private long regionId =-1;
-    private String regionName;
-    private long unitId=-1;
-    private String roleName;
+    private long areaId=-1;
+    private long caseId=-1;
+//    private String roleName;
     private String inserttime;
 
     @Id
@@ -23,13 +23,11 @@ public class RegionEntity {
         this.regionId = regionId;
     }
     @Basic
-    @Column(name = "region_name",length = 200)
-    public String getRegionName() {
-        return regionName;
-    }
+    @Column(name = "area_Id",nullable = false)
+    public long getAreaId(){return  areaId;}
 
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
+    public void setAreaId(long areaId) {
+        this.areaId = areaId;
     }
     @Basic
     @Column(name = "inserttime",length = 19)
@@ -41,31 +39,31 @@ public class RegionEntity {
         this.inserttime = inserttime;
     }
     @Basic
-    @Column(name = "unit_id")
-    public long getUnitId() {
-        return unitId;
+    @Column(name = "case_id")
+    public long getCaseId() {
+        return caseId;
     }
 
-    public void setUnitId(long unitId) {
-        this.unitId = unitId;
+    public void setCaseId(long caseId) {
+        this.caseId = caseId;
     }
-    @Basic
-    @Column(name = "role_name",length = 200)
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
+//    @Basic
+//    @Column(name = "role_name",length = 200)
+//    public String getRoleName() {
+//        return roleName;
+//    }
+//
+//    public void setRoleName(String roleName) {
+//        this.roleName = roleName;
+//    }
 
     @Override
     public String toString() {
         return "RegionEntity{" +
                 "regionId=" + regionId +
-                ", regionName='" + regionName + '\'' +
-                ", unitId=" + unitId +
-                ", roleName='" + roleName + '\'' +
+                ", areaId='" + areaId + '\'' +
+                ", unitId=" + caseId +
+//                ", roleName='" + roleName + '\'' +
                 ", inserttime='" + inserttime + '\'' +
                 '}';
     }

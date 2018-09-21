@@ -280,7 +280,7 @@ blockquote,blockquote.pull-right {
 }
 
 .modal-content {
-	border-radius: 0;
+	border-radius: 6;
 	-webkit-box-shadow: none;
 	box-shadow: none
 }
@@ -291,7 +291,8 @@ blockquote,blockquote.pull-right {
 	border-top-color: #e4e9ee;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	background-color: #eff3f8
+	background-color: #eff3f8;
+	border-radius: 6px;
 }
 
 .modal-header .close {

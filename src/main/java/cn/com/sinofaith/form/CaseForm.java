@@ -7,6 +7,7 @@ public class CaseForm {
     private long xh;
     private BigDecimal caseId;
     private String caseName;
+    private String regionName;
     private String creater;
     private String inserttime;
 
@@ -34,6 +35,14 @@ public class CaseForm {
         this.caseName = caseName;
     }
 
+    public String getRegionName() {
+        return regionName;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+
     public String getCreater() {
         return creater;
     }
@@ -54,8 +63,9 @@ public class CaseForm {
         CaseForm zzf = new CaseForm();
         zzf.setCaseId((BigDecimal)map.get("CASE_ID"));
         zzf.setCaseName((String) map.get("CASE_NAME"));
+        zzf.setRegionName((String) map.get("NAME"));
         zzf.setCreater((String)map.get("CREATER"));
-        zzf.setInserttime((String)map.get("INSERTTIME"));
+        zzf.setInserttime((String)map.get("R_INSERTTIME"));
         return zzf;
     }
 }

@@ -40,8 +40,9 @@
 
 <div class="tab_div">
             <span class="tab_nav"><a href="/mobile/caseBrand" >品牌列表</a>
-                <a href="/mobile/caseRegion" class="addactive">区域列表</a>
-                <a href="/mobile/case" >案件列表</a></span>
+                <a href="/mobile/case" >案件列表</a>
+             <a href="/mobile/caseRegion" class="addactive">区域列表</a>
+                </span>
     <ul >
         <div class="main-container-inner " style="margin-bottom: 10px">
             <div class="width_100 pos_re_block">

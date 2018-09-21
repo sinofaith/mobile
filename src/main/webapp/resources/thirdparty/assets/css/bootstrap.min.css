@@ -49,7 +49,7 @@ abbr[title] {
 }
 
 b,strong {
-	font-weight: bold
+	font-weight: bold;
 }
 
 dfn {
@@ -1377,7 +1377,7 @@ th {
 .table thead>tr>th,.table tbody>tr>th,.table tfoot>tr>th,.table thead>tr>td,.table tbody>tr>td,.table tfoot>tr>td {
 	padding: 8px;
 	line-height: 1.428571429;
-	vertical-align: top;
+	vertical-align: middle;
 	border-top: 1px solid #bbb;
 }
 
@@ -5146,8 +5146,8 @@ body.modal-open,.modal-open .navbar-fixed-top,.modal-open .navbar-fixed-bottom {
 	left: 0;
 	z-index: 1040;
 	display: none;
-	overflow: auto;
-	overflow-y: scroll
+	/*overflow: auto;*/
+	/*overflow-y: scroll*/
 }
 
 .modal.fade .modal-dialog {
@@ -5269,7 +5269,7 @@ body.modal-open,.modal-open .navbar-fixed-top,.modal-open .navbar-fixed-bottom {
 		right: auto;
 		left: 50%;
 		width: 600px;
-		padding-top: 30px;
+		padding-top: 10%;
 		padding-bottom: 30px
 	}
 

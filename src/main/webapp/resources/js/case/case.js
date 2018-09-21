@@ -5,6 +5,53 @@ $(function () {
     $( "#creater" ).autocomplete({
 
     });
+    $('.hebing').each(function(index, element) {
+        if(!$(this).hasClass('hide'))
+        {    var next=$(this).parent('tr').next('tr').children('.hebing');//下一个合并的对象
+            $(this).attr('rowspan',1);
+            // while($(this).text()==next.text()&&$(this).next().next().text()==next.next().next().text())
+            while($(this).text()==next.text())
+            {
+                $(this).attr('rowspan',parseInt($(this).attr('rowspan'))+1);
+                next.hide();
+                next.addClass('hide');
+                next=next.parent('tr').next('tr').children('.hebing');//下一个合并的对象
+            }
+        }
+    });
+
+
+    $("#region").selectpicker({
+        noneResultsText:"未搜索到城市{0}",
+        noneSelectedText:"请选择区域",
+        width:"176px",
+        liveSearch:true,
+        style:"background-color: white"
+    });
+
+    $.ajax({
+        type: 'Get',
+        url: '/mobile/Area/getArea',
+        dataType: "Json",
+        success: function (data) {
+            var str = "";
+            for(var i = 0;i<data.length;i++){
+                    str+="<optgroup label=\""+data[i].pName+"\">";
+                for(var j=0;j<data[i].listCity.length;j++){
+                     str+="<option value=\"" + data[i].listCity[j].id + "\">" + data[i].listCity[j].name + "</option>"
+                }
+                str+="</optgroup>"
+            }
+            $("#region").append(str);
+            $('.selectpicker').selectpicker('refresh');
+            $('.selectpicker').selectpicker('render');
+        }
+    });
+
+    $('#region').on('show.bs.select', function () {
+        $("#region").tooltip("hide");
+    });
+
 })
 
 
@@ -47,19 +94,20 @@ function destroyTooltip(name) {
 
 function getCase() {
     var flag=false;
-    var regionId = $("#regionId").val().trim();
-    var casename = $("#casename").val().trim();
-    if(casename===''||regionId===''){
+    var brandId = $("#brandid").val().trim();
+    var caseName = $("#casename").val().trim();
+    var regionName = $("#region").val();
+    if(caseName===''||brandId===''||regionName===''){
         return flag;
     }
     $.ajax({
-        url: "/mobile/case/getCase?caseName="+casename+"&regionId="+regionId,
+        url: "/mobile/case/getCase?caseName="+caseName+"&brandId="+brandId+"&regionName="+regionName,
         type: 'get',
         async: false,
         dataType: 'text',
         success: function(result,status) {
             if(result==="303"){
-                $("#casename").attr('title',"案件名已存在").tooltip('show');
+                $("#casename").attr('title',"案件及区域已存在,请勿重复添加").tooltip('show');
                 flag=false;
             }else{
                 if(status==="success"){
@@ -73,14 +121,18 @@ function getCase() {
     return flag;
 }
 
+
 function addCase() {
-    var flag = getCase();
+    var flag = true;
 
-    var regionId = $("#regionId").val().trim();
-    if(regionId==''){
+    var brandId = $("#brandid").val().trim();
+    if(brandId==''){
         $("#brandname").attr('title',"所属品牌不能为空,请从品牌列表选择后添加案件").tooltip('show');
-        $("#regionname").attr('title',"所属区域不能为空,请从品牌列表选择后添加案件").tooltip('show');
-
+        flag=false;
+    }
+    var regionId = $("#region").val();
+    if(regionId==null){
+        $("#region").attr('title',"区域不能为空").tooltip('show');
         flag=false;
     }
     var caseName = $("#casename").val().trim();
@@ -100,7 +152,8 @@ function addCase() {
     var Controller = "/mobile/case/add"; // 接收后台地址
     // FormData 对象
     var form = new FormData();
-    form.append("regionId",regionId);
+    form.append("brandId",brandId);
+    form.append("areaId",regionId);
     form.append("caseName",caseName);
     form.append("creater",creater);
     var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
@@ -113,7 +166,7 @@ function addCase() {
             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
         }
         if(xhr.responseText==303){
-            $("#brandname").attr('title',"案件名已存在").tooltip('show');
+            $("#casename").attr('title',"案件名已存在").tooltip('show');
         }
         if(xhr.responseText==404||xhr.responseText==400){
             alertify.alert("添加失败")

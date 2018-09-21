@@ -23,7 +23,7 @@ public class BrandDao extends BaseDao<BrandEntity>{
         sql.append("SELECT * ");
         sql.append("FROM (SELECT a.*, ROWNUM rn ");
         sql.append("FROM (select c.* from t_brand c ");
-        sql.append(" where 1=1 " + seach + ") a ");
+        sql.append(" where 1=1 " + seach + " order by c.brand_name) a ");
         sql.append("WHERE ROWNUM <= " + offset * length + ") WHERE rn >= " + ((offset - 1) * length + 1));
         return findBySQL(sql.toString());
     }

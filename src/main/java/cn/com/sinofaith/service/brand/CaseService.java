@@ -1,5 +1,6 @@
 package cn.com.sinofaith.service.brand;
 
+import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.dao.brand.CaseDao;
@@ -25,10 +26,10 @@ public class CaseService {
         return ce;
     }
 
-    public CaseEntity getCase(String caseName,long regionId){
+    public CaseEntity getCase(String caseName,long brandId){
         DetachedCriteria dc = DetachedCriteria.forClass(CaseEntity.class);
         dc.add(Restrictions.eq("caseName",caseName));
-        dc.add(Restrictions.eq("regionId",regionId));
+        dc.add(Restrictions.eq("brandId",brandId));
         List<CaseEntity> list = cd.getDoPage(1,10,dc);
         if(list.size()>0){
             return list.get(0);
@@ -65,26 +66,30 @@ public class CaseService {
     }
 
 
-    public String getSeach(String seachCode, String seachCondition, RegionEntity re){
+    public String getSeach(String seachCode, String seachCondition, BrandEntity be){
         StringBuffer seach = new StringBuffer();
 
         if(seachCode!=null){
             seachCode = seachCode.replace("\r\n","").replace("，","").replace(" ","").replace(" ","").replace("\t","");
-            seach.append(" and c."+seachCondition + " like '%"+seachCode+"%'");
+            if("name".equals(seachCondition)){
+                seach.append(" and a."+seachCondition + " like '%"+seachCode+"%'");
+            }else{
+                seach.append(" and c."+seachCondition + " like '%"+seachCode+"%'");
+            }
         }else{
             seach.append(" and ( 1=1 ) ");
         }
 
-        seach.append(" and c.region_id ="+re.getRegionId());
+        seach.append(" and c.brand_id ="+be.getBrandId());
 
         return seach.toString();
     }
 
-    public long add(String caseName,String creater,long region_id){
+    public long add(String caseName,String creater,long brandId){
         CaseEntity be = new CaseEntity();
         be.setCaseName(caseName);
         be.setCreater(creater);
-        be.setRegionId(region_id);
+        be.setBrandId(brandId);
         be.setInserttime(TimeFormatUtil.getDate("/"));
         return (long)cd.save(be);
     }

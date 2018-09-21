@@ -73,53 +73,53 @@ function getRegion() {
     return flag;
 }
 
-function addRegion() {
-    var flag = getRegion;
-    var unitId = $("#unitId").val().trim();
-    if(unitId=='') {
-        $("#brandname").attr('title', "品牌名不能为空,请从品牌列表选择后添加区域").tooltip('show');
-        $("#unitname").attr('title', "立案单位不能为空,请从品牌列表选择后添加区域").tooltip('show');
-        flag = false;
-    }
-    var regionname = $("#regionname").val().trim();
-    if(regionname==''){
-        $("#regionname").attr('title',"区域不能为空").tooltip('show');
-        flag=false;
-    }
-    var rolename = $("#rolename").val().trim();
-    if(rolename==''){
-        $("#rolename").attr('title',"角色不能为空").tooltip('show');
-        flag=false;
-    }
-    if(flag==false){
-        return;
-    }
-    $(".btn").attr("disabled","true");
-    var Controller = "/mobile/caseRegion/add"; // 接收后台地址
-    // FormData 对象
-    var form = new FormData();
-    form.append("unitId",unitId);
-    form.append("regionName",regionname);
-    form.append("roleName",rolename);
-    var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
-    xhr.open("post", Controller, true);
-    xhr.onload = function() {
-        if(xhr.responseText==200){
-            alertify.alert("添加完成!");
-            $(".btn").attr("disabled","true");
-            $('#myModal').modal('hide');
-            setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
-        }
-        if(xhr.responseText==303){
-            $("#regionname").attr('title',"区域已存在").tooltip('show');
-        }
-        if(xhr.responseText==404||xhr.responseText==400){
-            alertify.alert("添加失败")
-        }
-        $(".btn").removeAttr("disabled","disabled");
-    };
-    xhr.send(form);
-}
+// function addRegion() {
+//     var flag = getRegion;
+//     var unitId = $("#unitId").val().trim();
+//     if(unitId=='') {
+//         $("#brandname").attr('title', "品牌名不能为空,请从品牌列表选择后添加区域").tooltip('show');
+//         $("#unitname").attr('title', "立案单位不能为空,请从品牌列表选择后添加区域").tooltip('show');
+//         flag = false;
+//     }
+//     var regionname = $("#regionname").val().trim();
+//     if(regionname==''){
+//         $("#regionname").attr('title',"区域不能为空").tooltip('show');
+//         flag=false;
+//     }
+//     var rolename = $("#rolename").val().trim();
+//     if(rolename==''){
+//         $("#rolename").attr('title',"角色不能为空").tooltip('show');
+//         flag=false;
+//     }
+//     if(flag==false){
+//         return;
+//     }
+//     $(".btn").attr("disabled","true");
+//     var Controller = "/mobile/caseRegion/add"; // 接收后台地址
+//     // FormData 对象
+//     var form = new FormData();
+//     form.append("unitId",unitId);
+//     form.append("regionName",regionname);
+//     form.append("roleName",rolename);
+//     var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
+//     xhr.open("post", Controller, true);
+//     xhr.onload = function() {
+//         if(xhr.responseText==200){
+//             alertify.alert("添加完成!");
+//             $(".btn").attr("disabled","true");
+//             $('#myModal').modal('hide');
+//             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
+//         }
+//         if(xhr.responseText==303){
+//             $("#regionname").attr('title',"区域已存在").tooltip('show');
+//         }
+//         if(xhr.responseText==404||xhr.responseText==400){
+//             alertify.alert("添加失败")
+//         }
+//         $(".btn").removeAttr("disabled","disabled");
+//     };
+//     xhr.send(form);
+// }
 
 
 function caseSkip(a){

@@ -14,7 +14,7 @@
 <html>
 <%--新加样式--%>
 <head>
-    <title>手机取证报告分析系统</title>
+    <title>手机取证报告采集分析系统</title>
 </head>
 <body>
 <aside class="sideMenu_left" style="top: 0px;">

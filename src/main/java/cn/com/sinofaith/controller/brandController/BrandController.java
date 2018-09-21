@@ -63,7 +63,7 @@ public class BrandController {
     }
     @RequestMapping(value = "/brand")
     public ModelAndView jump(@RequestParam("brandName") String brandName,@RequestParam("unitName") String unitName, HttpSession httpSession){
-        ModelAndView mav = new ModelAndView("redirect:/caseRegion/seach?pageNo=1");
+        ModelAndView mav = new ModelAndView("redirect:/case/seach?pageNo=1");
 
         httpSession.removeAttribute("rbseachCode");
         httpSession.removeAttribute("rbseachCondition");

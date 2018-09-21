@@ -12,7 +12,8 @@ public class CaseDao extends BaseDao<CaseEntity>{
 
     public int getAllRowCount(String seachCode) {
         String sql = "select to_char(count(c.case_id)) num from t_case c " +
-                " left join t_region r on c.region_id = r.region_id where 1=1 " + seachCode;
+                " left join t_region r on c.case_id = r.case_id  " +
+                " left join t_area a on r.area_id=a.id where 1=1 " + seachCode;
         List list = findBySQL(sql);
         Map map = (Map) list.get(0);
         return Integer.parseInt((String) map.get("NUM"));
@@ -23,8 +24,10 @@ public class CaseDao extends BaseDao<CaseEntity>{
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT * ");
         sql.append("FROM (SELECT a.*, ROWNUM rn ");
-        sql.append("FROM (select c.* from t_case c ");
-        sql.append(" where 1=1 " + seach + ") a ");
+        sql.append("FROM (select c.*,a.name,r.inserttime as r_inserttime from t_case c ");
+        sql.append("left join t_region r on c.case_id = r.case_id ");
+        sql.append("left join t_area a on r.area_id=a.id ");
+        sql.append(" where 1=1 " + seach + " ) a ");
         sql.append("WHERE ROWNUM <= " + offset * length + ") WHERE rn >= " + ((offset - 1) * length + 1));
         return findBySQL(sql.toString());
     }

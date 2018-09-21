@@ -40,8 +40,10 @@
         <div class="tab_div">
             <span class="tab_nav">
                 <a href="/mobile/caseBrand" class="addactive">品牌列表</a>
-                <a href="/mobile/caseRegion" >区域列表</a>
-                <a href="/mobile/case" >案件列表</a></span>
+                <a href="/mobile/case" >案件列表</a>
+            <a href="/mobile/caseRegion" >区域列表</a>
+            </span>
+
             <ul >
                 <div class="main-container-inner " style="margin-bottom: 10px">
                     <div class="width_100 pos_re_block">
@@ -56,7 +58,6 @@
                                                 <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                                     <div class="dropdown " style="color: #333">
                                                         <strong>品牌列表</strong>
-
                                                     </div>
                                                 </td>
                                             </tr>
@@ -198,13 +199,15 @@
                     <div class="modal-body">
                         <span id="percentage" style="color:blue;"></span> <br>
                         <div class="file-box">
-
+                            <div style="margin-top:-12px">
                             品&nbsp;&nbsp;牌&nbsp;&nbsp;名:<input type="text" name = 'brandname' id ='brandname'
                                                        class='txt brandname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('brandname');getBrandName()" onfocus="getBrandNameOnfocus()">
+                            </div>
                             <br>
+                            <div style="margin-top:-12px">
                             立案单位:<input type="text" name = 'unitname' id ='unitname'
                                         class='txt unitname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('unitname');getUnitName()" onfocus="getUnitNameOnfocus()">
-
+                            </div>
 
                         </div>
                     </div>

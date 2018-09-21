@@ -5,6 +5,7 @@ import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.brand.CaseService;
+import cn.com.sinofaith.service.brand.RegionService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static java.lang.Integer.parseInt;
 
 @Controller
@@ -24,6 +30,8 @@ import static java.lang.Integer.parseInt;
 public class CaseController {
     @Autowired
     private CaseService cs;
+    @Autowired
+    private RegionService rs;
     @RequestMapping()
     public ModelAndView home(HttpSession httpSession){
         ModelAndView mav = new ModelAndView("redirect:/case/seach?pageNo=1");
@@ -37,17 +45,15 @@ public class CaseController {
     public ModelAndView getCase(@RequestParam("pageNo") String pageNo, HttpServletRequest req){
         ModelAndView mav = new ModelAndView("case/case");
         BrandEntity be = (BrandEntity) req.getSession().getAttribute("brand");
-        RegionEntity re = (RegionEntity) req.getSession().getAttribute("region");
         String seachCondition = (String) req.getSession().getAttribute("bseachCondition");
         String seachCode = (String) req.getSession().getAttribute("bseachCode");
-        String seach = cs.getSeach(seachCode,seachCondition,re !=null?re:new RegionEntity());
+        String seach = cs.getSeach(seachCode,seachCondition,be !=null?be:new BrandEntity());
         Page page = cs.queryForPage(parseInt(pageNo),10,seach);
         mav.addObject("page",page);
         mav.addObject("bseachCode",seachCode);
         mav.addObject("bseachCondition",seachCondition);
         mav.addObject("detailinfo",page.getList());
         mav.addObject("brand",be);
-        mav.addObject("region",re);
         return mav;
     }
 
@@ -65,15 +71,21 @@ public class CaseController {
         httpSession.setAttribute("bseachCode",seachCode);
         return mav;
     }
-    @RequestMapping(value = "/getCase",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
-    @ResponseBody
-    public String getCase(@RequestParam("caseName") String caseName,@RequestParam("regionId")String regionId){
-        CaseEntity ce = cs.getCase(caseName,Long.parseLong(regionId));
-        if(ce.getCaseId()!=-1){
-            return "303";
-        }
-        return "200";
-    }
+//    @RequestMapping(value = "/getCase",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
+//    @ResponseBody
+//    public String getCase(@RequestParam("caseName") String caseName,@RequestParam("brandId")String brandId,@RequestParam("regionName")String regionName){
+//        CaseEntity ce = cs.getCase(caseName,Long.parseLong(brandId));
+//        if(ce.getCaseId()!=-1){
+//            RegionEntity re = rs.getRegion(ce.getCaseId(),regionName);
+//            if(re.getRegionId()!=-1){
+//                return "303";
+//            }else{
+//                return "200";
+//            }
+//        }else {
+//            return "200";
+//        }
+//    }
 
     @RequestMapping(value = "/case")
     public ModelAndView jump(@RequestParam("caseId") String regionId, HttpSession httpSession){
@@ -87,16 +99,16 @@ public class CaseController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST,produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String add(@RequestParam("caseName")String caseName,
-                      @RequestParam("creater") String creater,@RequestParam("regionId")String regionId){
+    public String add(@RequestParam("caseName")String caseName,@RequestParam("brandId") String brandId,
+                      @RequestParam("areaId") String  areaId,@RequestParam("creater") String creater){
 
-        CaseEntity ce = cs.getCase(caseName,Long.parseLong(regionId));
-        if(ce.getCaseId()!=-1){
-            return "303";
-        }else {
-            cs.add(caseName,creater,Long.parseLong(regionId));
-            return "200";
+        CaseEntity ce = cs.getCase(caseName,Long.parseLong(brandId));
+        if(ce.getCaseId()==-1){
+            ce.setCaseId(cs.add(caseName,creater,Long.parseLong(brandId)));
         }
+        rs.add(ce.getCaseId(),areaId);
+
+        return "200";
     }
 
 
@@ -113,4 +125,6 @@ public class CaseController {
         Gson gson = new Gson();
         return gson.toJson(cs.getDopage(term,"creater"));
     }
+
+
 }

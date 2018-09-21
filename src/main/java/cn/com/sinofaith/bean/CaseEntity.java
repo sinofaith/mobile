@@ -10,9 +10,7 @@ public class CaseEntity {
     private String caseName;
     //创建人
     private String creater;
-    //所属地区
-    private long regionId=-1;
-
+    private long brandId=-1;
     private String inserttime;
 
     @Id
@@ -47,13 +45,13 @@ public class CaseEntity {
 
 
     @Basic
-    @Column(name="region_id",nullable = false)
-    public long getRegionId() {
-        return regionId;
+    @Column(name="brand_id",nullable = false)
+    public long getBrandId() {
+        return brandId;
     }
 
-    public void setRegionId(long regionId) {
-        this.regionId = regionId;
+    public void setBrandId(long unitId) {
+        this.brandId = unitId;
     }
 
     @Basic

@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>手机取证报告分析系统</title>
+    <title>手机取证报告采集分析系统</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 

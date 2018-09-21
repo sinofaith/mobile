@@ -6,12 +6,13 @@
 
 <%--详情模块脚本--%>
 
-<link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet" media="screen">
+
 <link href="<c:url value="/resources/css/bootstrap-theme.css"/>" rel="stylesheet" media="screen">
-<link href="<c:url value="/resources/css/css.css"/>" rel="stylesheet" media="screen">
+<link href="<c:url value="/resources/css/css_case.css"/>" rel="stylesheet" media="screen">
 <link href="<c:url value="/resources/css/map.css"/>" rel="stylesheet" media="screen">
 <link href="<c:url value="/resources/css/font.css"/>" rel="stylesheet" media="screen">
 <link href="<c:url value="/resources/thirdparty/alertify/css/bootstrap.css"/> " rel="stylesheet">
+<%--<link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet" media="screen">--%>
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
@@ -21,6 +22,9 @@
 <link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
 <script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/bootstrap.js"/> "></script>
+<link href="<c:url value="/resources/css/bootstrap-select.css"/>" rel="stylesheet" media="screen">
+<script src="<c:url value="/resources/js/bootstrap-select.js"/> "></script>
+
 <%--详情模块脚本--%>
 <script type="text/javascript">
     try{ace.settings.check('main-container','fixed')}catch(e){}
@@ -32,8 +36,8 @@
 <div class="tab_div">
     <span class="tab_nav">
         <a href="/mobile/caseBrand" >品牌列表</a>
-        <a href="/mobile/caseRegion" >区域列表</a>
         <a href="/mobile/case" class="addactive">案件列表</a>
+        <a href="/mobile/caseRegion" >区域列表</a>
     </span>
     <ul >
         <div class="main-container-inner " style="margin-bottom: 10px">
@@ -47,15 +51,16 @@
                                 <table class="table  table-hover table_style table_list1 " id="aa" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
                                     <tr>
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
-                                            <div class="dropdown " style="color: #333">
-                                                <strong>案件列表(${brand.brandName}-${brand.unitName}-${region.regionName})</strong>
+                                            <div class="dropdown" style="color: #333">
+                                                <strong style="font-weight: bold;line-height: normal;">案件列表(${brand.brandName}-${brand.unitName})</strong>
 
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
-                                        <td width="6%">序号</td>
+                                        <%--<td width="6%">序号</td>--%>
                                         <td width="10%">案件名</td>
+                                        <td width="7%">区域</td>
                                         <td width="7%">创建人</td>
                                         <td width="12%">创建时间</td>
                                     </tr>
@@ -65,8 +70,10 @@
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
 
-                                            <td align="center">${item.xh}</td>
-                                            <td align="center"><a href="/mobile/case/case?&caseId=${item.caseId}">${item.caseName}</a></td>
+                                            <%--<td align="center">${item.xh}</td>--%>
+                                            <%--<td align="center"><a href="/mobile/case/case?&caseId=${item.caseId}">${item.caseName}</a></td>--%>
+                                            <td align="center" class="hebing">${item.caseName}</td>
+                                            <td align="center">${item.regionName}</td>
                                             <td align="center">${item.creater}</td>
                                             <td align="center">${item.inserttime}</td>
                                         </tr>
@@ -123,6 +130,7 @@
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
                                             <option value="case_name"<c:if test="${bseachCondition=='case_name'}">selected="selected"</c:if>>案件名</option>
+                                            <option value="name"<c:if test="${bseachCondition=='region_name'}">selected="selected"</c:if>>区域</option>
                                             <option value="creater"<c:if test="${bseachCondition=='creater'}">selected="selected"</c:if>>创建人</option>
                                             <%--<option value="sfzhm" <c:if test="${wseachCondition=='sfzhm'}">selected="selected"</c:if> >线索文档包含号码</option>--%>
                                             <%--&lt;%&ndash;<option value="gszcm" <c:if test="${seachCondition=='gszcm'}">selected="selected"</c:if> >公司注册账号</option>&ndash;%&gt;--%>
@@ -188,29 +196,35 @@
             </div>
             <div class="modal-body">
                 <span id="percentage" style="color:blue;"></span> <br>
-                <div class="file-box">
-
-                    <input type="hidden" id="regionId" value="${region.regionId}">
+                <%--<div class="file-box">--%>
+                    <div class="test" style="margin-top:-12px">
+                    <input type="hidden" id="brandid" value="${brand.brandId}">
                     品  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌:<input type="text" name = 'brandname' id ='brandname' value="${brand.brandName}"
                                 readonly="readonly"  class='txt brandname'  data-toggle="tooltip" data-placement="top">
+                    </div>
                     <br>
+                    <div class="test" style="margin-top:-12px">
                     立案单位:<input type="text" name = 'unitname' id ='unitname' value="${brand.unitName}"
                                 readonly="readonly"    class='txt unitname'  data-toggle="tooltip" data-placement="top">
+                    </div>
                     <br>
-
-                    区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:<input type="text" name = 'regionname' id ='regionname' value="${region.regionName}"
-                                readonly="readonly" class='txt regionname'  data-toggle="tooltip" data-placement="top">
-                    <%--<br>--%>
-                    <%--角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'rolename' id ='rolename'value="${region.roleName}"--%>
-                                 <%--readonly="readonly"class='txt rolename'  data-toggle="tooltip" data-placement="top">--%>
-                    <br>
+                    <div class="test" style="margin-top:-12px">
                     案  &nbsp;件  &nbsp;名:<input type="text" name = 'casename' id ='casename'
-                               class='txt casename'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('casename');getCaseName()" onfocus="getCaseNameOnfocus()" onblur="getCase()">
+                                               class='txt casename'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('casename');getCaseName()" onfocus="getCaseNameOnfocus()" >
+                    </div>
+                     <br>
+                    <div class="test" style="margin-top:-12px">
+                    区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:
+                    <select id="region" name="region" class="selectpicker" multiple >
+                    </select>
+                    </div>
                     <br>
+                    <div class="test" style="margin-top:-12px">
                     创  &nbsp;建  &nbsp;人:<input type="text" name = 'creater' id ='creater'
                                class='txt creater'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('creater');getCreater()" onfocus="getCreaterOnfocus()" >
+                    </div>
 
-                </div>
+                <%--</div>--%>
             </div>
             <div class="modal-footer">
                 <input type="submit" name="submit" class="btn" value="确定"
