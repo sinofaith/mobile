@@ -217,11 +217,10 @@ public class BaseDao<T>{
         Session session = getSession();
         List<Map<String, Object>> list = null;
         try{
-            session.beginTransaction();
+            Transaction tx = session.beginTransaction();
             Query query = session.createSQLQuery(sql);
             list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
-            session.getTransaction().commit();
-
+            tx.commit();
         }catch (Exception e){
             e.printStackTrace();
             session.close();

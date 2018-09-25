@@ -63,7 +63,7 @@ public class MobileTxlController {
             dc.add(Restrictions.like(seachCondition,seachCode));
         }
         // 调用service获取分页对象
-        Page page = txlService.queryForPage(pageNo,4,dc);
+        Page page = txlService.queryForPage(pageNo,10,dc);
         if(page!=null){
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());

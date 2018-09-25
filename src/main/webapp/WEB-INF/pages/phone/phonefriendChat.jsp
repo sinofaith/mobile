@@ -68,7 +68,7 @@
                                             <td align="center">${item.jsqqno}</td>
                                             <td align="center">${item.jsqqnc}</td>
                                             <td align="center">${item.fslx}</td>
-                                            <td align="center"title="${item.fanrs}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fanrs}</div></td>
+                                            <td align="center"title="${item.lujing}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.lujing}</div></td>
                                             <%--<td align="center">
                                                 <button  data-toggle="modal" data-target="#myModal" onclick="getFriendChatDetails(this)">${item.num}</button>
                                             </td>--%>

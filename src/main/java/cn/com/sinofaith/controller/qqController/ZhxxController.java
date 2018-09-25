@@ -62,7 +62,7 @@ public class ZhxxController {
             dc.add(Restrictions.like(seachCondition,seachCode));
         }
         // 调用Service获得分页数据
-        Page page = zhxxService.queryForPage(parseInt(pageNo), 4, dc);
+        Page page = zhxxService.queryForPage(parseInt(pageNo), 10, dc);
         if(page!=null){
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());

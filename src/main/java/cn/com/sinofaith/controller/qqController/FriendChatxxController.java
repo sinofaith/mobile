@@ -77,7 +77,7 @@ public class FriendChatxxController {
         // 封装sql语句
         String seach = fcService.getSeach(seachCondition, seachCode, orderby, desc);
         // 封装分页对象
-        Page page = fcService.queryForPage(parseInt(pageNo), 4, seach, aj.getCaseId());
+        Page page = fcService.queryForPage(parseInt(pageNo), 10, seach, aj.getCaseId());
         if (page != null) {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());

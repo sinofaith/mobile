@@ -85,7 +85,7 @@ public class MobileDxController {
             }
         }
         // 调用service获取分页对象
-        Page page = dxService.queryForPage(pageNo,4,dc);
+        Page page = dxService.queryForPage(pageNo,10,dc);
         if(page!=null){
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());

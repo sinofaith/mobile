@@ -42,7 +42,7 @@
                                         <td width="5%">序号</td>
                                         <td width="8%">姓名</td>
                                         <td width="5%">性别</td>
-                                        <td width="8%">证件号码</td>
+                                        <td width="12%">证件号码</td>
                                         <td width="8%">手机号码</td>
                                         <td width="10%">MAC地址</td>
                                         <td width="10%">用户识别码</td>
@@ -62,14 +62,14 @@
                                             <td align="center">${item.sex}</td>
                                             <td align="center">${item.zjhm}</td>
                                             <td align="center">${item.sjhm}</td>
-                                            <td align="center" title="${item.mac}"><div style="width:140px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mac}</div></td>
-                                            <td align="center">${item.yhsbm}</td>
-                                            <td align="center">${item.sbsbm}</td>
+                                            <td align="center" title="${item.mac}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mac}</div></td>
+                                            <td align="center" title="${item.yhsbm}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.yhsbm}</div></td>
+                                            <td align="center" title="${item.sbsbm}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sbsbm}</div></td>
                                             <td align="center">${item.sjxh}</td>
                                             <td align="center">${item.gzdw}</td>
-                                            <td align="center" title="${item.xzz}"><div style="width:140px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.xzz}</div></td>
-                                            <td align="center" title="${item.hjd}"><div style="width:140px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.hjd}</div></td>
-                                            <td align="center">${item.sbbh}</td>
+                                            <td align="center" title="${item.xzz}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.xzz}</div></td>
+                                            <td align="center" title="${item.hjd}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.hjd}</div></td>
+                                            <td align="center" title="${item.sbbh}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sbbh}</div></td>
                                             <%--<td align="center" title="${item.gxqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.gxqm}</div></td>
                                             <td align="center" title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>--%>
                                         </tr>

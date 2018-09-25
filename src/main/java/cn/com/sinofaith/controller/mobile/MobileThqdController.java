@@ -82,7 +82,7 @@ public class MobileThqdController {
             }
         }
         // 调用service获取分页对象
-        Page page = thqdService.queryForPage(pageNo,4,dc);
+        Page page = thqdService.queryForPage(pageNo,10,dc);
         if(page!=null){
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());

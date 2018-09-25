@@ -79,7 +79,7 @@
                                             <td align="center">${item.jswechatno}</td>
                                             <td align="center">${item.jsfriendnc}</td>
                                             <td align="center">${item.fslx}</td>
-                                            <td align="center"title="${item.fanrs}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fanrs}</div></td>
+                                            <td align="center"title="${item.lujing}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.lujing}</div></td>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
