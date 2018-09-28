@@ -43,11 +43,10 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
      */
     public List<PlotForm> getPlotMapForm() {
         StringBuffer sql = new StringBuffer();
-        sql.append("select brand_name,CONCAT(case_name,name1) as synthesize,name,value from (");
-        sql.append("select b.brand_name,concat('案件:',c.case_name) case_name,concat(' 市:',a1.name) name1,a1.name,count(*) value from t_brand b");
-        sql.append(" inner join t_case c on b.brand_id = c.brand_id left join t_region r on c.case_id = r. case_id");
+        sql.append("select b.brand_name,c.case_name,a1.name,wmsys.wm_concat(a.name) area,count(1) value from t_brand b");
+        sql.append(" inner join t_case c on b.brand_id = c.brand_id left join t_region r on c.case_id = r.case_id");
         sql.append(" left join t_area a on r.area_id = a.id left join t_area a1 on a1.id = a.pid");
-        sql.append(" group by  b.brand_name,c.case_name,a1.name)");
+        sql.append(" group by b.brand_name,c.case_name,a1.name order by b.brand_name");
         List<PlotForm> plotForms = null;
         // 获取session
         Session session = getSession();
@@ -55,8 +54,9 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
             Transaction tx = session.beginTransaction();
             plotForms = session.createSQLQuery(sql.toString())
                     .addScalar("brand_name")
-                    .addScalar("synthesize")
+                    .addScalar("case_name")
                     .addScalar("name")
+                    .addScalar("area")
                     .addScalar("value", StandardBasicTypes.LONG)
                     .setResultTransformer(Transformers.aliasToBean(PlotForm.class)).list();
             tx.commit();

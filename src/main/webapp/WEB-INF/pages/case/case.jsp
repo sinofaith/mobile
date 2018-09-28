@@ -73,7 +73,9 @@
                                             <%--<td align="center">${item.xh}</td>--%>
                                             <%--<td align="center"><a href="/mobile/case/case?&caseId=${item.caseId}">${item.caseName}</a></td>--%>
                                             <td align="center" class="hebing">${item.caseName}</td>
-                                            <td align="center">${item.regionName}</td>
+                                                <td align="center">
+                                                    <a href="${pageContext.request.contextPath}/case/case?caseName=${item.caseName}&regionName=${item.regionName}">${item.regionName}</a>
+                                                </td>
                                             <td align="center">${item.creater}</td>
                                             <td align="center">${item.inserttime}</td>
                                         </tr>

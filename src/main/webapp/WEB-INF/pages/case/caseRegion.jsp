@@ -25,10 +25,10 @@
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/alertify/js/alertify.min.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/case/caseRegion.js"/>" type="text/javascript"></script>
 <link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
 <script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/bootstrap.js"/> "></script>
+<script src="<c:url value="/resources/js/case/caseRegion.js"/>" type="text/javascript"></script>
 
 <%--详情模块脚本--%>
 <script type="text/javascript">
@@ -56,14 +56,14 @@
                                     <tr>
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>区域列表(${brand.brandName}-${brand.unitName})</strong>
+                                                <strong>区域列表(${brand.brandName}-${brand.unitName}-${caseName}-${regionName})</strong>
 
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
                                         <td width="6%">序号</td>
-                                        <td width="10%">区域名</td>
+                                        <td width="10%">姓名</td>
                                         <td width="10%">角色</td>
                                         <td width="7%">创建时间</td>
                                     </tr>
@@ -73,10 +73,10 @@
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
 
-                                            <td align="center">${item.xh}</td>
-                                            <td align="center"><a href="/mobile/caseRegion/region?regionId=${item.regionId}">${item.regionName}</a></td>
-                                            <td align="center">${item.roleName}</td>
-                                            <td align="center">${item.inserttime}</td>
+                                            <td align="center">${item.role_id}</td>
+                                            <td align="center">${item.role_name}</td>
+                                            <td align="center">${item.role}</td>
+                                            <td align="center">${item.insertTime}</td>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -130,17 +130,11 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="region_name"<c:if test="${rbseachCondition=='region_name'}">selected="selected"</c:if>>区域名</option>
-                                            <option value="role_name"<c:if test="${rbseachCondition=='role_name'}">selected="selected"</c:if>>角色</option>
-                                            <%--<option value="sfzhm" <c:if test="${wseachCondition=='sfzhm'}">selected="selected"</c:if> >线索文档包含号码</option>--%>
-                                            <%--&lt;%&ndash;<option value="gszcm" <c:if test="${seachCondition=='gszcm'}">selected="selected"</c:if> >公司注册账号</option>&ndash;%&gt;--%>
-                                            <%--&lt;%&ndash;<option value="gsmc" <c:if test="${seachCondition=='gsmc'}">selected="selected"</c:if> >公司名称</option>&ndash;%&gt;--%>
-                                            <%--<option value="bdsj" <c:if test="${zcseachCondition=='bdsj'}">selected="selected"</c:if> >手机号</option>--%>
-                                            <%--<option value="yhzh" <c:if test="${zcseachCondition=='yhzh'}">selected="selected"</c:if> >银行账号</option>--%>
-
+                                            <option value="role_name"<c:if test="${rbSeachCondition=='role_name'}">selected="selected"</c:if>>姓名</option>
+                                            <option value="role"<c:if test="${rbSeachCondition=='role'}">selected="selected"</c:if>>角色</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${rbseachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${rbSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>
@@ -204,14 +198,20 @@
                     立案单位:<input type="text" name = 'unitname' id ='unitname' value="${brand.unitName}"
                                 readonly="readonly"    class='txt unitname'  data-toggle="tooltip" data-placement="top">
                     <br>
-
-                    区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:<input type="text" name = 'regionname' id ='regionname'
-                                 class='txt regionname'  data-toggle="tooltip" data-placement="top"
-                                     oninput="destroyTooltip('regionname');getRegionName()" onfocus="getRegionNameOnfocus()" onblur="getRegion()">
+                    案  &nbsp;件  &nbsp;名:<input type="text" name = 'caseName' id ='caseName' value="${caseName}"
+                                readonly="readonly"    class='txt caseName'  data-toggle="tooltip" data-placement="top">
                     <br>
-                    角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'rolename' id ='rolename'
-                                class='txt rolename'  data-toggle="tooltip" data-placement="top"
-                                  oninput="destroyTooltip('rolename');getRoleName()" onfocus="getRoleNameOnfocus()">
+                    区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:<input type="text" name = 'regionName' id ='regionName' value="${regionName}"
+                                readonly="readonly"    class='txt regionName'  data-toggle="tooltip" data-placement="top">
+                    <br>
+
+                    姓  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text" name = 'role_name' id ='role_name'
+                                 class='txt role_name'  data-toggle="tooltip" data-placement="top"
+                                     oninput="destroyTooltip('role_name');getRole_nameName()" onfocus="getRole_nameOnfocus()" <%--onblur="getRegion()"--%>/>
+                    <br>
+                    角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'role' id ='role'
+                                class='txt role'  data-toggle="tooltip" data-placement="top"
+                                  oninput="destroyTooltip('role');getRoleName()" onfocus="getRoleOnfocus()"/>
 
 
                 </div>

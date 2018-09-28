@@ -1,13 +1,11 @@
 package cn.com.sinofaith.dao.brand;
 
-import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-
 
 @Repository
 public class RegionDao extends BaseDao<RegionEntity> {

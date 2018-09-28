@@ -30,7 +30,8 @@
 </style>
 
 <div class="tab_div">
-    <span class="tab_nav"><a href="/mobile/case">案件列表</a><a href="/mobile/caseinfo" class="addactive">人员列表</a></span>
+    <span class="tab_nav"><a href="/mobile/case">案件列表</a>
+        <a href="/mobile/caseinfo" class="addactive">人员列表</a></span>
     <ul >
         <div class="main-container-inner " style="margin-bottom: 10px">
             <div class="width_100 pos_re_block">

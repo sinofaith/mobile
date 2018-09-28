@@ -262,7 +262,7 @@ public class BaseDao<T>{
             Transaction tx = session.beginTransaction();
             Criteria criteria = dc1.getExecutableCriteria(session);
             // 设置聚合查询函数
-            criteria.setProjection(Projections.count("id"));
+            criteria.setProjection(Projections.rowCount());
             rowAll = (Long) criteria.uniqueResult();
             // 将条件清空，用于dc查询分页数据
             criteria.setProjection(null);

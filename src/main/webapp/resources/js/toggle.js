@@ -1,158 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@include file="../template/sideBar_left.jsp" %>
-<%@include file="../template/newmain.jsp" %>
-
-<%--详情模块脚本--%>
-<link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet" media="screen">
-<link href="<c:url value="/resources/css/bootstrap-theme.css"/>" rel="stylesheet" media="screen">
-<link href="<c:url value="/resources/css/css.css"/>" rel="stylesheet" media="screen">
-<link href="<c:url value="/resources/css/map.css"/>" rel="stylesheet" media="screen">
-<link href="<c:url value="/resources/css/font.css"/>" rel="stylesheet" media="screen">
-
-<link href="<c:url value="/resources/thirdparty/alertify/css/bootstrap.css"/> " rel="stylesheet">
-
-<script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
-<script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
-<script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
-<script src="<c:url value="/resources/js/toggle.js"/> "></script>
-
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
-<style type="text/css">
-    .qgg-table{
-        border-collapse: collapse;
-        width:100%;
-        border:1px solid #c6c6c6 !important;
-        margin-bottom:20px;
-    }
-    .qgg-table th{
-        border-collapse: collapse;
-        border-right:1px solid #c6c6c6 !important;
-        border-bottom:1px solid #c6c6c6 !important;
-        background-color:#ddeeff !important;
-        padding:5px 9px;
-        font-size:14px;
-        font-weight:normal;
-        text-align:center;
-    }
-    .qgg-table td{
-        border-collapse: collapse;
-        border-right:1px solid #c6c6c6 !important;
-        border-bottom:1px solid #c6c6c6 !important;
-        padding:5px 9px;
-        font-size:12px;
-        font-weight:normal;
-        text-align:center;
-        word-break: break-all;
-    }
-    .qgg-table tr:nth-child(odd){
-        background-color:#fff !important;
-    }
-    .qgg-table tr:nth-child(even){
-        background-color: #f8f8f8 !important;
-    }
-    .close {
-        background: orange;
-        color: red;
-        border-radius: 12px;
-        line-height: 20px;
-        text-align: center;
-        height: 25px;
-        width: 25px;
-        font-size: 18px;
-        padding: 1px;
-    }
-    .close::before {
-        content: "\2716";
-    }
-    .close {
-        top: -10px;
-        right: -10px;
-        position: absolute;
-    }
-</style>
-
-<div class="tab_div">
-    <%--<%@include file="../phone/title.jsp" %>--%>
-    <%--<div style="width: 730px; height: 300px; float:left;">
-        <div id="container" style="height: 100%"></div>
-    </div>
-    <div style="width: 730px; height: 300px; float:right;">
-        <div id="container1" style="height: 100%"></div>
-    </div>
-    <div style="width: 730px; height: 300px; float:left;">
-        <div id="container2" style="height: 115%"></div>
-    </div>
-    <div style="width: 730px; height: 300px; float:right;">
-        <div id="container3" style="height: 115%"></div>
-    </div>--%>
-
-
-    <div id="div1" style="width: 730px; height: 300px;">
-        <a  href="#" onclick="toggle()">
-            <div id="container" style="height: 100%"></div>
-        </a>
-    </div>
-    <div id="con1" style="display: none;left: 4px;top: -300px;position:relative; background: #FFFFFF;">
-        <div style="height: 100px; width: 100px; right: 50px; position: absolute">
-            <span class="close" onclick="toggle1('con1')"></span>
-        </div>
-        <div id="container4" style="height: 80%"></div>
-    </div>
-
-    <div id="div2" style="width: 730px; height: 300px; margin-top: -300px;margin-left: 730px;">
-        <a href="#" onclick="toggle2()">
-            <div id="container1" style="height: 100%"></div>
-        </a>
-    </div>
-    <div id="con2" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
-        <div style="height: 100px; width: 100px; right: 50px; position: absolute">
-            <span class="close" onclick="toggle1('con2')"></span>
-        </div>
-        <div id="container5" style="height: 80%"></div>
-    </div>
-
-    <div id="div3" style="width: 730px; height: 300px;">
-        <a href="#" onclick="toggle3()">
-            <div id="container2" style="height: 115%"></div>
-        </a>
-    </div>
-    <div id="con3" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
-        <div style="height: 100px; width: 100px; right: 50px; position: absolute">
-            <span class="close" onclick="toggle1('con3')"></span>
-        </div>
-        <div id="container6" style="height: 80%"></div>
-    </div>
-
-    <div id="div4" style="width: 730px; height: 300px; margin-top: -300px;margin-left: 730px;">
-        <a href="#" onclick="toggle4()">
-            <div id="container3" style="height: 115%"></div>
-        </a>
-    </div>
-    <div id="con4" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
-        <div style="height: 100px; width: 100px; right: 50px;position: absolute">
-            <span class="close" onclick="toggle1('con4')"></span>
-        </div>
-        <div id="container7" style="height: 80%"></div>
-    </div>
-
-
-
-</div>
-
-<script type="text/javascript">
+function toggle1(obj) {
+    $("#"+obj).css("display", "none");
+    $("#div1").css("display", "block");
+    $("#div2").css("display", "block");
+    $("#div3").css("display", "block");
+    $("#div4").css("display", "block");
+}
+function toggle(){
+    $("#con1").css("display", "block");
+    $("#div2").css("display", "none");
+    $("#div3").css("display", "none");
+    $("#div4").css("display", "none");
     var content = "";
     $.ajax({
-        url : '${pageContext.request.contextPath}/data/gain',
+        url : './data/gain',
         async : false,
         type : "POST",
         dataType : 'json',
@@ -160,8 +20,9 @@
             content = data;
         }
     });
-    var dom = document.getElementById("container");
-    var myChart = echarts.init(dom);
+    console.log(content)
+    var dom8 = document.getElementById("container4");
+    var myChart8 = echarts.init(dom8);
     var list = [];
     for(i=0;i<content.length;i++){
         list.push(content[i]['name']);
@@ -179,7 +40,6 @@
         },
         legend: {
             orient: 'vertical',
-            selectedMode:false,
             left: 'left',
             data: list
         },
@@ -202,13 +62,16 @@
     };
     ;
     if (option && typeof option === "object") {
-        myChart.setOption(option, true);
+        myChart8.setOption(option, true);
     }
-    /**
-     * 第二个
-     * @type {HTMLElement | null}
-     */
-    var dom1 = document.getElementById("container1");
+}
+function toggle2(){
+    $("#con2").css("display", "block");
+    $("#div1").css("display", "none");
+    $("#div2").css("display", "none");
+    $("#div3").css("display", "none");
+    $("#div4").css("display", "none");
+    var dom1 = document.getElementById("container5");
     var myChart1 = echarts.init(dom1);
     var app = {};
     option1 = null;
@@ -226,7 +89,6 @@
         },
         legend: {
             orient: 'vertical',
-            selectedMode:false,
             x: 'left',
             data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
         },
@@ -306,14 +168,18 @@
     if (option1 && typeof option1 === "object") {
         myChart1.setOption(option1, true);
     }
-    /**
-     * 第三个
-     * @type {*[]}
-     */
+}
+
+function toggle3(){
+    $("#con3").css("display", "block");
+    $("#div1").css("display", "none");
+    $("#div2").css("display", "none");
+    $("#div3").css("display", "none");
+    $("#div4").css("display", "none");
     // 绘制图表，准备数据
-    content = "";
+    var content = "";
     $.ajax({
-        url : '${pageContext.request.contextPath}/data/area',
+        url : './data/area',
         async : false,
         type : "POST",
         dataType : 'json',
@@ -323,7 +189,7 @@
     });
     var list1 = [];
     $.ajax({
-        url : '${pageContext.request.contextPath}/data/brand',
+        url : './data/brand',
         async : false,
         type : "POST",
         dataType : 'json',
@@ -364,7 +230,7 @@
         temp.push(data)
     }
     console.log("sad",temp)
-
+    option2 = null
     option2 = {
         title: {
             text: '品牌分布区域',
@@ -376,7 +242,6 @@
         },
         legend: {
             orient: 'vertical',
-            selectedMode:false,
             left: 'left',
             data: list1,
             /*selected: {
@@ -394,18 +259,53 @@
             text: ['高','低'],           // 文本，默认为数值文本
             calculable: true
         },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {
+                    readOnly: true,
+                    optionToContent: function dataView(opt){
+                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">品牌名</td>'
+                            + '<td style="font-weight: bold;">案件名</td>'
+                            + '<td style="font-weight: bold;">所在省</td>'
+                            + '<td style="font-weight: bold;">包含市</td>'
+                            + '<td style="font-weight: bold;">区域数</td>'
+                            + '</tr>';
+                        for(i=0;i<content.length;i++){
+                            table += '<tr><td>'+content[i]['brand_name']+'</td>'
+                                +'<td>'+content[i]['case_name']+'</td>'
+                                +'<td>'+content[i]['name']+'</td>'
+                                +'<td>'+content[i]['area']+'</td>'
+                                +'<td>'+content[i]['value']+'</td></tr>'
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
         series: temp
     };
     //初始化echarts实例
-    var myChart2 = echarts.init(document.getElementById('container2'));
+    var myChart2 = echarts.init(document.getElementById('container6'));
     //使用制定的配置项和数据显示图表
     myChart2.setOption(option2);
 
-    /**
-     * 第四个图
-     * @type {HTMLElement | null}
-     */
-    var dom2 = document.getElementById("container3");
+}
+function toggle4(){
+    $("#con4").css("display", "block");
+    $("#div1").css("display", "none");
+    $("#div2").css("display", "none");
+    $("#div3").css("display", "none");
+    $("#div4").css("display", "none");
+    var dom2 = document.getElementById("container7");
     var myChart3 = echarts.init(dom2);
     var app = {};
     option3 = null;
@@ -510,9 +410,21 @@
             }
         },
         legend: {
-            selectedMode:false,
             x: 'left',
             data: ['Forest', 'Steppe', 'Desert', 'Wetland']
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: true},
+                magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
         },
         calculable: true,
         xAxis: [
@@ -558,4 +470,4 @@
     if (option3 && typeof option3 === "object") {
         myChart3.setOption(option3, true);
     }
-</script>
+}

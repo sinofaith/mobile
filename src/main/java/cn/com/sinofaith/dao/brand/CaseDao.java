@@ -31,4 +31,13 @@ public class CaseDao extends BaseDao<CaseEntity>{
         sql.append("WHERE ROWNUM <= " + offset * length + ") WHERE rn >= " + ((offset - 1) * length + 1));
         return findBySQL(sql.toString());
     }
+
+    public int getRegionId(String caseName, String regionName) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select to_char(r.region_id) region_id from t_case c left join t_region r on c.case_id = r.case_id ");
+        sql.append("left join t_area a on r.area_id = a.id where c.case_name = '"+caseName+"' and a.name = '"+regionName+"'");
+        List list = findBySQL(sql.toString());
+        Map map = (Map) list.get(0);
+        return Integer.parseInt((String) map.get("REGION_ID"));
+    }
 }

@@ -113,4 +113,7 @@ public class CaseService {
         return lists;
     }
 
+    public int getRegionId(String caseName, String regionName) {
+        return cd.getRegionId(caseName,regionName);
+    }
 }

@@ -1,42 +1,42 @@
 $(function () {
-    $( "#regionname" ).autocomplete({
+    $( "#role_name" ).autocomplete({
 
     });
-    $( "#rolename" ).autocomplete({
+    $( "#role" ).autocomplete({
 
     });
 })
 
 
 
-function getRegionNameOnfocus() {
+function getRole_nameOnfocus() {
     var e = jQuery.Event("keydown");//模拟一个键盘事件
     e.keyCode = 8;//keyCode=8是空格
-    $("#regionname").trigger(e);
-    $( "#regionname" ).autocomplete({
-        source: "/mobile/caseRegion/getRegionName",
+    $("#role_name").trigger(e);
+    $( "#role_name" ).autocomplete({
+        source: "/mobile/caseRegion/getRoleName",
         minLength: 0
     });
 }
-function getRegionName() {
-    $( "#regionname" ).autocomplete({
-        source: "/mobile/caseRegion/getRegionName",
+function getRole_nameName() {
+    $( "#role_name" ).autocomplete({
+        source: "/mobile/caseRegion/getRoleName",
         minLength: 2
     });
 };
 
-function getRoleNameOnfocus() {
+function getRoleOnfocus() {
     var e = jQuery.Event("keydown");//模拟一个键盘事件
     e.keyCode = 8;//keyCode=8是空格
-    $("#rolename").trigger(e);
-    $( "#rolename" ).autocomplete({
-        source: "/mobile/caseRegion/getRoleName",
+    $("#role").trigger(e);
+    $( "#role" ).autocomplete({
+        source: "/mobile/caseRegion/getRole",
         minLength: 0
     });
 }
 function getRoleName() {
-    $( "#rolename" ).autocomplete({
-        source: "/mobile/caseRegion/getRoleName",
+    $( "#role" ).autocomplete({
+        source: "/mobile/caseRegion/getRole",
         minLength: 2
     });
 };
@@ -45,33 +45,33 @@ function destroyTooltip(name) {
 }
 
 
-function getRegion() {
-    var flag=false;
-    var unitId = $("#unitId").val().trim();
-    var regionname = $("#regionname").val().trim();
-    if(unitId===''||regionname==''){
-        return flag
-    }
-    $.ajax({
-        url: "/mobile/caseRegion/getRegion?unitId="+unitId+"&regionName="+regionname,
-        type: 'get',
-        async: false,
-        dataType: 'text',
-        success: function(result,status) {
-            if(result==="303"){
-                $("#regionname").attr('title',"区域已存在").tooltip('show');
-                flag=false;
-            }else{
-                if(status==="success"){
-                    flag= true;
-                }else{
-                    flag=false;
-                }
-            }
-        }
-    });
-    return flag;
-}
+// function getRegion() {
+//     var flag=false;
+//     var unitId = $("#unitId").val().trim();
+//     var regionname = $("#regionname").val().trim();
+//     if(unitId===''||regionname==''){
+//         return flag
+//     }
+//     $.ajax({
+//         url: "/mobile/caseRegion/getRegion?unitId="+unitId+"&regionName="+regionname,
+//         type: 'get',
+//         async: false,
+//         dataType: 'text',
+//         success: function(result,status) {
+//             if(result==="303"){
+//                 $("#regionname").attr('title',"区域已存在").tooltip('show');
+//                 flag=false;
+//             }else{
+//                 if(status==="success"){
+//                     flag= true;
+//                 }else{
+//                     flag=false;
+//                 }
+//             }
+//         }
+//     });
+//     return flag;
+// }
 
 // function addRegion() {
 //     var flag = getRegion;

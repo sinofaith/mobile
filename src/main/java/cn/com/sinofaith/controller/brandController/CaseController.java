@@ -88,11 +88,12 @@ public class CaseController {
 //    }
 
     @RequestMapping(value = "/case")
-    public ModelAndView jump(@RequestParam("caseId") String regionId, HttpSession httpSession){
-        ModelAndView mav = new ModelAndView("redirect:/phone");
-
-
-        httpSession.setAttribute("aj",cs.getById(Long.parseLong(regionId)));
+    public ModelAndView jump(String caseName, String regionName,HttpSession httpSession){
+        ModelAndView mav = new ModelAndView("redirect:/caseRegion/seach?pageNo=1");
+        int regionId = cs.getRegionId(caseName, regionName);
+        httpSession.setAttribute("regionId", regionId);
+        httpSession.setAttribute("caseName", caseName);
+        httpSession.setAttribute("regionName", regionName);
         return mav;
     }
 

@@ -22,5 +22,6 @@
         <mapping class="cn.com.sinofaith.bean.CaseEntity"/>
         <mapping class="cn.com.sinofaith.bean.RegionEntity"/>
         <mapping class="cn.com.sinofaith.bean.AreaEntity"/>
+        <mapping class="cn.com.sinofaith.bean.RoleEntity"/>
     </session-factory>
 </hibernate-configuration>

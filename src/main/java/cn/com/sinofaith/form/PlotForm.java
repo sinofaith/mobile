@@ -4,8 +4,9 @@ package cn.com.sinofaith.form;
 public class PlotForm {
 
     private String brand_name;
-    private String synthesize;
+    private String case_name;
     private String name;
+    private String area;
     private long value;
 
     public String getBrand_name() {
@@ -16,12 +17,12 @@ public class PlotForm {
         this.brand_name = brand_name;
     }
 
-    public String getSynthesize() {
-        return synthesize;
+    public String getCase_name() {
+        return case_name;
     }
 
-    public void setSynthesize(String synthesize) {
-        this.synthesize = synthesize;
+    public void setCase_name(String case_name) {
+        this.case_name = case_name;
     }
 
     public String getName() {
@@ -30,6 +31,14 @@ public class PlotForm {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public long getValue() {
