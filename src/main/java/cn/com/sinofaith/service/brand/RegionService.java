@@ -10,7 +10,10 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -44,11 +47,47 @@ public class RegionService {
         if(rowAll>0){
             page = new Page();
             List<RoleEntity> roles = roleDao.getDoPage(currentPage, pageSize, dc);
+            for(int i=0;i<roles.size();i++){
+                roles.get(i).setRole_id((currentPage-1)*pageSize+i+1);
+            }
             page.setPageNo(currentPage);
             page.setTotalRecords(rowAll);
             page.setPageSize(pageSize);
             page.setList(roles);
         }
         return page;
+    }
+
+    /**
+     * json数据获取
+     * @param currentPage
+     * @param pageSize
+     * @param dc
+     * @return
+     */
+    public Set<String> getDo(int currentPage, int pageSize, DetachedCriteria dc, String type) {
+        int rowAll = rd.getRowAll(dc);
+        Set<String> role_names = new HashSet<>();
+        if(rowAll>0){
+            List<RoleEntity> roles = roleDao.getDoPage(currentPage, pageSize, dc);
+            for (RoleEntity role : roles) {
+                if("role_name".equals(type)){
+                    role_names.add(role.getRole_name());
+                }else if("role".equals(type)){
+                    role_names.add(role.getRole());
+                }
+            }
+        }
+        return role_names;
+    }
+
+    public int getRoleRowBySFZHM(DetachedCriteria dc) {
+        // 返回条件查询的条数
+        return roleDao.getRowAll(dc);
+    }
+
+    public long addRole(RoleEntity role) {
+        // 调用dao层
+        return (long) roleDao.save(role);
     }
 }

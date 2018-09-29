@@ -41,7 +41,7 @@
             <span class="tab_nav">
                 <a href="/mobile/caseBrand" class="addactive">品牌列表</a>
                 <a href="/mobile/case" >案件列表</a>
-            <a href="/mobile/caseRegion" >区域列表</a>
+            <a href="/mobile/caseRegion" >人员列表</a>
             </span>
 
             <ul >

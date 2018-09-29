@@ -41,7 +41,7 @@
 <div class="tab_div">
             <span class="tab_nav"><a href="/mobile/caseBrand" >品牌列表</a>
                 <a href="/mobile/case" >案件列表</a>
-             <a href="/mobile/caseRegion" class="addactive">区域列表</a>
+             <a href="/mobile/caseRegion" class="addactive">人员列表</a>
                 </span>
     <ul >
         <div class="main-container-inner " style="margin-bottom: 10px">
@@ -64,6 +64,7 @@
                                     <tr align="center">
                                         <td width="6%">序号</td>
                                         <td width="10%">姓名</td>
+                                        <td width="13%">身份证号码</td>
                                         <td width="10%">角色</td>
                                         <td width="7%">创建时间</td>
                                     </tr>
@@ -75,6 +76,7 @@
 
                                             <td align="center">${item.role_id}</td>
                                             <td align="center">${item.role_name}</td>
+                                            <td align="center">${item.sfzhm}</td>
                                             <td align="center">${item.role}</td>
                                             <td align="center">${item.insertTime}</td>
                                         </tr>
@@ -144,7 +146,7 @@
 
                             <div class="width100" style="margin-top: 10px;float: left;">
 
-                                <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">区域操作</span>
+                                <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">人员操作</span>
                                 <%--<div class="demo">--%>
                                 <%--<div class="drag-area" id="upload-area">--%>
                                 <%--<strong>将Word文件拖拽到这里</strong>--%>
@@ -156,7 +158,7 @@
                                     <div class="if_tel width100">
                        <span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">
                                <button class="sideBar_r_button" data-toggle="modal"
-                                       data-target="#myModal">新增区域</button>
+                                       data-target="#myModal">新增人员</button>
                 <%--<button class="sideBar_r_button" data-toggle="modal"--%>
                         <%--data-target="#myModal">文件夹导入</button>--%>
                            <%--<button  type="button"  class="sideBar_r_button"  onclick="location.href='/word/title/download'" >数据导出</button>--%>
@@ -204,21 +206,23 @@
                     区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:<input type="text" name = 'regionName' id ='regionName' value="${regionName}"
                                 readonly="readonly"    class='txt regionName'  data-toggle="tooltip" data-placement="top">
                     <br>
-
                     姓  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text" name = 'role_name' id ='role_name'
                                  class='txt role_name'  data-toggle="tooltip" data-placement="top"
-                                     oninput="destroyTooltip('role_name');getRole_nameName()" onfocus="getRole_nameOnfocus()" <%--onblur="getRegion()"--%>/>
+                                     oninput="destroyTooltip('role_name');getRole_nameName()" onfocus="getRole_nameOnfocus()" />
+                    <br>
+                    身  &nbsp;份  &nbsp;证:<input type="text" name = 'sfzhm' id ='sfzhm'
+                                 class='txt sfzhm' oninput="destroyTooltip('sfzhm')" onblur="getSFZHM()" data-toggle="tooltip" data-placement="top">
                     <br>
                     角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'role' id ='role'
-                                class='txt role'  data-toggle="tooltip" data-placement="top"
-                                  oninput="destroyTooltip('role');getRoleName()" onfocus="getRoleOnfocus()"/>
+                                class='txt role' data-toggle="tooltip" data-placement="top"
+                                  oninput="destroyTooltip('role');getRoleName()" onfocus="getRoleOnfocus()" />
 
 
                 </div>
             </div>
             <div class="modal-footer">
                 <input type="submit" name="submit" class="btn" value="确定"
-                       onclick="addRegion()"/>
+                       onclick="addRole()"/>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
             </div>

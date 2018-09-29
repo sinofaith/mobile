@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class RoleEntity {
     private long role_id;
     private String role_name;
+    private String sfzhm;
     private String role;
     private String insertTime;
     private long region_id;
@@ -31,6 +32,16 @@ public class RoleEntity {
 
     public void setRole_name(String role_name) {
         this.role_name = role_name;
+    }
+
+    @Basic
+    @Column(name = "sfzhm",nullable = false)
+    public String getSfzhm() {
+        return sfzhm;
+    }
+
+    public void setSfzhm(String sfzhm) {
+        this.sfzhm = sfzhm;
     }
 
     @Basic
