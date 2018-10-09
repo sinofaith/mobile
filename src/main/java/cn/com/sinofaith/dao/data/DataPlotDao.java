@@ -4,7 +4,6 @@ import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.dao.BaseDao;
 import cn.com.sinofaith.form.AnnualDataForm;
 import cn.com.sinofaith.form.PlotForm;
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,10 +11,8 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Repository
 public class DataPlotDao extends BaseDao<BrandEntity>{
@@ -25,13 +22,14 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
      * @return
      */
     public List<PlotForm> getPlotForm() {
-        String sql = "select unit_name name,count(1) value from T_BRAND group by unit_name";
+        String sql = "select wmsys.wm_concat(b.brand_name) brand_name,b.unit_name name,count(1) value from t_brand b group by b.unit_name";
         List<PlotForm> plotForms = null;
         // 获取session
         Session session = getSession();
         try {
             Transaction tx = session.beginTransaction();
             plotForms = session.createSQLQuery(sql)
+                    .addScalar("brand_name")
                     .addScalar("name")
                     .addScalar("value", StandardBasicTypes.LONG)
                     .setResultTransformer(Transformers.aliasToBean(PlotForm.class)).list();
@@ -109,6 +107,10 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
         String sql4 = "select substr(trim(inserttime),1,4) year ,count(1) num " +
                 "from t_role group by substr(trim(inserttime),1,4) order by substr(trim(inserttime),1,4) desc";
         List<AnnualDataForm> annualDatas = new ArrayList<>();
+        // 获取当前年份
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        int year = Integer.parseInt(sdf.format(date));
         // 获得当前线程绑定的session
         Session session = getSession();
         try {
@@ -137,7 +139,22 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
                 query.setFirstResult(0);
                 query.setMaxResults(4);
                 annualDatas = query.setResultTransformer(Transformers.aliasToBean(AnnualDataForm.class)).list();
-                annualDataForm.put(i+"", annualDatas);
+                List<AnnualDataForm> annualDatas1 = new ArrayList<>();
+                for(int k=0;k<4;k++){
+                    AnnualDataForm dataForm = new AnnualDataForm();
+                    dataForm.setYear(year-k+"");
+                    dataForm.setNum(0);
+                    annualDatas1.add(dataForm);
+                }
+                for(int j=0;j<annualDatas1.size();j++){
+                    for(int y=0;y<annualDatas.size();y++) {
+                        if (annualDatas1.get(j).getYear().equals(annualDatas.get(y).getYear())) {
+                            annualDatas1.get(j).setNum(annualDatas.get(y).getNum());
+                        }
+                    }
+
+                }
+                annualDataForm.put(i+"", annualDatas1);
                 // 关闭事务
             }
             tx.commit();

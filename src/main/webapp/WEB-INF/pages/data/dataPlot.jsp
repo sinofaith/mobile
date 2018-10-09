@@ -178,6 +178,14 @@
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
+            /*formatter: function (params) {
+                return ('tablespace_name:'+a['name']
+                    +'</br>used_rate(%):'+a['value']
+                    +'<br>free_space:'+a['data'].datas[0]
+                    +'<br>sum_blocks:'+a['data'].datas[1]
+                    +'<br>sum_space:'+a['data'].datas[2]
+                    +'<br>used_space:'+a['data'].datas[3]);
+            }*/
         },
         legend: {
             type: 'scroll',
@@ -524,7 +532,7 @@
      * 第四个图
      * @type {HTMLElement | null}
      */
-        // 创建一个用于接收数据的content
+    // 创建一个用于接收数据的content
     var content5 = "";
     $.ajax({
         url : './data/annualData',
@@ -535,6 +543,7 @@
             content5 = data;
         }
     });
+    console.log(content5)
     var con1 = content5["0"];
     var list = [];
     for(i=con1.length-1;i>=0;i--){
@@ -543,6 +552,7 @@
     var dom2 = document.getElementById("container3");
     var myChart3 = echarts.init(dom2);
     var app = {};
+
     option3 = null;
     var posList = [
         'left', 'right', 'top', 'bottom',
@@ -631,6 +641,70 @@
         }
     };
 
+    var series = [];
+    var series1 = [];
+    if(content5["0"].length>0){
+        for(j=content5["0"].length-1;j>=0;j--){
+            if(content5["0"][j].num!=null){
+                series1.push(content5["0"][j].num);
+            }else{
+                series1.push(content5["0"][j].num);
+            }
+        }
+        var se1 = {
+            name: '立案单位',
+            type: 'bar',
+            label: labelOption,
+            data: series1
+        }
+        series.push(se1);
+    }
+    var series2 = [];
+    if(content5["1"].length>0){
+        for(j=content5["1"].length-1;j>=0;j--){
+            if(content5["1"][j].num!=null){
+                series2.push(content5["1"][j].num);
+            }
+        }
+        var se2 = {
+            name: '案件',
+            type: 'bar',
+            label: labelOption,
+            data: series2
+        }
+        series.push(se2);
+    }
+    var series3 = [];
+    if(content5["2"].length>0){
+        for(j=content5["2"].length-1;j>=0;j--){
+            if(content5["2"][j].num!=null){
+                series3.push(content5["2"][j].num);
+            }
+        }
+        var se3 = {
+            name: '区域',
+            type: 'bar',
+            label: labelOption,
+            data: series3
+        }
+        series.push(se3);
+    }
+    var series4 = [];
+    if(content5["3"].length>0){
+        for(j=content5["3"].length-1;j>=0;j--){
+            if(content5["3"][j].num!=null){
+                series4.push(content5["3"][j].num);
+            }
+        }
+        var se4 = {
+            name: '人员',
+            type: 'bar',
+            label: labelOption,
+            data: series4
+        }
+        series.push(se4);
+    }
+
     option3 = {
         title : {
             text: '年度数据',
@@ -664,38 +738,30 @@
                     optionToContent: function dataView(opt) {
                         var series = opt.series;
                         var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
-                            + '<td style="font-weight: bold;">名称日期</td>'
-                            + '<td style="font-weight: bold;">' + list[0] + '</td>'
-                            + '<td style="font-weight: bold;">' + list[1] + '</td>'
-                            + '<td style="font-weight: bold;">' + list[2] + '</td>'
-                            + '<td style="font-weight: bold;">' + list[3] + '</td>'
-                            + '</tr>';
+                            + '<td style="font-weight: bold;">名称/年份</td>';
+                        for(i=0;i<list.length;i++){
+                            table += '<td style="font-weight: bold;">' + list[i] + '</td>';
+                        }
 
-                        table += '<tr><td style="font-weight: bold;">立案单位</td>'
-                            + '<td>' + con1[3].num + '</td>'
-                            + '<td>' + con1[2].num + '</td>'
-                            + '<td>' + con1[1].num + '</td>'
-                            + '<td>' + con1[0].num + '</td></tr>';
+                        table += '</tr><tr><td style="font-weight: bold;">立案单位</td>';
+                        for(i=0;i<series1.length;i++){
+                            table += '<td>' + series1[i] + '</td>';
+                        }
+                        table += '</tr><tr><td style="font-weight: bold;">案件</td>';
+                        for(i=0;i<series2.length;i++){
+                            table += '<td>' + series2[i] + '</td>';
+                        }
 
-                        table += '<tr><td style="font-weight: bold;">案件</td>'
-                            + '<td>' + content5["1"][3].num + '</td>'
-                            + '<td>' + content5["1"][2].num + '</td>'
-                            + '<td>' + content5["1"][1].num + '</td>'
-                            + '<td>' + content5["1"][0].num + '</td></tr>';
+                        table += '</tr><tr><td style="font-weight: bold;">区域</td>';
+                        for(i=0;i<series3.length;i++){
+                            table += '<td>' + series3[i] + '</td>';
+                        }
 
-                        table += '<tr><td style="font-weight: bold;">区域</td>'
-                            + '<td>' + content5["2"][3].num + '</td>'
-                            + '<td>' + content5["2"][2].num + '</td>'
-                            + '<td>' + content5["2"][1].num + '</td>'
-                            + '<td>' + content5["2"][0].num + '</td></tr>';
-
-                        table += '<tr><td style="font-weight: bold;">人员</td>'
-                            + '<td>' + content5["3"][3].num + '</td>'
-                            + '<td>' + content5["3"][2].num + '</td>'
-                            + '<td>' + content5["3"][1].num + '</td>'
-                            + '<td>' + content5["3"][0].num + '</td></tr>';
-
-                        table += '</tbody></table></div>';
+                        table += '</tr><tr><td style="font-weight: bold;">人员</td>';
+                        for(i=0;i<series4.length;i++){
+                            table += '<td>' + series4[i] + '</td>';
+                        }
+                        table += '</tr></tbody></table></div>';
                         return table;
                     }
                 },
@@ -717,32 +783,7 @@
                 type: 'value'
             }
         ],
-        series: [
-            {
-                name: '立案单位',
-                type: 'bar',
-                label: labelOption,
-                data: [con1[3].num, con1[2].num, con1[1].num, con1[0].num]
-            },
-            {
-                name: '案件',
-                type: 'bar',
-                label: labelOption,
-                data: [content5["1"][3].num, content5["1"][2].num, content5["1"][1].num, content5["1"][0].num]
-            },
-            {
-                name: '区域',
-                type: 'bar',
-                label: labelOption,
-                data: [content5["2"][3].num, content5["2"][2].num, content5["2"][1].num, content5["2"][0].num]
-            },
-            {
-                name: '人员',
-                type: 'bar',
-                label: labelOption,
-                data: [content5["3"][3].num, content5["3"][2].num, content5["3"][1].num, content5["3"][0].num]
-            }
-        ]
+        series: series
     };
     // 调用双击事件放大缩小
     myChart3.on('dblclick',function(params){

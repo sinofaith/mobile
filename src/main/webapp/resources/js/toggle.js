@@ -478,6 +478,68 @@ function toggle4(){
         }
     };
 
+    var series = [];
+    var series1 = [];
+    if(content5["0"].length>0){
+        for(j=content5["0"].length-1;j>=0;j--){
+            if(content5["0"][j].num!=null){
+                series1.push(content5["0"][j].num);
+            }
+        }
+        var se1 = {
+            name: '立案单位',
+            type: 'bar',
+            label: labelOption,
+            data: series1
+        }
+        series.push(se1);
+    }
+    var series2 = [];
+    if(content5["1"].length>0){
+        for(j=content5["1"].length-1;j>=0;j--){
+            if(content5["1"][j].num!=null){
+                series2.push(content5["1"][j].num);
+            }
+        }
+        var se2 = {
+            name: '案件',
+            type: 'bar',
+            label: labelOption,
+            data: series2
+        }
+        series.push(se2);
+    }
+    var series3 = [];
+    if(content5["2"]!=null){
+        for(j=content5["2"].length-1;j>=0;j--){
+            if(content5["2"][j].num!=null){
+                series3.push(content5["2"][j].num);
+            }
+        }
+        var se3 = {
+            name: '区域',
+            type: 'bar',
+            label: labelOption,
+            data: series3
+        }
+        series.push(se3);
+    }
+    var series4 = [];
+    if(content5["3"]!=null){
+        for(j=content5["3"].length-1;j>=0;j--){
+            if(content5["3"][j].num!=null){
+                series4.push(content5["3"][j].num);
+            }
+        }
+        var se4 = {
+            name: '人员',
+            type: 'bar',
+            label: labelOption,
+            data: series4
+        }
+        series.push(se4);
+    }
+
     option3 = {
         title : {
             text: '年度数据',
@@ -510,38 +572,30 @@ function toggle4(){
                     optionToContent: function dataView(opt){
                         var series = opt.series;
                         var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
-                            + '<td style="font-weight: bold;">名称/年份</td>'
-                            + '<td style="font-weight: bold;">'+list[0]+'</td>'
-                            + '<td style="font-weight: bold;">'+list[1]+'</td>'
-                            + '<td style="font-weight: bold;">'+list[2]+'</td>'
-                            + '<td style="font-weight: bold;">'+list[3]+'</td>'
-                            + '</tr>';
+                            + '<td style="font-weight: bold;">名称/年份</td>';
+                        for(i=0;i<list.length;i++){
+                            table += '<td style="font-weight: bold;">' + list[i] + '</td>';
+                        }
 
-                        table += '<tr><td style="font-weight: bold;">立案单位</td>'
-                            +'<td>'+con1[3].num+'</td>'
-                            +'<td>'+con1[2].num+'</td>'
-                            +'<td>'+con1[1].num+'</td>'
-                            +'<td>'+con1[0].num+'</td></tr>';
+                        table += '</tr><tr><td style="font-weight: bold;">立案单位</td>';
+                        for(i=0;i<series1.length;i++){
+                            table += '<td>' + series1[i] + '</td>';
+                        }
+                        table += '</tr><tr><td style="font-weight: bold;">案件</td>';
+                        for(i=0;i<series2.length;i++){
+                            table += '<td>' + series2[i] + '</td>';
+                        }
 
-                        table += '<tr><td style="font-weight: bold;">案件</td>'
-                            +'<td>'+content["1"][3].num+'</td>'
-                            +'<td>'+content["1"][2].num+'</td>'
-                            +'<td>'+content["1"][1].num+'</td>'
-                            +'<td>'+content["1"][0].num+'</td></tr>';
+                        table += '</tr><tr><td style="font-weight: bold;">区域</td>';
+                        for(i=0;i<series3.length;i++){
+                            table += '<td>' + series3[i] + '</td>';
+                        }
 
-                        table += '<tr><td style="font-weight: bold;">区域</td>'
-                            +'<td>'+content["2"][3].num+'</td>'
-                            +'<td>'+content["2"][2].num+'</td>'
-                            +'<td>'+content["2"][1].num+'</td>'
-                            +'<td>'+content["2"][0].num+'</td></tr>';
-
-                        table += '<tr><td style="font-weight: bold;">人员</td>'
-                            +'<td>'+content["3"][3].num+'</td>'
-                            +'<td>'+content["3"][2].num+'</td>'
-                            +'<td>'+content["3"][1].num+'</td>'
-                            +'<td>'+content["3"][0].num+'</td></tr>';
-
-                        table += '</tbody></table></div>';
+                        table += '</tr><tr><td style="font-weight: bold;">人员</td>';
+                        for(i=0;i<series4.length;i++){
+                            table += '<td>' + series4[i] + '</td>';
+                        }
+                        table += '</tr></tbody></table></div>';
                         return table;
                     }
                 },
@@ -563,32 +617,7 @@ function toggle4(){
                 type: 'value'
             }
         ],
-        series: [
-            {
-                name: '立案单位',
-                type: 'bar',
-                label: labelOption,
-                data: [con1[3].num, con1[2].num, con1[1].num, con1[0].num]
-            },
-            {
-                name: '案件',
-                type: 'bar',
-                label: labelOption,
-                data: [content["1"][3].num, content["1"][2].num, content["1"][1].num, content["1"][0].num]
-            },
-            {
-                name: '区域',
-                type: 'bar',
-                label: labelOption,
-                data: [content["2"][3].num, content["2"][2].num, content["2"][1].num, content["2"][0].num]
-            },
-            {
-                name: '人员',
-                type: 'bar',
-                label: labelOption,
-                data: [content["3"][3].num, content["3"][2].num, content["3"][1].num, content["3"][0].num]
-            }
-        ]
+        series: series
     };
     if (option3 && typeof option3 === "object") {
         myChart3.setOption(option3, true);
