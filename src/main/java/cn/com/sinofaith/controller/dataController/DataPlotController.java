@@ -2,6 +2,7 @@ package cn.com.sinofaith.controller.dataController;
 
 import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
+import cn.com.sinofaith.form.AnnualDataForm;
 import cn.com.sinofaith.form.PlotForm;
 import cn.com.sinofaith.service.data.DataPlotService;
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/data")
@@ -62,4 +64,28 @@ public class DataPlotController {
         List<PlotForm> plotForms = dpService.getPlotBrandForm(dc);
         return plotForms;
     }
+
+    /**
+     * 年度数据获取
+     * @return
+     */
+    @RequestMapping("/annualData")
+    public @ResponseBody Map<String,List<AnnualDataForm>> annualData(){
+        // 接收数据
+        Map<String,List<AnnualDataForm>> annualDatas = dpService.getMapAnnualData();
+        return annualDatas;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -20,7 +20,6 @@ function toggle(){
             content = data;
         }
     });
-    console.log(content)
     var dom8 = document.getElementById("container4");
     var myChart8 = echarts.init(dom8);
     var list = [];
@@ -39,16 +38,42 @@ function toggle(){
             formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
+            type: 'scroll',
             orient: 'vertical',
             left: 'left',
             data: list
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {
+                    readOnly: true,
+                    optionToContent: function dataView(opt) {
+                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">立案单位</td>'
+                            + '<td style="font-weight: bold;">合作次数</td>'
+                            + '</tr>';
+                        for (i = 0; i < content.length; i++) {
+                            table += '<tr><td>' + content[i]['name'] + '</td>'
+                                + '<td>' + content[i]['value'] + '</td></tr>'
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
+                },
+                restore: {},
+                saveAsImage: {}
+            }
         },
         series : [
             {
                 name: '立案单位',
                 type: 'pie',
                 radius : '55%',
-                center: ['50%', '60%'],
                 data:content,
                 itemStyle: {
                     emphasis: {
@@ -88,6 +113,7 @@ function toggle2(){
             formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         legend: {
+            type: 'scroll',
             orient: 'vertical',
             x: 'left',
             data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
@@ -171,6 +197,7 @@ function toggle2(){
 }
 
 function toggle3(){
+    $(".back_btn1").hide();
     $("#con3").css("display", "block");
     $("#div1").css("display", "none");
     $("#div2").css("display", "none");
@@ -229,7 +256,6 @@ function toggle3(){
         }
         temp.push(data)
     }
-    console.log("sad",temp)
     option2 = null
     option2 = {
         title: {
@@ -241,6 +267,7 @@ function toggle3(){
             trigger: 'item'
         },
         legend: {
+            type: 'scroll',
             orient: 'vertical',
             left: 'left',
             data: list1,
@@ -298,6 +325,44 @@ function toggle3(){
     //使用制定的配置项和数据显示图表
     myChart2.setOption(option2);
 
+    var selected;
+    // 获取当前legend的状态
+    myChart2.on('legendselectchanged', function(obj) {
+        selected = obj.selected;
+    });
+    // 点击事件具体到市
+    myChart2.on('click',function(params){
+        var list2 = [];
+        for(i=0;i<content.length;i++){
+            if(selected==null){
+                if(content[i]['name']==params.name){
+                    var list3 = content[i]['area'].split(',');
+                    for(j=0;j<list3.length;j++){
+                        if(list3[j]=="巢湖"){
+                            list2.push("合肥市");
+                        }else{
+                            list2.push(list3[j]+'市');
+                        }
+                    }
+                }
+            }else{
+                if(selected[content[i]['brand_name']]==true) {
+                    if (content[i]['name'] == params.name) {
+                        var list3 = content[i]['area'].split(',');
+                        for (j = 0; j < list3.length; j++) {
+                            if (list3[j] == "巢湖") {
+                                list2.push("合肥市");
+                            } else {
+                                list2.push(list3[j] + '市');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        creatProvince(params.name,'container6',list2,2);
+    });
+
 }
 function toggle4(){
     $("#con4").css("display", "block");
@@ -305,6 +370,23 @@ function toggle4(){
     $("#div2").css("display", "none");
     $("#div3").css("display", "none");
     $("#div4").css("display", "none");
+    // 创建一个用于接收数据的content
+    var content = "";
+    $.ajax({
+        url : './data/annualData',
+        async : false,
+        type : "POST",
+        dataType : 'json',
+        success : function (data){
+            content = data;
+        }
+    });
+    var con1 = content["0"];
+    var list = [];
+    for(i=con1.length-1;i>=0;i--){
+        list.push(con1[i].year);
+    }
+    // console.log(list)
     var dom2 = document.getElementById("container7");
     var myChart3 = echarts.init(dom2);
     var app = {};
@@ -398,8 +480,8 @@ function toggle4(){
 
     option3 = {
         title : {
-            text: '年度比较',
-            subtext: 'Filing unit',
+            text: '年度数据',
+            subtext: 'Annual data',
             x:'center'
         },
         color: ['#003366', '#006699', '#4cabce', '#e5323e'],
@@ -410,8 +492,10 @@ function toggle4(){
             }
         },
         legend: {
-            x: 'left',
-            data: ['Forest', 'Steppe', 'Desert', 'Wetland']
+            type: 'scroll',
+            orient: 'vertical',
+            left: 'left',
+            data: ['立案单位', '案件', '区域', '人员']
         },
         toolbox: {
             show: true,
@@ -420,7 +504,47 @@ function toggle4(){
             top: 'center',
             feature: {
                 mark: {show: true},
-                dataView: {show: true, readOnly: true},
+                dataView: {
+                    show: true,
+                    readOnly: true,
+                    optionToContent: function dataView(opt){
+                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">名称/年份</td>'
+                            + '<td style="font-weight: bold;">'+list[0]+'</td>'
+                            + '<td style="font-weight: bold;">'+list[1]+'</td>'
+                            + '<td style="font-weight: bold;">'+list[2]+'</td>'
+                            + '<td style="font-weight: bold;">'+list[3]+'</td>'
+                            + '</tr>';
+
+                        table += '<tr><td style="font-weight: bold;">立案单位</td>'
+                            +'<td>'+con1[3].num+'</td>'
+                            +'<td>'+con1[2].num+'</td>'
+                            +'<td>'+con1[1].num+'</td>'
+                            +'<td>'+con1[0].num+'</td></tr>';
+
+                        table += '<tr><td style="font-weight: bold;">案件</td>'
+                            +'<td>'+content["1"][3].num+'</td>'
+                            +'<td>'+content["1"][2].num+'</td>'
+                            +'<td>'+content["1"][1].num+'</td>'
+                            +'<td>'+content["1"][0].num+'</td></tr>';
+
+                        table += '<tr><td style="font-weight: bold;">区域</td>'
+                            +'<td>'+content["2"][3].num+'</td>'
+                            +'<td>'+content["2"][2].num+'</td>'
+                            +'<td>'+content["2"][1].num+'</td>'
+                            +'<td>'+content["2"][0].num+'</td></tr>';
+
+                        table += '<tr><td style="font-weight: bold;">人员</td>'
+                            +'<td>'+content["3"][3].num+'</td>'
+                            +'<td>'+content["3"][2].num+'</td>'
+                            +'<td>'+content["3"][1].num+'</td>'
+                            +'<td>'+content["3"][0].num+'</td></tr>';
+
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
+                },
                 magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
                 restore: {show: true},
                 saveAsImage: {show: true}
@@ -431,7 +555,7 @@ function toggle4(){
             {
                 type: 'category',
                 axisTick: {show: false},
-                data: ['2012', '2013', '2014', '2015', '2016']
+                data: list
             }
         ],
         yAxis: [
@@ -441,33 +565,205 @@ function toggle4(){
         ],
         series: [
             {
-                name: 'Forest',
+                name: '立案单位',
                 type: 'bar',
-                barGap: 0,
                 label: labelOption,
-                data: [320, 332, 301, 334, 390]
+                data: [con1[3].num, con1[2].num, con1[1].num, con1[0].num]
             },
             {
-                name: 'Steppe',
+                name: '案件',
                 type: 'bar',
                 label: labelOption,
-                data: [220, 182, 191, 234, 290]
+                data: [content["1"][3].num, content["1"][2].num, content["1"][1].num, content["1"][0].num]
             },
             {
-                name: 'Desert',
+                name: '区域',
                 type: 'bar',
                 label: labelOption,
-                data: [150, 232, 201, 154, 190]
+                data: [content["2"][3].num, content["2"][2].num, content["2"][1].num, content["2"][0].num]
             },
             {
-                name: 'Wetland',
+                name: '人员',
                 type: 'bar',
                 label: labelOption,
-                data: [98, 77, 101, 99, 40]
+                data: [content["3"][3].num, content["3"][2].num, content["3"][1].num, content["3"][0].num]
             }
         ]
     };
     if (option3 && typeof option3 === "object") {
         myChart3.setOption(option3, true);
     }
+}
+
+function pyChinese(pro){
+    var str = '';
+    switch(pro){
+        case '黑龙江':
+            str = 'heilongjiang';
+            break;
+        case '河北':
+            str = 'hebei';
+            break;
+        case '甘肃':
+            str = 'gansu';
+            break;
+        case '云南':
+            str = 'yunnan';
+            break;
+        case '四川':
+            str = 'sichuan';
+            break;
+        case '吉林':
+            str = 'jilin';
+            break;
+        case '辽宁':
+            str = 'liaoning';
+            break;
+        case '青海':
+            str = 'qinghai';
+            break;
+        case '陕西':
+            str = 'shanxi';
+            break;
+        case '河南':
+            str = 'henan';
+            break;
+        case '山东':
+            str = 'shandong';
+            break;
+        case '山西':
+            str = 'shanxi';
+            break;
+        case '安徽':
+            str = 'anhui';
+            break;
+        case '湖北':
+            str = 'hubei';
+            break;
+        case '湖南':
+            str = 'hunan';
+            break;
+        case '江苏':
+            str = 'jiangsu';
+            break;
+        case '贵州':
+            str = 'guizhou';
+            break;
+        case '浙江':
+            str = 'zhejiang';
+            break;
+        case '江西':
+            str = 'jiangxi';
+            break;
+        case '广东':
+            str = 'guangdong';
+            break;
+        case '福建':
+            str = 'fujian';
+            break;
+        case '台湾':
+            str = 'taiwan';
+            break;
+        case '海南':
+            str = 'hainan';
+            break;
+        case '广西':
+            str = 'guangxi';
+            break;
+        case '内蒙古':
+            str = 'neimenggu';
+            break;
+        case '宁夏':
+            str = 'ningxia';
+            break;
+        case '新疆':
+            str = 'xinjiang';
+            break;
+        case '西藏':
+            str = 'xizang';
+            break;
+        case '澳门':
+            str = 'aomen';
+            break;
+        case '北京':
+            str = 'beijing';
+            break;
+        case '上海':
+            str = 'shanghai';
+            break;
+        case '香港':
+            str = 'xianggang';
+            break;
+        case '天津':
+            str = 'tianjin';
+            break;
+        case '重庆':
+            str = 'chongqing';
+            break;
+        default:
+            str = '';
+            break;
+    }
+    return str;
+}
+
+function creatProvince(name,id,list,num){
+    var data = [];
+    for(i=0;i<list.length;i++){
+        var cont = {name:list[i],value:1};
+        data.push(cont);
+    }
+
+    var pro = pyChinese(name);
+    if(pro==''){
+        return false;
+    }
+    if(num==1){
+        $('.back_btn').show();
+    }else if(num==2){
+        $('.back_btn1').show();
+    }
+    var childChart = echarts.init(document.getElementById(id));
+    var option = {
+        title: {
+            text: name,
+            left: 'center',
+            textStyle: {
+                color: '#000'
+            }
+            ,top:30
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        visualMap: {
+            show: false,
+            min: 0,
+            max: 20,
+            left: 'left',
+            top: 'bottom',
+            text: ['高','低'],           // 文本，默认为数值文本
+            calculable: true
+        },
+        series: [{
+            name: '区域数',
+            type: 'map',
+            mapType: pro,
+            roam: true,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            animation: true,
+            data: data
+        }]
+    };
+    $.get('resources/json/'+pro+'.json', function(gdMap) {
+        echarts.registerMap(pro, gdMap);
+        childChart.setOption(option, true);
+    });
 }

@@ -79,6 +79,16 @@
         right: -10px;
         position: absolute;
     }
+    .back_btn{position: absolute;left: 700px;
+        z-index: 1000;
+        width: 40px;height: 40px;border-radius:50%;
+        line-height: 40px;background: #c1c1c1;color: #fff;
+        text-align: center;cursor: pointer;display: none;}
+    .back_btn1{position: absolute;left: 1390px;top: -10px;
+        z-index: 1000;
+        width: 40px;height: 40px;border-radius:50%;
+        line-height: 40px;background: #c1c1c1;color: #fff;
+        text-align: center;cursor: pointer;display: none;}
 </style>
 
 <div class="tab_div">
@@ -98,9 +108,7 @@
 
 
     <div id="div1" style="width: 730px; height: 300px;">
-        <a  href="#" onclick="toggle()">
-            <div id="container" style="height: 100%"></div>
-        </a>
+        <div id="container" style="height: 100%"></div>
     </div>
     <div id="con1" style="display: none;left: 4px;top: -300px;position:relative; background: #FFFFFF;">
         <div style="height: 100px; width: 100px; right: 50px; position: absolute">
@@ -110,9 +118,7 @@
     </div>
 
     <div id="div2" style="width: 730px; height: 300px; margin-top: -300px;margin-left: 730px;">
-        <a href="#" onclick="toggle2()">
-            <div id="container1" style="height: 100%"></div>
-        </a>
+        <div id="container1" style="height: 100%"></div>
     </div>
     <div id="con2" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
         <div style="height: 100px; width: 100px; right: 50px; position: absolute">
@@ -122,11 +128,11 @@
     </div>
 
     <div id="div3" style="width: 730px; height: 300px;">
-        <a href="#" onclick="toggle3()">
-            <div id="container2" style="height: 115%"></div>
-        </a>
+        <span class="back_btn">返回</span>
+        <div id="container2" style="height: 115%"></div>
     </div>
     <div id="con3" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
+        <span class="back_btn1">返回</span>
         <div style="height: 100px; width: 100px; right: 50px; position: absolute">
             <span class="close" onclick="toggle1('con3')"></span>
         </div>
@@ -134,9 +140,7 @@
     </div>
 
     <div id="div4" style="width: 730px; height: 300px; margin-top: -300px;margin-left: 730px;">
-        <a href="#" onclick="toggle4()">
-            <div id="container3" style="height: 115%"></div>
-        </a>
+        <div id="container3" style="height: 115%"></div>
     </div>
     <div id="con4" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
         <div style="height: 100px; width: 100px; right: 50px;position: absolute">
@@ -145,26 +149,24 @@
         <div id="container7" style="height: 80%"></div>
     </div>
 
-
-
 </div>
 
 <script type="text/javascript">
-    var content = "";
+    var content1 = "";
     $.ajax({
         url : '${pageContext.request.contextPath}/data/gain',
         async : false,
         type : "POST",
         dataType : 'json',
         success : function (data){
-            content = data;
+            content1 = data;
         }
     });
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
     var list = [];
-    for(i=0;i<content.length;i++){
-        list.push(content[i]['name']);
+    for(i=0;i<content1.length;i++){
+        list.push(content1[i]['name']);
     }
     option = null;
     option = {
@@ -178,18 +180,43 @@
             formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
+            type: 'scroll',
             orient: 'vertical',
-            selectedMode:false,
-            left: 'left',
+            left: 15,
             data: list
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {
+                    readOnly: true,
+                    optionToContent: function dataView(opt) {
+                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">立案单位</td>'
+                            + '<td style="font-weight: bold;">合作次数</td>'
+                            + '</tr>';
+                        for (i = 0; i < content1.length; i++) {
+                            table += '<tr><td>' + content1[i]['name'] + '</td>'
+                                + '<td>' + content1[i]['value'] + '</td></tr>'
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
+                },
+                restore: {},
+                saveAsImage: {}
+            }
         },
         series : [
             {
                 name: '立案单位',
                 type: 'pie',
                 radius : '55%',
-                center: ['50%', '60%'],
-                data:content,
+                data:content1,
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -200,7 +227,9 @@
             }
         ]
     };
-    ;
+    myChart.on('dblclick',function(params){
+        toggle();
+    });
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
@@ -216,8 +245,8 @@
 
     option1 = {
         title : {
-            text: 'xxx',
-            subtext: 'Filing unit',
+            text: '人员分析',
+            subtext: 'Man analysis',
             x:'center'
         },
         tooltip: {
@@ -225,10 +254,10 @@
             formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         legend: {
+            type: 'scroll',
             orient: 'vertical',
-            selectedMode:false,
             x: 'left',
-            data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
+            data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他','百','谷','应','他']
         },
         series: [
             {
@@ -236,7 +265,6 @@
                 type:'pie',
                 selectedMode: 'single',
                 radius: [0, '30%'],
-
                 label: {
                     normal: {
                         position: 'inner'
@@ -295,14 +323,21 @@
                     {value:310, name:'邮件营销'},
                     {value:234, name:'联盟广告'},
                     {value:135, name:'视频广告'},
-                    {value:1048, name:'百度'},
-                    {value:251, name:'谷歌'},
-                    {value:147, name:'必应'},
-                    {value:102, name:'其他'}
+                    {value:548, name:'百度'},
+                    {value:151, name:'谷歌'},
+                    {value:77, name:'必应'},
+                    {value:82, name:'其他'},
+                    {value:500, name:'百'},
+                    {value:100, name:'谷'},
+                    {value:70, name:'应'},
+                    {value:20, name:'他'}
                 ]
             }
         ]
-    };;
+    };
+    myChart1.on('dblclick',function(params){
+        toggle2();
+    });
     if (option1 && typeof option1 === "object") {
         myChart1.setOption(option1, true);
     }
@@ -311,100 +346,200 @@
      * @type {*[]}
      */
     // 绘制图表，准备数据
-    content = "";
-    $.ajax({
-        url : '${pageContext.request.contextPath}/data/area',
-        async : false,
-        type : "POST",
-        dataType : 'json',
-        success : function (data){
-            content = data;
-        }
-    });
-    var list1 = [];
-    $.ajax({
-        url : '${pageContext.request.contextPath}/data/brand',
-        async : false,
-        type : "POST",
-        dataType : 'json',
-        success : function (data){
-            for(i=0;i<data.length;i++){
-                list1.push(data[i]['brand_name']);
+    creatChinaMap();
+    // 关闭按钮
+    $('.back_btn').click(function(){
+        creatChinaMap();
+    })
+    $('.back_btn1').click(function(){
+        toggle3();
+    })
+    function creatChinaMap(){
+        $(".back_btn").hide();
+        var content = "";
+        $.ajax({
+            url : '${pageContext.request.contextPath}/data/area',
+            async : false,
+            type : "POST",
+            dataType : 'json',
+            success : function (data){
+                content = data;
             }
-        }
-    });
-    var cont = {};
-    var map = [];
-    var temp = []
-    var data = {}
-    for(j=0;j<list1.length;j++){
-        map = []
-        for(i=0;i<content.length;i++){
-            if(list1[j]==content[i]['brand_name']){
-                cont = {name:content[i]['name'],value:content[i]['value']}
-                map.push(cont)
+        });
+        var list1 = [];
+        $.ajax({
+            url : '${pageContext.request.contextPath}/data/brand',
+            async : false,
+            type : "POST",
+            dataType : 'json',
+            success : function (data){
+                for(i=0;i<data.length;i++){
+                    list1.push(data[i]['brand_name']);
+                }
             }
-        }
-        data = {
-            name: list1[j],
-            type: 'map',
-            mapType: 'china',
-            roam: true,
-            label: {
-                normal: {
-                    show: true
+        });
+        var cont = {};
+        var map = [];
+        var temp = []
+        var data = {}
+        for(j=0;j<list1.length;j++){
+            map = []
+            for(i=0;i<content.length;i++){
+                if(list1[j]==content[i]['brand_name']){
+                    cont = {name:content[i]['name'],value:content[i]['value']}
+                    map.push(cont)
+                }
+            }
+            data = {
+                name: list1[j],
+                type: 'map',
+                mapType: 'china',
+                roam: true,
+                label: {
+                    normal: {
+                        show: true
+                    },
+                    emphasis: {
+                        show: true
+                    }
                 },
-                emphasis: {
-                    show: true
+                animation: true,
+                data: map
+            }
+            temp.push(data)
+        }
+        option2 = {
+            title: {
+                text: '品牌分布区域',
+                subtext: 'Brand distribution area',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                left: 15,
+                data: list1,
+                /*selected: {
+                    //不想显示的都设置成false
+                    '雀巢' : false,
+                    '可口可乐' : false
+                }*/
+            },
+            visualMap: {
+                show: false,
+                min: 0,
+                max: 20,
+                left: 'left',
+                top: 'bottom',
+                text: ['高','低'],           // 文本，默认为数值文本
+                calculable: true
+            },
+            toolbox: {
+                show: true,
+                orient: 'vertical',
+                left: 'right',
+                top: 'center',
+                feature: {
+                    dataView: {
+                        readOnly: true,
+                        optionToContent: function dataView(opt){
+                            var series = opt.series;
+                            var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                                + '<td style="font-weight: bold;">品牌名</td>'
+                                + '<td style="font-weight: bold;">案件名</td>'
+                                + '<td style="font-weight: bold;">所在省</td>'
+                                + '<td style="font-weight: bold;">包含市</td>'
+                                + '<td style="font-weight: bold;">区域数</td>'
+                                + '</tr>';
+                            for(i=0;i<content.length;i++){
+                                table += '<tr><td>'+content[i]['brand_name']+'</td>'
+                                    +'<td>'+content[i]['case_name']+'</td>'
+                                    +'<td>'+content[i]['name']+'</td>'
+                                    +'<td>'+content[i]['area']+'</td>'
+                                    +'<td>'+content[i]['value']+'</td></tr>'
+                            }
+                            table += '</tbody></table></div>';
+                            return table;
+                        }
+                    },
+                    restore: {},
+                    saveAsImage: {}
                 }
             },
-            animation: true,
-            data: map
-        }
-        temp.push(data)
-    }
-    console.log("sad",temp)
+            series: temp
+        };
+        //初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('container2'));
+        //使用制定的配置项和数据显示图表
+        myChart2.setOption(option2);
 
-    option2 = {
-        title: {
-            text: '品牌分布区域',
-            subtext: 'Brand distribution area',
-            left: 'center'
-        },
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            orient: 'vertical',
-            selectedMode:false,
-            left: 'left',
-            data: list1,
-            /*selected: {
-                //不想显示的都设置成false
-                '雀巢' : false,
-                '可口可乐' : false
-            }*/
-        },
-        visualMap: {
-            show: false,
-            min: 0,
-            max: 20,
-            left: 'left',
-            top: 'bottom',
-            text: ['高','低'],           // 文本，默认为数值文本
-            calculable: true
-        },
-        series: temp
-    };
-    //初始化echarts实例
-    var myChart2 = echarts.init(document.getElementById('container2'));
-    //使用制定的配置项和数据显示图表
-    myChart2.setOption(option2);
+        // 调用双击事件放大缩小
+        myChart2.on('dblclick',function (params) {
+            toggle3();
+        });
+
+        var selected;
+        // 获取当前legend的状态
+        myChart2.on('legendselectchanged', function(obj) {
+            selected = obj.selected;
+        });
+        // 点击事件具体到市
+        myChart2.on('click',function(params){
+            var list2 = [];
+            for(i=0;i<content.length;i++){
+                if(selected==null){
+                    if(content[i]['name']==params.name){
+                        var list3 = content[i]['area'].split(',');
+                        for(j=0;j<list3.length;j++){
+                            if(list3[j]=="巢湖"){
+                                list2.push("合肥市");
+                            }else{
+                                list2.push(list3[j]+'市');
+                            }
+                        }
+                    }
+                }else{
+                    if(selected[content[i]['brand_name']]==true) {
+                        if (content[i]['name'] == params.name) {
+                            var list3 = content[i]['area'].split(',');
+                            for (j = 0; j < list3.length; j++) {
+                                if (list3[j] == "巢湖") {
+                                    list2.push("合肥市");
+                                } else {
+                                    list2.push(list3[j] + '市');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            creatProvince(params.name,'container2',list2,1);
+        });
+    }
 
     /**
      * 第四个图
      * @type {HTMLElement | null}
      */
+        // 创建一个用于接收数据的content
+    var content5 = "";
+    $.ajax({
+        url : './data/annualData',
+        async : false,
+        type : "POST",
+        dataType : 'json',
+        success : function (data){
+            content5 = data;
+        }
+    });
+    var con1 = content5["0"];
+    var list = [];
+    for(i=con1.length-1;i>=0;i--){
+        list.push(con1[i].year);
+    }
     var dom2 = document.getElementById("container3");
     var myChart3 = echarts.init(dom2);
     var app = {};
@@ -498,8 +633,8 @@
 
     option3 = {
         title : {
-            text: '年度比较',
-            subtext: 'Filing unit',
+            text: '年度数据',
+            subtext: 'Annual data',
             x:'center'
         },
         color: ['#003366', '#006699', '#4cabce', '#e5323e'],
@@ -510,16 +645,71 @@
             }
         },
         legend: {
-            selectedMode:false,
-            x: 'left',
-            data: ['Forest', 'Steppe', 'Desert', 'Wetland']
+            type: 'scroll',
+            orient: 'vertical',
+            left: 'left',
+            /*data: ['Forest', 'Steppe', 'Desert', 'Wetland']*/
+            data: ['立案单位', '案件', '区域', '人员'],
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                mark: {show: true},
+                dataView: {
+                    show: true,
+                    readOnly: true,
+                    optionToContent: function dataView(opt) {
+                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">名称日期</td>'
+                            + '<td style="font-weight: bold;">' + list[0] + '</td>'
+                            + '<td style="font-weight: bold;">' + list[1] + '</td>'
+                            + '<td style="font-weight: bold;">' + list[2] + '</td>'
+                            + '<td style="font-weight: bold;">' + list[3] + '</td>'
+                            + '</tr>';
+
+                        table += '<tr><td style="font-weight: bold;">立案单位</td>'
+                            + '<td>' + con1[3].num + '</td>'
+                            + '<td>' + con1[2].num + '</td>'
+                            + '<td>' + con1[1].num + '</td>'
+                            + '<td>' + con1[0].num + '</td></tr>';
+
+                        table += '<tr><td style="font-weight: bold;">案件</td>'
+                            + '<td>' + content5["1"][3].num + '</td>'
+                            + '<td>' + content5["1"][2].num + '</td>'
+                            + '<td>' + content5["1"][1].num + '</td>'
+                            + '<td>' + content5["1"][0].num + '</td></tr>';
+
+                        table += '<tr><td style="font-weight: bold;">区域</td>'
+                            + '<td>' + content5["2"][3].num + '</td>'
+                            + '<td>' + content5["2"][2].num + '</td>'
+                            + '<td>' + content5["2"][1].num + '</td>'
+                            + '<td>' + content5["2"][0].num + '</td></tr>';
+
+                        table += '<tr><td style="font-weight: bold;">人员</td>'
+                            + '<td>' + content5["3"][3].num + '</td>'
+                            + '<td>' + content5["3"][2].num + '</td>'
+                            + '<td>' + content5["3"][1].num + '</td>'
+                            + '<td>' + content5["3"][0].num + '</td></tr>';
+
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
+                },
+                magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
         },
         calculable: true,
         xAxis: [
             {
                 type: 'category',
                 axisTick: {show: false},
-                data: ['2012', '2013', '2014', '2015', '2016']
+                data: list
             }
         ],
         yAxis: [
@@ -529,32 +719,35 @@
         ],
         series: [
             {
-                name: 'Forest',
+                name: '立案单位',
                 type: 'bar',
-                barGap: 0,
                 label: labelOption,
-                data: [320, 332, 301, 334, 390]
+                data: [con1[3].num, con1[2].num, con1[1].num, con1[0].num]
             },
             {
-                name: 'Steppe',
+                name: '案件',
                 type: 'bar',
                 label: labelOption,
-                data: [220, 182, 191, 234, 290]
+                data: [content5["1"][3].num, content5["1"][2].num, content5["1"][1].num, content5["1"][0].num]
             },
             {
-                name: 'Desert',
+                name: '区域',
                 type: 'bar',
                 label: labelOption,
-                data: [150, 232, 201, 154, 190]
+                data: [content5["2"][3].num, content5["2"][2].num, content5["2"][1].num, content5["2"][0].num]
             },
             {
-                name: 'Wetland',
+                name: '人员',
                 type: 'bar',
                 label: labelOption,
-                data: [98, 77, 101, 99, 40]
+                data: [content5["3"][3].num, content5["3"][2].num, content5["3"][1].num, content5["3"][0].num]
             }
         ]
     };
+    // 调用双击事件放大缩小
+    myChart3.on('dblclick',function(params){
+        toggle4();
+    });
     if (option3 && typeof option3 === "object") {
         myChart3.setOption(option3, true);
     }

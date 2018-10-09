@@ -1,12 +1,14 @@
 package cn.com.sinofaith.service.data;
 
 import cn.com.sinofaith.dao.data.DataPlotDao;
+import cn.com.sinofaith.form.AnnualDataForm;
 import cn.com.sinofaith.form.PlotForm;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DataPlotService {
@@ -51,5 +53,14 @@ public class DataPlotService {
             plotForms = dataPlotDao.getPlotBrandForm();
         }
         return plotForms;
+    }
+
+    /**
+     * 年度数据获取
+     * @return
+     */
+    public Map<String,List<AnnualDataForm>> getMapAnnualData() {
+        Map<String,List<AnnualDataForm>> mapAnnualData = dataPlotDao.getMapAnnualData();
+        return mapAnnualData;
     }
 }
