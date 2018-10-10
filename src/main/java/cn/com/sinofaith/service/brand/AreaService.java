@@ -1,7 +1,6 @@
 package cn.com.sinofaith.service.brand;
 
 import cn.com.sinofaith.bean.AreaEntity;
-import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.dao.brand.AreaDao;
 import cn.com.sinofaith.form.AreaForm;
 import org.springframework.beans.factory.annotation.Autowired;

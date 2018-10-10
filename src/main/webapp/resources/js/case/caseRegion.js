@@ -137,83 +137,6 @@ function addRole(){
     $(".btn").removeAttr("disabled","disabled");
 }
 
-// function getRegion() {
-//     var flag=false;
-//     var unitId = $("#unitId").val().trim();
-//     var regionname = $("#regionname").val().trim();
-//     if(unitId===''||regionname==''){
-//         return flag
-//     }
-//     $.ajax({
-//         url: "/mobile/caseRegion/getRegion?unitId="+unitId+"&regionName="+regionname,
-//         type: 'get',
-//         async: false,
-//         dataType: 'text',
-//         success: function(result,status) {
-//             if(result==="303"){
-//                 $("#regionname").attr('title',"区域已存在").tooltip('show');
-//                 flag=false;
-//             }else{
-//                 if(status==="success"){
-//                     flag= true;
-//                 }else{
-//                     flag=false;
-//                 }
-//             }
-//         }
-//     });
-//     return flag;
-// }
-
-// function addRegion() {
-//     var flag = getRegion;
-//     var unitId = $("#unitId").val().trim();
-//     if(unitId=='') {
-//         $("#brandname").attr('title', "品牌名不能为空,请从品牌列表选择后添加区域").tooltip('show');
-//         $("#unitname").attr('title', "立案单位不能为空,请从品牌列表选择后添加区域").tooltip('show');
-//         flag = false;
-//     }
-//     var regionname = $("#regionname").val().trim();
-//     if(regionname==''){
-//         $("#regionname").attr('title',"区域不能为空").tooltip('show');
-//         flag=false;
-//     }
-//     var rolename = $("#rolename").val().trim();
-//     if(rolename==''){
-//         $("#rolename").attr('title',"角色不能为空").tooltip('show');
-//         flag=false;
-//     }
-//     if(flag==false){
-//         return;
-//     }
-//     $(".btn").attr("disabled","true");
-//     var Controller = "/mobile/caseRegion/add"; // 接收后台地址
-//     // FormData 对象
-//     var form = new FormData();
-//     form.append("unitId",unitId);
-//     form.append("regionName",regionname);
-//     form.append("roleName",rolename);
-//     var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
-//     xhr.open("post", Controller, true);
-//     xhr.onload = function() {
-//         if(xhr.responseText==200){
-//             alertify.alert("添加完成!");
-//             $(".btn").attr("disabled","true");
-//             $('#myModal').modal('hide');
-//             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
-//         }
-//         if(xhr.responseText==303){
-//             $("#regionname").attr('title',"区域已存在").tooltip('show');
-//         }
-//         if(xhr.responseText==404||xhr.responseText==400){
-//             alertify.alert("添加失败")
-//         }
-//         $(".btn").removeAttr("disabled","disabled");
-//     };
-//     xhr.send(form);
-// }
-
-
 function caseSkip(a){
     var totalPage = $("#totalPage").text();
     var onPage = $("#num").val();
@@ -227,5 +150,88 @@ function caseSkip(a){
         return;
     } else {
         location="/mobile/"+a+"/seach?pageNo="+onPage;
+    }
+}
+
+
+function UploadQZ() {
+    var fileObj = document.getElementById("file");// js 获取文件对象
+    var file = $("#file").val();
+    var flag = true;
+    if(file==''){
+        $("#file").attr('data-original-title',"请选择取证报告report文件夹").tooltip('show');
+        flag = false;
+    }
+    var regionId = $("#regionId").val();
+    if(regionId==''){
+        $("#fregionName").attr('data-original-title',"区域不能为空,请从区域列表选择后添加取证报告").tooltip('show');
+        flag = false;
+    }
+    var myjzm = $("#myjzm").val();
+    if(myjzm==''){
+        $("#myjzm").attr('data-original-title',"机主名不能为空").tooltip('show');
+        flag = false;
+    }
+    var mysjy = $("#mysjy").val();
+    if(mysjy==''){
+        $("#mysjy").attr('data-original-title',"数据来源不能为空").tooltip('show');
+        flag = false;
+    }
+    var froleName = $("#froleName").val();
+    if(froleName==''){
+        $("#froleName").attr('data-original-title',"角色不能为空").tooltip('show');
+        flag = false;
+    }
+    if(!flag){
+        return;
+    }
+    var FileController = "/mobile/Upload/importmeiya"; // 接收上传文件的后台地址
+    // FormData 对象
+    var form = new FormData();
+    form.append("regionId", regionId);
+    form.append("myjzm",myjzm);// 可以增加表单数据
+    form.append("mysjy",mysjy);// 可以增加表单数据
+    form.append("role",froleName);// 可以增加表单数据
+    for(i=0;i<fileObj.files.length;i++){
+        form.append("file", fileObj.files[i]);
+        // 文件对象
+    }
+    var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
+    xhr.open("post", FileController, true);
+    xhr.onload = function(e) {
+        if(this.status == 200||this.status == 304){
+            alertify.set('notifier','position', 'top-center');
+            alertify.success("导入完成!");
+            $('#filemyModal').modal('hide');
+            setTimeout(function () {document.getElementById("seachDetail").submit()},1500);
+        }else{
+            alertify.set('notifier','position', 'top-center');
+            alertify.error("错误!请联系管理员")
+            return
+        }
+    };
+    xhr.upload.addEventListener("progress", progressFunction, false);
+    xhr.send(form);
+}
+
+function progressFunction(evt) {
+
+    var progressBar = document.getElementById("progressBar");
+
+    var percentageDiv = document.getElementById("percentage");
+
+    if (evt.lengthComputable) {
+
+        progressBar.max = evt.total;
+
+        progressBar.value = evt.loaded;
+
+        percentageDiv.innerHTML = Math.round(evt.loaded / evt.total * 100)+ "%";
+
+        if((evt.loaded/evt.total) ==1){
+            alertify.set('notifier','position', 'top-center');
+            alertify.set('notifier','delay', 0);
+            alertify.success("文件上传成功\n请等待数据导入...");
+        }
     }
 }

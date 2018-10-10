@@ -20,7 +20,7 @@
 <aside class="sideMenu_left" style="top: 0px;">
     <a class="logo" ><img src="<c:url value="/resources/img/logo02.png"/>"style="padding:20px 0 20px 10px; width: 63px ;float: left"/> </a>
  <span>
-     <a href="${pageContext.request.contextPath}/case" class="sidebar_left_addative"><i class=" icon-untitled26 "></i>品牌案件</a>
+     <a href="${pageContext.request.contextPath}/caseBrand" class="sidebar_left_addative"><i class=" icon-untitled26 "></i>品牌案件</a>
      <%--<a href="${pageContext.request.contextPath}/user"><i class="icon-untitled54" id="userInfo"></i>用户管理</a>--%>
      <a href="${pageContext.request.contextPath}/phone"><i class="icon-untitled47"></i>手机分类</a>
      <a href="${pageContext.request.contextPath}/data"><i class="icon-untitled30"></i>数据可视化</a>

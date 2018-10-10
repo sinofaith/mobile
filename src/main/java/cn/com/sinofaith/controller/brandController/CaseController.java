@@ -71,21 +71,7 @@ public class CaseController {
         httpSession.setAttribute("bseachCode",seachCode);
         return mav;
     }
-//    @RequestMapping(value = "/getCase",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
-//    @ResponseBody
-//    public String getCase(@RequestParam("caseName") String caseName,@RequestParam("brandId")String brandId,@RequestParam("regionName")String regionName){
-//        CaseEntity ce = cs.getCase(caseName,Long.parseLong(brandId));
-//        if(ce.getCaseId()!=-1){
-//            RegionEntity re = rs.getRegion(ce.getCaseId(),regionName);
-//            if(re.getRegionId()!=-1){
-//                return "303";
-//            }else{
-//                return "200";
-//            }
-//        }else {
-//            return "200";
-//        }
-//    }
+
 
     @RequestMapping(value = "/case")
     public ModelAndView jump(String caseName, String regionName,HttpSession httpSession){

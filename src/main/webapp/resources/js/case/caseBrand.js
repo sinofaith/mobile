@@ -17,6 +17,21 @@ $(function () {
             }
         }
     });
+
+    $("input").focus(function(){
+        $(this).parent().children(".input_clear").show();
+    });
+    $("input").blur(function(){
+        if($(this).val()=='')
+        {
+            $(this).parent().children(".input_clear").hide();
+        }
+    });
+    $(".input_clear").click(function(){
+        $(this).parent().find('input').val('');
+        $(this).hide();
+    });
+
 });
 
 function getBrandName() {
@@ -32,7 +47,10 @@ function getBrandNameOnfocus() {
     $("#brandname").trigger(e);
     $( "#brandname" ).autocomplete({
         source: "/mobile/caseBrand/getBrandName",
-        minLength: 0
+        minLength: 0,
+        select: function(e, ui) {
+            destroyTooltip('brandname');
+        }
     });
 }
 
@@ -49,7 +67,10 @@ function getUnitNameOnfocus() {
     $("#unitname").trigger(e);
     $( "#unitname" ).autocomplete({
         source: "/mobile/caseBrand/getUnitName",
-        minLength: 0
+        minLength: 0,
+        select: function(e, ui) {
+            destroyTooltip('unitname');
+        }
     });
 }
 
@@ -63,12 +84,12 @@ function addBrand() {
     var flag = true;
     var brandname = $("#brandname").val().trim();
     if(brandname==''){
-        $("#brandname").attr('title',"品牌名不能为空").tooltip('show');
+        $("#brandname").attr('data-original-title',"品牌名不能为空").tooltip('show');
         flag=false;
     }
     var unitname = $("#unitname").val().trim();
     if(unitname==''){
-        $("#unitname").attr('title',"主办单位不能为空").tooltip('show');
+        $("#unitname").attr('data-original-title',"立案单位不能为空").tooltip('show');
         flag=false;
     }
     if(flag==false){
@@ -90,7 +111,7 @@ function addBrand() {
             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
         }
         if(xhr.responseText==303){
-            $("#brandname").attr('title',"品牌-主办单位关系已存在").tooltip('show');
+            $("#brandname").attr('data-original-title',"品牌-主办单位关系已存在").tooltip('show');
         }
         if(xhr.responseText==404||xhr.responseText==400){
             alertify.alert("添加失败")

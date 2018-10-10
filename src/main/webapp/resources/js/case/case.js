@@ -62,13 +62,17 @@ function getCaseNameOnfocus() {
     $("#casename").trigger(e);
     $( "#casename" ).autocomplete({
         source: "/mobile/case/getCaseName",
-        minLength: 0
+        minLength: 0,
+        select: function(e, ui) {
+            destroyTooltip('casename');
+        }
     });
 }
 function getCaseName() {
     $( "#casename" ).autocomplete({
         source: "/mobile/case/getCaseName",
         minLength: 2
+
     });
 };
 
@@ -78,7 +82,10 @@ function getCreaterOnfocus() {
     $("#creater").trigger(e);
     $( "#creater" ).autocomplete({
         source: "/mobile/case/getCreater",
-        minLength: 0
+        minLength: 0,
+        select: function(e, ui) {
+            destroyTooltip('creater');
+        }
     });
 }
 function getCreater() {
@@ -107,7 +114,7 @@ function getCase() {
         dataType: 'text',
         success: function(result,status) {
             if(result==="303"){
-                $("#casename").attr('title',"案件及区域已存在,请勿重复添加").tooltip('show');
+                $("#casename").attr('data-original-title',"案件及区域已存在,请勿重复添加").tooltip('show');
                 flag=false;
             }else{
                 if(status==="success"){
@@ -127,22 +134,22 @@ function addCase() {
 
     var brandId = $("#brandid").val().trim();
     if(brandId==''){
-        $("#brandname").attr('title',"所属品牌不能为空,请从品牌列表选择后添加案件").tooltip('show');
+        $("#brandname").attr('data-original-title',"所属品牌不能为空,请从品牌列表选择后添加案件").tooltip('show');
         flag=false;
     }
     var regionId = $("#region").val();
     if(regionId==null){
-        $("#region").attr('title',"区域不能为空").tooltip('show');
+        $("#region").attr('data-original-title',"区域不能为空").tooltip('show');
         flag=false;
     }
     var caseName = $("#casename").val().trim();
     if(caseName==''){
-        $("#casename").attr('title',"案件名不能为空").tooltip('show');
+        $("#casename").attr('data-original-title',"案件名不能为空").tooltip('show');
         flag=false;
     }
     var creater = $("#creater").val().trim();
     if(creater==''){
-        $("#creater").attr('title',"创建人不能为空").tooltip('show');
+        $("#creater").attr('data-original-title',"创建人不能为空").tooltip('show');
         flag=false;
     }
     if(flag==false){
@@ -166,7 +173,7 @@ function addCase() {
             setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
         }
         if(xhr.responseText==303){
-            $("#casename").attr('title',"案件名已存在").tooltip('show');
+            $("#casename").attr('data-original-title',"案件名已存在").tooltip('show');
         }
         if(xhr.responseText==404||xhr.responseText==400){
             alertify.alert("添加失败")

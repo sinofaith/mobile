@@ -4,7 +4,7 @@
 <span class="tab_nav">
     <span class="dropdown">
         <a href="#" onclick="skip('a11','phone')" <c:if test="${flag=='a11'||flag=='a12'||flag=='a13'||flag=='a14'}">class="addactive"</c:if> id="dropdownMenu3" data-toggle="dropdown">手机</a>
-        <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 8px; margin-left: -288px">
+        <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 6px; margin-left: -288px">
             <li role="presentation">
                 <a id="a11" role="menuitem" tabindex="1" href="JavaScript:void(0);" onclick="skip('a11','phone')" style="width: 265px; <c:if test="${flag=='a11'}">background: #09CEB8</c:if>">机主信息</a>
             </li>
@@ -21,7 +21,7 @@
     </span>
     <span class="dropdown">
         <a href="#" onclick="skip('a1','phoneZhxx')" <c:if test="${flag=='a1'||flag=='a2'||flag=='a3'||flag=='a4'||flag=='a5'}">class="addactive"</c:if> id="dropdownMenu1" data-toggle="dropdown">QQ</a>
-        <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 8px; margin-left: -288px">
+        <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 6px; margin-left: -288px">
             <li role="presentation">
                 <a id="a1" role="menuitem" tabindex="1" href="JavaScript:void(0);" onclick="skip('a1','phoneZhxx')" style="width: 265px; <c:if test="${flag=='a1'}">background: #09CEB8</c:if>">QQ账户信息</a>
             </li>
@@ -41,7 +41,7 @@
     </span>
     <span class="dropdown">
         <a href="#" onclick="skip('a6','phonewxPhone')" <c:if test="${flag=='a6'||flag=='a7'||flag=='a8'||flag=='a9'||flag=='a10'}">class="addactive"</c:if> id="dropdownMenu2" data-toggle="dropdown">微信</a>
-        <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 8px; margin-left: -288px">
+        <span class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="width: 288px; background: white; margin-top: 6px; margin-left: -288px">
             <li role="presentation">
                 <a id="a6" role="menuitem" tabindex="1" href="JavaScript:void(0);" onclick="skip('a6','phonewxPhone')" style="width: 265px; <c:if test="${flag=='a6'}">background: #09CEB8</c:if>">微信账户信息</a>
             </li>

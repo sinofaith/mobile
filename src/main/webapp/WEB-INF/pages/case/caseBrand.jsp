@@ -188,40 +188,40 @@
             </ul>
         </div>
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-             aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">×</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <span id="percentage" style="color:blue;"></span> <br>
+                <div class="file-box">
+                    <div style="display:inline-block;position:relative;">
+                        品&nbsp; 牌 &nbsp;名:<input type="text" name = 'brandname' id ='brandname'
+                                                 class='txt brandname'  data-toggle="tooltip" data-placement="top"
+                                                 oninput="destroyTooltip('brandname');getBrandName()" onfocus="getBrandNameOnfocus()">
                     </div>
-                    <div class="modal-body">
-                        <span id="percentage" style="color:blue;"></span> <br>
-                        <div class="file-box">
-                            <div style="margin-top:-12px">
-                            品&nbsp;&nbsp;牌&nbsp;&nbsp;名:<input type="text" name = 'brandname' id ='brandname'
-                                                       class='txt brandname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('brandname');getBrandName()" onfocus="getBrandNameOnfocus()">
-                            </div>
-                            <br>
-                            <div style="margin-top:-12px">
-                            立案单位:<input type="text" name = 'unitname' id ='unitname'
-                                        class='txt unitname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('unitname');getUnitName()" onfocus="getUnitNameOnfocus()">
-                            </div>
 
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" name="submit" class="btn" value="确定"
-                               onclick="addBrand()"/>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                        </button>
+                    <div style="margin-top:5px;display:inline-block;position:relative;">
+                        立案单位:<input type="text" name = 'unitname' id ='unitname'
+                        class='txt unitname'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('unitname');getUnitName()" onfocus="getUnitNameOnfocus()">
                     </div>
                 </div>
-                <!-- /.modal-content -->
             </div>
-            <!-- /.modal -->
+            <div class="modal-footer">
+                <input type="submit" name="submit" class="btn" value="确定"
+                       onclick="addBrand()"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+            </div>
         </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
 
         <%@include file="../template/newfooter.jsp" %>
 

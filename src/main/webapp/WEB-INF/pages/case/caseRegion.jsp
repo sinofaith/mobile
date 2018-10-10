@@ -56,7 +56,7 @@
                                     <tr>
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>区域列表(${brand.brandName}-${brand.unitName}-${caseName}-${regionName})</strong>
+                                                <strong>人员列表(${brand.brandName}-${brand.unitName}-${caseName}-${regionName})</strong>
 
                                             </div>
                                         </td>
@@ -73,10 +73,9 @@
                                     </form>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
-
                                             <td align="center">${item.role_id}</td>
                                             <td align="center">${item.role_name}</td>
-                                            <td align="center">${item.sfzhm}</td>
+                                            <td align="center">${fn:replace(item.sfzhm,fn:substring(item.sfzhm,6,14),"********")}</td>
                                             <td align="center">${item.role}</td>
                                             <td align="center">${item.insertTime}</td>
                                         </tr>
@@ -147,21 +146,14 @@
                             <div class="width100" style="margin-top: 10px;float: left;">
 
                                 <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">人员操作</span>
-                                <%--<div class="demo">--%>
-                                <%--<div class="drag-area" id="upload-area">--%>
-                                <%--<strong>将Word文件拖拽到这里</strong>--%>
-                                <%--<br>--%>
-                                <%--<strong>(10个以内)</strong>--%>
-                                <%--</div>--%>
-                                <%--</div>--%>
                                 <div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">
                                     <div class="if_tel width100">
                        <span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">
                                <button class="sideBar_r_button" data-toggle="modal"
                                        data-target="#myModal">新增人员</button>
-                <%--<button class="sideBar_r_button" data-toggle="modal"--%>
-                        <%--data-target="#myModal">文件夹导入</button>--%>
-                           <%--<button  type="button"  class="sideBar_r_button"  onclick="location.href='/word/title/download'" >数据导出</button>--%>
+                               <button class="sideBar_r_button" data-toggle="modal"
+                                       data-target="#filemyModal">取证报告数据导入</button>
+
                        </span>
                                     </div>
                                 </div>
@@ -223,6 +215,65 @@
             <div class="modal-footer">
                 <input type="submit" name="submit" class="btn" value="确定"
                        onclick="addRole()"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+
+<div class="modal fade" id="filemyModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">文件上传进度</h4>
+            </div>
+            <div class="modal-body">
+                <progress id="progressBar" value="0" max="100"
+                          style="width: 100%;height: 20px; "> </progress>
+                <span id="percentagea" style="color:blue;"></span> <br>
+                <br>
+                <div class="file-box">
+                    文  &nbsp;件  &nbsp;夹:<input type='text' name='textfield' id='textfield' class='txt'/>
+                    <input type='button' class='btn' value='浏览...' />
+                    <input
+                            type="file" name="file" webkitdirectory class="file" id="file" size="28"
+                            onchange="document.getElementById('textfield').value=this.value;" onclick="destroyTooltip('file')"/>
+                    <br>
+                    机  &nbsp;主  &nbsp;名:<input type="text" name = 'myjzm' id ='myjzm'
+                                                   class='txt myjzm'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    数据来源:<input type="text" name = 'mysjy' id ='mysjy'
+                                                   class='txt mysjy'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'froleName' id ='froleName'
+                                                   class='txt froleName'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    品  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌:<input type="text" name = 'brandname' id ='fbrandname' value="${brand.brandName}"
+                                                                    readonly="readonly"  class='txt brandname'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    立案单位:<input type="text" name = 'unitname' id ='funitname' value="${brand.unitName}"
+                                readonly="readonly"    class='txt unitname'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    案  &nbsp;件  &nbsp;名:<input type="text" name = 'caseName' id ='fcaseName' value="${caseName}"
+                                               readonly="readonly"    class='txt caseName'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:<input type="text" name = 'regionName' id ='fregionName' value="${regionName}"
+                                                                    readonly="readonly"    class='txt regionName'  data-toggle="tooltip" data-placement="top">
+                    <input type="hidden" name = 'regionName' id ='regionId' value="${regionId}"
+                              class='txt regionName'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" name="submit" class="btn" value="上传"
+                       onclick="UploadQZ()" />
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
             </div>
