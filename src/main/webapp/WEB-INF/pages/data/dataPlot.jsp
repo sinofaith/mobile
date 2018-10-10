@@ -177,15 +177,12 @@
         },
         tooltip : {
             trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-            /*formatter: function (params) {
-                return ('tablespace_name:'+a['name']
-                    +'</br>used_rate(%):'+a['value']
-                    +'<br>free_space:'+a['data'].datas[0]
-                    +'<br>sum_blocks:'+a['data'].datas[1]
-                    +'<br>sum_space:'+a['data'].datas[2]
-                    +'<br>used_space:'+a['data'].datas[3]);
-            }*/
+            // formatter: "{a} <br/>{b} : {c} ({d}%)"
+            formatter: function (params) {
+                return ('涉及品牌:'+params.data['brand_name']
+                    +'</br>立案单位:'+params.data['name']
+                    +'</br>合作次数:'+params.data['value']);
+            }
         },
         legend: {
             type: 'scroll',
@@ -204,11 +201,13 @@
                     optionToContent: function dataView(opt) {
                         var series = opt.series;
                         var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">涉及品牌</td>'
                             + '<td style="font-weight: bold;">立案单位</td>'
                             + '<td style="font-weight: bold;">合作次数</td>'
                             + '</tr>';
                         for (i = 0; i < content1.length; i++) {
-                            table += '<tr><td>' + content1[i]['name'] + '</td>'
+                            table += '<tr><td>' + content1[i]['brand_name'] + '</td>'
+                                + '<td>' + content1[i]['name'] + '</td>'
                                 + '<td>' + content1[i]['value'] + '</td></tr>'
                         }
                         table += '</tbody></table></div>';
@@ -386,6 +385,7 @@
                 }
             }
         });
+
         var cont = {};
         var map = [];
         var temp = []
@@ -423,7 +423,106 @@
                 left: 'center'
             },
             tooltip: {
-                trigger: 'item'
+                trigger: 'item',
+                formatter: function (params) {
+                    if(params.data==null){
+                        return '暂无涉及';
+                    }
+                    var data = [];
+                    var data1 = [];
+                    var data2 = [];
+                    var flag = true;
+                    var flag1 = true;
+                    var flag2 = true;
+                    for(i=0;i<content.length;i++){
+                        if(selected==null){
+                            if(content[i]['name']==params.data['name']){
+                                var list4 = content[i]['area'].split(',');
+                                for(k=0;k<list4.length;k++){
+                                    for(j=0;j<data.length;j++){
+                                        if(data[j] == list4[k]){
+                                            flag = false;
+                                        }
+                                    }
+                                    if(flag){
+                                        data.push(list4[k]);
+                                    }
+                                    flag = true;
+                                }
+                                // 品牌去重
+                                for(h=0;h<data1.length;h++){
+                                    if(data1[h] == content[i]['brand_name']){
+                                        flag1 = false;
+                                    }
+                                }
+                                if(flag1){
+                                    data1.push(content[i]['brand_name']);
+                                }
+                                flag1 = true;
+                                // 案件去重
+                                for(l=0;l<data2.length;l++){
+                                    if(data2[l] == content[i]['case_name']){
+                                        flag2 = false;
+                                    }
+                                }
+                                if(flag2){
+                                    data2.push(content[i]['case_name']);
+                                }
+                                flag2 = true;
+                            }
+                        }else{
+                            // 当工具条点击后
+                            if(selected[content[i]['brand_name']]==true) {
+                                if(content[i]['name']==params.data['name']){
+                                    var list4 = content[i]['area'].split(',');
+                                    for(q=0;q<list4.length;q++){
+                                        for(w=0;w<data.length;w++){
+                                            if(data[w] == list4[q]){
+                                                flag = false;
+                                            }
+                                        }
+                                        if(flag){
+                                            data.push(list4[q]);
+                                        }
+                                        flag = true;
+                                    }
+                                    // 品牌去重
+                                    for(h=0;h<data1.length;h++){
+                                        if(data1[h] == content[i]['brand_name']){
+                                            flag1 = false;
+                                        }
+                                    }
+                                    if(flag1){
+                                        data1.push(content[i]['brand_name']);
+                                    }
+                                    flag1 = true;
+
+                                    // 案件去重
+                                    for(l=0;l<data2.length;l++){
+                                        if(data2[l] == content[i]['case_name']){
+                                            flag2 = false;
+                                        }
+                                    }
+                                    if(flag2){
+                                        data2.push(content[i]['case_name']);
+                                    }
+                                    flag2 = true;
+                                }
+                            }
+                        }
+                    }
+                    var con = '涉及品牌:';
+                    con += data1.join(',');
+                    con += '</br>涉及案件:';
+                    con += data2.join(',');
+                    con += '</br>省:'+params.data['name'] + '</br>包含市:';
+                    con += data.join(',');
+                    con += '</br>区域数:' + params.value;
+                    return con;
+                    /*return ('涉及品牌:'+params.data['brand_name']
+                        +'</br>立案单位:'+params.data['name']
+                        +'</br>合作次数:'+params.data['value']);*/
+                }
             },
             legend: {
                 type: 'scroll',
@@ -488,7 +587,6 @@
         myChart2.on('dblclick',function (params) {
             toggle3();
         });
-
         var selected;
         // 获取当前legend的状态
         myChart2.on('legendselectchanged', function(obj) {
@@ -524,7 +622,7 @@
                     }
                 }
             }
-            creatProvince(params.name,'container2',list2,1);
+            creatProvince(params.name,'container2',list2,1,content,selected);
         });
     }
 
@@ -543,7 +641,6 @@
             content5 = data;
         }
     });
-    console.log(content5)
     var con1 = content5["0"];
     var list = [];
     for(i=con1.length-1;i>=0;i--){

@@ -35,7 +35,12 @@ function toggle(){
         },
         tooltip : {
             trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
+            // formatter: "{a} <br/>{b} : {c} ({d}%)"
+            formatter: function (params) {
+                return ('涉及品牌:'+params.data['brand_name']
+                    +'</br>立案单位:'+params.data['name']
+                    +'</br>合作次数:'+params.data['value']);
+            }
         },
         legend: {
             type: 'scroll',
@@ -54,11 +59,13 @@ function toggle(){
                     optionToContent: function dataView(opt) {
                         var series = opt.series;
                         var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">涉及品牌</td>'
                             + '<td style="font-weight: bold;">立案单位</td>'
                             + '<td style="font-weight: bold;">合作次数</td>'
                             + '</tr>';
                         for (i = 0; i < content.length; i++) {
-                            table += '<tr><td>' + content[i]['name'] + '</td>'
+                            table += '<tr><td>' + content[i]['brand_name'] + '</td>'
+                                + '<td>' + content[i]['name'] + '</td>'
                                 + '<td>' + content[i]['value'] + '</td></tr>'
                         }
                         table += '</tbody></table></div>';
@@ -360,7 +367,7 @@ function toggle3(){
                 }
             }
         }
-        creatProvince(params.name,'container6',list2,2);
+        creatProvince(params.name,'container6',list2,2,content,selected);
     });
 
 }
@@ -736,7 +743,7 @@ function pyChinese(pro){
     return str;
 }
 
-function creatProvince(name,id,list,num){
+function creatProvince(name,id,list,num,content,selected){
     var data = [];
     for(i=0;i<list.length;i++){
         var cont = {name:list[i],value:1};
@@ -763,7 +770,83 @@ function creatProvince(name,id,list,num){
             ,top:30
         },
         tooltip: {
-            trigger: 'item'
+            trigger: 'item',
+            formatter: function (params) {
+                if(params.name==''){
+                    return "暂无涉及";
+                }
+                var area = params.name.slice(0,params.name.length-1);
+                if(area == "合肥"){
+                    area = "巢湖";
+                }
+                var con = "涉及品牌:";
+                var data = [];
+                var data2 = [];
+                var flag = true;
+                var flag2 = true;
+                for(i=0;i<content.length;i++){
+                    if(selected==null){
+                        var list = content[i]['area'].split(',');
+                        for(j=0;j<list.length;j++){
+                            if(area == list[j]){
+                                // 品牌去重
+                                for(k=0;k<data.length;k++){
+                                    if(content[i]['brand_name'] == data[k]){
+                                        flag = false;
+                                    }
+                                }
+                                if(flag){
+                                    data.push(content[i]['brand_name']);
+                                }
+                                flag = true;
+                                // 案件去重
+                                for(l=0;l<data2.length;l++){
+                                    if(data2[l] == content[i]['case_name']){
+                                        flag2 = false;
+                                    }
+                                }
+                                if(flag2){
+                                    data2.push(content[i]['case_name']);
+                                }
+                                flag2 = true;
+                            }
+                        }
+                    }else{
+                        if(selected[content[i]['brand_name']] == true){
+                            var list = content[i]['area'].split(',');
+                            for(j=0;j<list.length;j++){
+                                if(area == list[j]){
+                                    // 品牌去重
+                                    for(k=0;k<data.length;k++){
+                                        if(content[i]['brand_name'] == data[k]){
+                                            flag = false;
+                                        }
+                                    }
+                                    if(flag){
+                                        data.push(content[i]['brand_name']);
+                                    }
+                                    flag = true;
+                                    // 案件去重
+                                    for(l=0;l<data2.length;l++){
+                                        if(data2[l] == content[i]['case_name']){
+                                            flag2 = false;
+                                        }
+                                    }
+                                    if(flag2){
+                                        data2.push(content[i]['case_name']);
+                                    }
+                                    flag2 = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                con += data.join(',');
+                con += "</br>涉及案件:"; con += data2.join(',');
+                con += "</br>市:"; con += params.name;
+                con += "</br>区域数:"; con += params.value;
+                return con;
+            }
         },
         visualMap: {
             show: false,
