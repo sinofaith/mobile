@@ -33,20 +33,20 @@
                                     <tr>
                                         <td colspan="11"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>QQ好友信息(${aj.caseName})</strong>
+                                                <strong>QQ好友信息</strong>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
                                         <td width="5%">序号</td>
                                         <td width="8%">QQ号</td>
-                                        <td width="8%">姓名</td>
+                                        <td width="5%">姓名</td>
                                         <td width="10%">身份证号码</td>
                                         <td width="8%">手机号码</td>
-                                        <td width="5%">性别</td>
+                                        <td width="3%">性别</td>
                                         <td width="8%">好友QQ号</td>
-                                        <td width="8%">好友昵称</td>
-                                        <td width="8%">好友性别</td>
+                                        <td width="15%">好友昵称</td>
+                                        <td width="5%">好友性别</td>
                                         <td width="8%">QQ好友备注</td>
                                         <td width="8%">QQ好友个性签名</td>
                                     </tr>
@@ -61,7 +61,7 @@
                                             <td align="center">${item.fdqq}</td>
                                             <td align="center">${item.friendqqnc}</td>
                                             <td align="center">${item.friendqqsex}</td>
-                                            <td align="center">${item.qqfriendbz}</td>
+                                            <td align="center" title="${item.qqfriendbz}"><div style="width:130px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.qqfriendbz}</div></td>
                                             <td align="center" title="${item.qqfriendgxqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.qqfriendgxqm}</div></td>
                                         </tr>
                                     </c:forEach>
@@ -125,7 +125,7 @@
                                             <option value="sjhm" <c:if test="${friendxxSeachCondition=='sjhm'}">selected="selected"</c:if> >手机号码</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${friendxxSeachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${friendxxSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>

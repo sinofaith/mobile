@@ -30,14 +30,21 @@ public class FriendChatxxSerivce {
      */
     public String getSeach(String seachCondition, String seachCode, String orderby, String desc) {
         StringBuffer seach = new StringBuffer();
+
+        seach.append(" l.jsqqno not like '%/%' ");
         // 当查询内容不为空时
         if(seachCode!=null) {
             seachCode = seachCode.replace("\r\n", "").replace("，", "").replace(" ", "").replace(" ", "").replace("\t", "");
-            seach.append(" and " + seachCondition + " like '" + seachCode + "'");
+            if(seachCondition.equals("fsqq")){
+                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or jsqqno like '%"+seachCode+"%')");
+            }else if(seachCondition.equals("fsqqnc")){
+                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or jsqqnc like '%"+seachCode+"%')");
+            }
         }
         if(orderby!=null){
-            seach .append(" order by "+orderby).append(desc);
+            seach.append(" order by "+orderby).append(desc);
         }
+
         return seach.toString();
     }
 
@@ -56,10 +63,6 @@ public class FriendChatxxSerivce {
         int allRow = fcDao.getAllRowCounts(seach,id);
         if(allRow>0){
             qqForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
-            // 将字节转成字符串
-            for(TAutoQqLtjlEntity ltjl : qqForms){
-                ltjl.setFanrs(new String(ltjl.getFanr()));
-            }
             for (int i = 0; i <qqForms.size(); i++) {
                 qqForms.get(i).setId((currentPage-1)*pageSize+i+1);
             }
@@ -86,10 +89,6 @@ public class FriendChatxxSerivce {
         int rowAll = fcDao.getRowAll(dc);
         if(rowAll>0){
             ltjls = fcDao.getDoPage(currentPage, pageSize, dc);
-            // 将字节转成字符串
-            for(TAutoQqLtjlEntity ltjl : ltjls){
-                ltjl.setFanrs(new String(ltjl.getFanr()));
-            }
             for (int i = 0; i <ltjls.size(); i++) {
                 ltjls.get(i).setId((currentPage-1)*pageSize+i+1);
             }

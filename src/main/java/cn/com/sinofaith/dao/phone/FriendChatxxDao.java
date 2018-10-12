@@ -42,13 +42,13 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         return Integer.parseInt(num.toString());
     }*/
     public int getAllRowCounts(String seach, long id) {
+        // 发送方
         StringBuffer sql = new StringBuffer();
-        sql.append("select count(*) num from T_AUTO_QQ_LTJL t left join t_Auto_QQ_Friendsxx f on ");
-        sql.append(" t.fsqq=f.qq and t.jsqqno=f.fdqq where t.aj_id="+id+" and f.qqfriendqh is null"+seach);
+        sql.append("select count(1) num from t_auto_qq_ltjl l where l.aj_id="+id+" and "+seach);
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
-        // 转成String
         BigDecimal num = (BigDecimal) map.get("NUM");
+        // 转成String
         return Integer.parseInt(num.toString());
     }
 
@@ -64,23 +64,43 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
         sql.append(" SELECT c.*, ROWNUM rn FROM ( ");
-        sql.append(" select t.* from T_AUTO_QQ_LTJL t left join t_Auto_QQ_Friendsxx f on ");
-        sql.append(" t.fsqq=f.qq and t.jsqqno=f.fdqq where t.aj_id="+id+" and f.qqfriendqh is null"+seach);
+        sql.append("select l.* from t_auto_qq_ltjl l where aj_id="+id+" and "+seach);
         sql.append(") c ");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
+
+        String sql1 = "select distinct qq from t_auto_qq_zhxx where aj_id="+id;
         // 获得当前线程session
         Session session = getSession();
-        SQLQuery query = null;
         List<TAutoQqLtjlEntity> qqForms = null;
+        List qq = null;
         try{
             // 开启事务
             Transaction transaction = session.beginTransaction();
+            // 发送方数据
             qqForms = session.createSQLQuery(sql.toString())
                     .addEntity(TAutoQqLtjlEntity.class).list();
+            qq = session.createSQLQuery(sql1).list();
             transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
             session.close();
+        }
+        String tempQQno;
+        String tempQQnc;
+        for (int i = 0; i < qqForms.size(); i++) {
+            for(int j=0;j<qq.size();j++){
+                if(qqForms.get(i).getFsqq().equals(qq.get(j))){
+                    qqForms.get(i).setFsfx("发送方");
+                }else{
+                    tempQQno = qqForms.get(i).getFsqq();
+                    qqForms.get(i).setFsqq(qqForms.get(i).getJsqqno());
+                    qqForms.get(i).setJsqqno(tempQQno);
+                    tempQQnc = qqForms.get(i).getFsqqnc();
+                    qqForms.get(i).setFsqqnc(qqForms.get(i).getJsqqnc());
+                    qqForms.get(i).setJsqqnc(tempQQnc);
+                    qqForms.get(i).setFsfx("接收方");
+                }
+            }
         }
         return qqForms;
     }

@@ -33,24 +33,23 @@
                                     <tr>
                                         <td colspan="13"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>微信群好友信息(${aj.caseName})</strong>
+                                                <strong>微信群好友信息</strong>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
                                         <td width="5%">序号</td>
                                         <td width="6%">姓名</td>
-                                        <td width="10%">身份证号码</td>
+                                        <td width="8%">身份证号码</td>
                                         <td width="8%">手机号码</td>
                                         <td width="5%">性别</td>
                                         <td width="8%">微信账号</td>
                                         <td width="8%">群好友账号</td>
-                                        <td width="8%">群好友昵称</td>
-                                        <td width="8%">群好友性别</td>
+                                        <td width="10%">群好友昵称</td>
+                                        <%--<td width="8%">群好友性别</td>--%>
                                         <td width="8%">群好友备注</td>
                                         <td width="8%">群好友所在地</td>
                                         <td width="8%">好友群号</td>
-                                        <td width="15%">群好友签名</td>
                                     </tr>
                                     <%--<form action="" method="post" id="_form">--%>
                                     <%--</form>--%>
@@ -63,12 +62,11 @@
                                             <td align="center">${item.sex}</td>
                                             <td align="center">${item.wechatno}</td>
                                             <td align="center">${item.fdwechatno}</td>
-                                            <td align="center">${item.friendnc}</td>
-                                            <td align="center">${item.friendsex}</td>
-                                            <td align="center">${item.friendbz}</td>
-                                            <td align="center">${item.friendszd}</td>
+                                            <td align="center" title="${item.friendnc}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.friendnc}</div></td>
+                                            <%--<td align="center">${item.friendsex}</td>--%>
+                                            <td align="center" title="${item.friendbz}"><div style="width:70px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.friendbz}</div></td>
+                                            <td align="center" title="${item.friendszd}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.friendszd}</div></td>
                                             <td align="center">${item.friendqh}</td>
-                                            <td align="center" title="${item.friendqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.friendqm}</div></td>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -132,7 +130,7 @@
                                             <option value="friendqh" <c:if test="${wxFriendsxxSeachCondition=='friendqh'}">selected="selected"</c:if>>好友群号</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${wxFriendsxxSeachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${wxFriendsxxSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>

@@ -62,13 +62,13 @@ public class MobileDxController {
         String seachCondition = (String) session.getAttribute("phoneDxSeachCondition");
         String lastOrder = (String) session.getAttribute("phoneDxLastOrder");
         String desc = (String) session.getAttribute("phoneDxDesc");
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
+        long aj_id = (long) session.getAttribute("aj_id");
+        if(aj_id==0){
             return "mobile/phoneDx";
         }
-        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
+        dc.add(Restrictions.eq("aj_id",aj_id));
         if(seachCode!=null && !seachCode.trim().equals("")){
-            dc.add(Restrictions.like(seachCondition,seachCode));
+            dc.add(Restrictions.like(seachCondition,"%"+seachCode+"%"));
         }
         if(orderby!=null){
             if(orderby.equals(lastOrder)){

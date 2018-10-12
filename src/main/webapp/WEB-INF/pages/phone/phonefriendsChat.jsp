@@ -34,32 +34,19 @@
                                     <tr>
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>QQ群好友聊天信息(${aj.caseName})</strong>
+                                                <strong>QQ群好友聊天信息</strong>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
-                                        <td width="5%">序号</td>
-                                        <td width="8%">发送QQ号</td>
-                                        <td width="8%">发送QQ昵称</td>
-                                        <td width="8%"><a href="${pageContext.request.contextPath}/phoneqqFriendsChat/order?orderby=fstime">发送时间</a></td>
-                                        <td width="5%">接收QQ号</td>
-                                        <td width="8%">接收QQ昵称</td>
-                                        <td width="8%">发送类型</td>
-                                        <td width="15%">发送内容</td>
-                                        <%--<td width="5%">序号</td>
-                                        <td width="5%">姓名</td>
-                                        <td width="10%">身份证号码</td>
-                                        <td width="8%">手机号码</td>
-                                        <td width="8%">发送QQ号</td>
-                                        <td width="8%">发送QQ昵称</td>
-                                        <td width="5%">接收QQ号</td>
-                                        <td width="8%">接收QQ昵称</td>
-                                        <td width="8%">所属群号</td>
-                                        <td width="8%"><a href="${pageContext.request.contextPath}/phoneqqFriendsChat/order?orderby=num">聊天总次数</a></td>--%>
+                                        <td width="3%">序号</td>
+                                        <td width="5%">发送QQ号</td>
+                                        <td width="10%">发送QQ昵称</td>
+                                        <td width="10%"><a href="${pageContext.request.contextPath}/phoneqqFriendsChat/order?orderby=fstime">发送时间</a></td>
+                                        <td width="17%">接收QQ群号</td>
+                                        <td width="4%">发送类型</td>
+                                        <td width="18%">发送内容</td>
                                     </tr>
-                                    <%--<form action="" method="post" id="_form">--%>
-                                    <%--</form>--%>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center" >${item.id}</td>
@@ -67,21 +54,13 @@
                                             <td align="center">${item.fsqqnc}</td>
                                             <td align="center">${item.fstime}</td>
                                             <td align="center">${item.jsqqno}</td>
-                                            <td align="center">${item.jsqqnc}</td>
-                                            <td align="center">${item.fslx}</td>
-                                            <td align="center"title="${item.lujing}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.lujing}</div></td>
-                                            <%--<td align="center" >${item.id}</td>
-                                            <td align="center">${item.name}</td>
-                                            <td align="center"title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
-                                            <td align="center">${item.sjhm}</td>
-                                            <td align="center">${item.fsqq}</td>
-                                            <td align="center">${item.fsqqnc}</td>
-                                            <td align="center">${item.jsqqno}</td>
-                                            <td align="center">${item.jsqqnc}</td>
-                                            <td align="center">${item.qqfriendqh}</td>
-                                            <td align="center">
-                                                <button  data-toggle="modal" data-target="#myModal" onclick="getFriendChatDetails(this)">${item.num}</button>
-                                            </td>--%>
+                                            <td align="center" title='${item.fslx}'><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fslx}</div></td>
+                                            <%--<td align="center" title="${item.lujing}"><div style="width:250px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.lujing}</div></td>--%>
+                                            <td align="center" title='${item.lujing}'>
+                                                <div style="width:250px; height: 15px;">
+                                                    <xmp style="margin-top: 0px; font-family: 'Microsoft YaHei UI'; width:230px; white-space: nowrap;text-overflow:ellipsis; overflow:hidden">${item.lujing}</xmp>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -137,11 +116,11 @@
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
                                             <option value="fsqq"<c:if test="${friendsChatxxSeachCondition=='qq'}">selected="selected"</c:if>>发送QQ号</option>
-                                            <option value="jsqqno" <c:if test="${friendsChatxxSeachCondition=='jsqqno'}">selected="selected"</c:if> >接收QQ号</option>
+                                            <option value="jsqqno" <c:if test="${friendsChatxxSeachCondition=='jsqqno'}">selected="selected"</c:if> >接收QQ群号</option>
                                             <option value="fslx" <c:if test="${friendsChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${friendsChatxxSeachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${friendsChatxxSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>

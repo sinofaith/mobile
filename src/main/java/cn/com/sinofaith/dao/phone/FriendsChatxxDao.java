@@ -43,8 +43,8 @@ public class FriendsChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
     }*/
     public int getAllRowCounts(String seach, long id) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select count(*) num from T_AUTO_QQ_LTJL t left join t_Auto_QQ_Friendsxx f on ");
-        sql.append(" t.fsqq=f.qq and t.jsqqno=f.fdqq where t.aj_id="+id+" and f.qqfriendqh is not null"+seach);
+        sql.append("select count(*) num from T_AUTO_QQ_LTJL t ");
+        sql.append(" where t.aj_id="+id+seach);
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
         // 转成String
@@ -107,8 +107,8 @@ public class FriendsChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
         sql.append(" SELECT c.*, ROWNUM rn FROM ( ");
-        sql.append(" select t.* from T_AUTO_QQ_LTJL t left join t_Auto_QQ_Friendsxx f on ");
-        sql.append(" t.fsqq=f.qq and t.jsqqno=f.fdqq where t.aj_id="+id+" and f.qqfriendqh is not null"+seach);
+        sql.append(" select t.* from T_AUTO_QQ_LTJL t ");
+        sql.append(" where t.aj_id="+id+seach);
         sql.append(") c ");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
         // 获得当前线程session

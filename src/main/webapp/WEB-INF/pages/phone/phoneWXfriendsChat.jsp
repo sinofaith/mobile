@@ -32,31 +32,20 @@
 
                                 <table class="table  table-hover table_style table_list1 " id="aa" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
                                     <tr>
-                                        <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
+                                        <td colspan="7"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>微信群好友聊天信息(${aj.caseName})</strong>
+                                                <strong>微信群好友聊天信息</strong>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
-                                        <td width="5%">序号</td>
-                                        <td width="8%">发送微信号</td>
-                                        <td width="8%">发送微信昵称</td>
-                                        <td width="8%"><a href="${pageContext.request.contextPath}/phonewxFriendsChat/order?orderby=fstime">发送时间</a></td>
-                                        <td width="8%">接收微信号</td>
-                                        <td width="8%">接收微信昵称</td>
-                                        <td width="8%">发送类型</td>
+                                        <td width="4%">序号</td>
+                                        <td width="6%">发送微信号</td>
+                                        <td width="10%">发送微信昵称</td>
+                                        <td width="14%"><a href="${pageContext.request.contextPath}/phonewxFriendsChat/order?orderby=fstime">发送时间</a></td>
+                                        <td width="20%">接收微信群号</td>
+                                        <td width="4%">发送类型</td>
                                         <td width="15%">发送内容</td>
-                                        <%--<td width="5%">序号</td>
-                                        <td width="5%">姓名</td>
-                                        <td width="10%">身份证号码</td>
-                                        <td width="8%">手机号码</td>
-                                        <td width="8%">发送微信号</td>
-                                        <td width="8%">发送微信昵称</td>
-                                        <td width="5%">接收微信号</td>
-                                        <td width="8%">接收微信昵称</td>
-                                        <td width="8%">所属群号</td>
-                                        <td width="8%"><a href="${pageContext.request.contextPath}/phonewxFriendsChat/order?orderby=num">聊天总次数</a></td>--%>
                                     </tr>
                                     <%--<form action="" method="post" id="_form">--%>
                                     <%--</form>--%>
@@ -64,12 +53,15 @@
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center" >${item.id}</td>
                                             <td align="center">${item.fswechatno}</td>
-                                            <td align="center">${item.fswechatnc}</td>
+                                            <td align="center" title='${item.fswechatnc}'><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fswechatnc}</div></td>
                                             <td align="center">${item.fstime}</td>
-                                            <td align="center">${item.jswechatno}</td>
-                                            <td align="center">${item.jsfriendnc}</td>
+                                            <td align="center" title='${item.jswechatno}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.jswechatno}</div></td>
                                             <td align="center">${item.fslx}</td>
-                                            <td align="center"title="${item.lujing}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.lujing}</div></td>
+                                            <td align="center" title='${item.lujing}'>
+                                                <div style="width:280px; height: 15px;">
+                                                    <xmp style="margin-top: 0px; font-family: 'Microsoft YaHei UI';white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.lujing}</xmp>
+                                                </div>
+                                            </td>
                                             <%--<td align="center" >${item.id}</td>
                                             <td align="center">${item.name}</td>
                                             <td align="center"title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
@@ -137,10 +129,10 @@
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
                                             <option value="fswechatno"<c:if test="${wxFriendsChatxxSeachCondition=='fswechatno'}">selected="selected"</c:if>>发送微信号</option>
-                                            <option value="jswechatno" <c:if test="${wxFriendsChatxxSeachCondition=='jswechatno'}">selected="selected"</c:if> >接收微信号</option>
+                                            <option value="jswechatno" <c:if test="${wxFriendsChatxxSeachCondition=='jswechatno'}">selected="selected"</c:if> >接收微信群号</option>
                                             <option value="fslx" <c:if test="${wxFriendsChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>
                                         </select>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${wxFriendsChatxxSeachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${wxFriendsChatxxSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>

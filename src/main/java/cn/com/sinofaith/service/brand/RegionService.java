@@ -47,9 +47,6 @@ public class RegionService {
         if(rowAll>0){
             page = new Page();
             List<RoleEntity> roles = roleDao.getDoPage(currentPage, pageSize, dc);
-            for(int i=0;i<roles.size();i++){
-                roles.get(i).setRole_id((currentPage-1)*pageSize+i+1);
-            }
             page.setPageNo(currentPage);
             page.setTotalRecords(rowAll);
             page.setPageSize(pageSize);

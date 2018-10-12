@@ -1,6 +1,8 @@
 package cn.com.sinofaith.bean;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xs on 2018/8/31.
@@ -233,5 +235,26 @@ public class TAutoQqZhxxEntity {
 
     public void setAj_id(long aj_id) {
         this.aj_id = aj_id;
+    }
+
+    public List<TAutoQqZhxxEntity> distinctToList(List zhxxs){
+        List<TAutoQqZhxxEntity> zhxxs1 = new ArrayList<>();
+        for(int i=0;i<zhxxs.size();i++){
+            TAutoQqZhxxEntity zhxx = new TAutoQqZhxxEntity();
+            Object[] o = (Object[]) zhxxs.get(i);
+            if(o[0]==null){zhxx.setName(null);}else{zhxx.setName((String) o[0]);}
+            if(o[1]==null){zhxx.setSfzhm(null);}else{zhxx.setSfzhm((String) o[1]);}
+            if(o[2]==null){zhxx.setSjhm(null);}else{zhxx.setSjhm((String) o[2]);}
+            if(o[3]==null){zhxx.setSex(null);}else{zhxx.setSex((String) o[3]);}
+            if(o[4]==null){zhxx.setQq(null);}else{zhxx.setQq((String) o[4]);}
+            if(o[5]==null){zhxx.setNicheng(null);}else{zhxx.setNicheng((String) o[5]);}
+            if(o[6]==null){zhxx.setDataType(null);}else{zhxx.setDataType((String) o[6]);}
+            if(o[7]==null){zhxx.setAge(null);}else{zhxx.setAge((String) o[7]);}
+            if(o[8]==null){zhxx.setSzd(null);}else{zhxx.setSzd((String) o[8]);}
+            if(o[9]==null){zhxx.setBirthday(null);}else{zhxx.setBirthday((String) o[9]);}
+            if(o[10]==null){zhxx.setGxqm(null);}else{zhxx.setGxqm((String) o[10]);}
+            zhxxs1.add(zhxx);
+        }
+        return zhxxs1;
     }
 }

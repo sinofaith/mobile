@@ -28,10 +28,15 @@ public class WxFriendChatxxSerivce {
      */
     public String getSeach(String seachCondition, String seachCode, String orderby, String desc) {
         StringBuffer seach = new StringBuffer();
+        seach.append(" and t.jswechatno not like '%@chatroom%'");
         // 当查询内容不为空时
         if(seachCode!=null) {
             seachCode = seachCode.replace("\r\n", "").replace("，", "").replace(" ", "").replace(" ", "").replace("\t", "");
-            seach.append(" and " + seachCondition + " like '" + seachCode + "'");
+            if(seachCondition.equals("jswechatno")){
+                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or fswechatno like '%"+seachCode+"%')");
+            }else if(seachCondition.equals("jsfriendnc")){
+                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or fswechatnc like '%"+seachCode+"%')");
+            }
         }
         if(orderby!=null){
             seach .append(" order by "+orderby).append(desc);
@@ -53,10 +58,6 @@ public class WxFriendChatxxSerivce {
         int allRow = fcDao.getAllRowCounts(seach,id);
         if(allRow>0){
             wxForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
-            // 将字节转成字符串
-            for(TAutoWechatLtjlEntity ltjl : wxForms){
-                ltjl.setFanrs(new String(ltjl.getFanr()));
-            }
             for (int i = 0; i <wxForms.size(); i++) {
                 wxForms.get(i).setId((currentPage-1)*pageSize+i+1);
             }
@@ -83,10 +84,6 @@ public class WxFriendChatxxSerivce {
         int rowAll = fcDao.getRowAll(dc);
         if(rowAll>0){
             ltjls = fcDao.getDoPage(currentPage, pageSize, dc);
-            // 将字节转成字符串
-            for(TAutoWechatLtjlEntity ltjl : ltjls){
-                ltjl.setFanrs(new String(ltjl.getFanr()));
-            }
             for (int i = 0; i <ltjls.size(); i++) {
                 ltjls.get(i).setId((currentPage-1)*pageSize+i+1);
             }

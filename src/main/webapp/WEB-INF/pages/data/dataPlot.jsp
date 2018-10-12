@@ -89,6 +89,11 @@
         width: 40px;height: 40px;border-radius:50%;
         line-height: 40px;background: #c1c1c1;color: #fff;
         text-align: center;cursor: pointer;display: none;}
+    .back_btn2{position: absolute;left: 1390px;top: -10px;
+        z-index: 500;
+        width: 40px;height: 40px;border-radius:50%;
+        line-height: 40px;background: #c1c1c1;color: #fff;
+        text-align: center;cursor: pointer;}
 </style>
 
 <div class="tab_div">
@@ -111,9 +116,7 @@
         <div id="container" style="height: 100%"></div>
     </div>
     <div id="con1" style="display: none;left: 4px;top: -300px;position:relative; background: #FFFFFF;">
-        <div style="height: 100px; width: 100px; right: 50px; position: absolute">
-            <span class="close" onclick="toggle1('con1')"></span>
-        </div>
+        <span class="back_btn2" onclick="toggle1('con1')">关闭</span>
         <div id="container4" style="height: 80%"></div>
     </div>
 
@@ -121,9 +124,7 @@
         <div id="container1" style="height: 100%"></div>
     </div>
     <div id="con2" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
-        <div style="height: 100px; width: 100px; right: 50px; position: absolute">
-            <span class="close" onclick="toggle1('con2')"></span>
-        </div>
+        <span class="back_btn2" onclick="toggle1('con2')">关闭</span>
         <div id="container5" style="height: 80%"></div>
     </div>
 
@@ -133,9 +134,7 @@
     </div>
     <div id="con3" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
         <span class="back_btn1">返回</span>
-        <div style="height: 100px; width: 100px; right: 50px; position: absolute">
-            <span class="close" onclick="toggle1('con3')"></span>
-        </div>
+        <span class="back_btn2" onclick="toggle1('con3')">关闭</span>
         <div id="container6" style="height: 80%"></div>
     </div>
 
@@ -143,9 +142,7 @@
         <div id="container3" style="height: 115%"></div>
     </div>
     <div id="con4" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
-        <div style="height: 100px; width: 100px; right: 50px;position: absolute">
-            <span class="close" onclick="toggle1('con4')"></span>
-        </div>
+        <span class="back_btn2" onclick="toggle1('con4')">关闭</span>
         <div id="container7" style="height: 80%"></div>
     </div>
 
@@ -519,9 +516,6 @@
                     con += data.join(',');
                     con += '</br>区域数:' + params.value;
                     return con;
-                    /*return ('涉及品牌:'+params.data['brand_name']
-                        +'</br>立案单位:'+params.data['name']
-                        +'</br>合作次数:'+params.data['value']);*/
                 }
             },
             legend: {

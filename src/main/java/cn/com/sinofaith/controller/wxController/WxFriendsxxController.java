@@ -53,15 +53,15 @@ public class WxFriendsxxController {
         // 取出session域中的数据
         String seachCode = (String) session.getAttribute("wxFriendsxxSeachCode");
         String seachCondition = (String) session.getAttribute("wxFriendsxxSeachCondition");
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
+        Long aj_id = (Long) session.getAttribute("aj_id");
+        if(aj_id==null || aj_id==0){
             return "phone/phoneWXfriends";
         }
-        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
+        dc.add(Restrictions.eq("aj_id",aj_id));
         dc.add(Restrictions.isNotNull("friendqh"));
         // 判断此时域中是否有seachCode
         if(seachCode!=null && !seachCode.isEmpty()){
-            dc.add(Restrictions.like(seachCondition,seachCode));
+            dc.add(Restrictions.like(seachCondition,"%"+seachCode+"%"));
         }
         // 调用Service获得分页数据
         Page page = friendxxService.queryForPage(parseInt(pageNo), 10, dc);

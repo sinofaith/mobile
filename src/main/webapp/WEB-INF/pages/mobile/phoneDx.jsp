@@ -33,7 +33,7 @@
                                     <tr>
                                         <td colspan="8"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>短信信息(${aj.caseName})</strong>
+                                                <strong>短信信息</strong>
 
                                             </div>
                                         </td>
@@ -121,7 +121,7 @@
                                             <option value="pNumber" <c:if test="${phoneDxSeachCondition=='pNumber'}">selected="selected"</c:if>>对方号码</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${phoneDxSeachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${phoneDxSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>

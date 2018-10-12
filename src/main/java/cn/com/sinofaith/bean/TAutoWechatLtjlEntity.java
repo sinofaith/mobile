@@ -17,13 +17,13 @@ public class TAutoWechatLtjlEntity {
     private String jsfriendnc;
     private String fslx;
     private byte[] fanr;
-    private String fanrs;
     private String lujing;
     private String dataType;
     private String insertTime;
     private String uNumber;
     private String uName;
     private long aj_id;
+    private String fsfx;
 
     public void setNull() {
         this.fswechatno = null;
@@ -36,7 +36,6 @@ public class TAutoWechatLtjlEntity {
         this.lujing = null;
         this.uName=null;
         this.uNumber=null;
-        this.fanrs=null;
     }
 
     @Id
@@ -217,11 +216,11 @@ public class TAutoWechatLtjlEntity {
         this.aj_id = aj_id;
     }
 
-    public String getFanrs() {
-        return fanrs;
+    public String getFsfx() {
+        return fsfx;
     }
 
-    public void setFanrs(String fanrs) {
-        this.fanrs = fanrs;
+    public void setFsfx(String fsfx) {
+        this.fsfx = fsfx;
     }
 }

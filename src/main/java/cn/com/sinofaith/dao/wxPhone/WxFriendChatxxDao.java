@@ -44,8 +44,8 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
     }*/
     public int getAllRowCounts(String seach, long id) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select count(*) num from T_AUTO_WECHAT_LTJL t left join t_Auto_Wechat_Friendsxx f on ");
-        sql.append(" t.fswechatno=f.wechatno and t.jswechatno=f.fdwechatno where t.aj_id="+id+" and f.friendqh is null"+seach);
+        sql.append("select count(*) num from T_AUTO_WECHAT_LTJL t ");
+        sql.append(" where t.aj_id="+id+seach);
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
         // 转成String
@@ -65,23 +65,43 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
         sql.append(" SELECT c.*, ROWNUM rn FROM ( ");
-        sql.append("select t.* from T_AUTO_WECHAT_LTJL t left join t_Auto_Wechat_Friendsxx f on ");
-        sql.append(" t.fswechatno=f.wechatno and t.jswechatno=f.fdwechatno where t.aj_id="+id+" and f.friendqh is null"+seach);
+        sql.append("select * from T_AUTO_WECHAT_LTJL t ");
+        sql.append(" where t.aj_id="+id+seach);
         sql.append(") c ");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
+
+        String sql1 = "select distinct wxh from t_auto_wechat_zhxx where aj_id="+id;
         // 获得当前线程session
         Session session = getSession();
-        SQLQuery query = null;
         List<TAutoWechatLtjlEntity> wxForms = null;
+        List wechat = null;
         try{
             // 开启事务
             Transaction transaction = session.beginTransaction();
             wxForms = session.createSQLQuery(sql.toString())
                     .addEntity(TAutoWechatLtjlEntity.class).list();
+            wechat = session.createSQLQuery(sql1).list();
             transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
             session.close();
+        }
+        String tempWechatno;
+        String tempWechatnc;
+        for (int i = 0; i < wxForms.size(); i++) {
+            for(int j=0;j<wechat.size();j++){
+                if(wxForms.get(i).getFswechatno().equals(wechat.get(j))) {
+                    wxForms.get(i).setFsfx("发送方");
+                }else if(wxForms.get(i).getJswechatno().equals(wechat.get(j))){
+                    tempWechatno = wxForms.get(i).getFswechatno();
+                    wxForms.get(i).setFswechatno(wxForms.get(i).getJswechatno());
+                    wxForms.get(i).setJswechatno(tempWechatno);
+                    tempWechatnc = wxForms.get(i).getFswechatnc();
+                    wxForms.get(i).setFswechatnc(wxForms.get(i).getJsfriendnc());
+                    wxForms.get(i).setJsfriendnc(tempWechatnc);
+                    wxForms.get(i).setFsfx("接收方");
+                }
+            }
         }
         return wxForms;
     }

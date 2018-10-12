@@ -25,11 +25,9 @@ public class WxFriendsChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
      * @return
      */
     public int getAllRowCounts(String seach, long id) {
-//        String sql = "select count(*) num from T_AUTO_WECHAT_LTJL t left join t_auto_wechat_friendsxx f on " +
-//                " t.fswechatno=f.wechatno and t.jswechatno=f.fdwechatno  where f.friendqh is not null and t.aj_id="+id+seach;
         StringBuffer sql = new StringBuffer();
-        sql.append("select count(*) num from T_AUTO_WECHAT_LTJL t left join t_Auto_Wechat_Friendsxx f on ");
-        sql.append(" t.fswechatno=f.wechatno and t.jswechatno=f.fdwechatno where t.aj_id="+id+" and f.friendqh is not null"+seach);
+        sql.append("select count(*) num from T_AUTO_WECHAT_LTJL t ");
+        sql.append(" where t.aj_id="+id+seach);
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
         // 转成String
@@ -48,14 +46,13 @@ public class WxFriendsChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
     public List<TAutoWechatLtjlEntity> getDoPage(String seach, int currentPage, int pageSize, long id) {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
-        sql.append(" SELECT c.*, ROWNUM rn FROM ( ");
-        sql.append("select t.* from T_AUTO_WECHAT_LTJL t left join t_Auto_Wechat_Friendsxx f on ");
-        sql.append(" t.fswechatno=f.wechatno and t.jswechatno=f.fdwechatno where t.aj_id="+id+" and f.friendqh is not null"+seach);
-        sql.append(") c ");
+        sql.append(" SELECT c.*, ROWNUM rn FROM (");
+        sql.append(" select t.* from T_AUTO_WECHAT_LTJL t");
+        sql.append(" where t.aj_id="+id+seach);
+        sql.append(" ) c");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
         // 获得当前线程session
         Session session = getSession();
-        SQLQuery query = null;
         List<TAutoWechatLtjlEntity> wxForms = null;
         try{
             // 开启事务

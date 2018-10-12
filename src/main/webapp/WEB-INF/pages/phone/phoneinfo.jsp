@@ -33,7 +33,7 @@
                                     <tr>
                                         <td colspan="12"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
-                                                <strong>QQ账户信息(${aj.caseName})</strong>
+                                                <strong>QQ账户信息</strong>
 
                                             </div>
                                         </td>
@@ -41,22 +41,22 @@
                                     <tr align="center">
                                         <td width="5%">序号</td>
                                         <td width="8%">QQ号</td>
-                                        <td width="8%">密码</td>
+                                        <td width="8%">昵称</td>
                                         <td width="8%">姓名</td>
                                         <td width="10%">身份证号码</td>
                                         <td width="8%">手机号码</td>
                                         <td width="5%">性别</td>
                                         <td width="5%">年龄</td>
                                         <td width="8%">出生日期</td>
-                                        <td width="8%">所在地</td>
-                                        <td width="8%">关联账号</td>
+                                        <td width="6%">所在地</td>
+                                        <td width="6%">数据来源</td>
                                         <td width="8%">个性签名</td>
                                     </tr>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center">${item.id}</td>
                                             <td align="center">${item.qq}</td>
-                                            <td align="center" title="${item.mima}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mima}</div></td>
+                                            <td align="center" title="${item.nicheng}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.nicheng}</div></td>
                                             <td align="center">${item.name}</td>
                                             <td align="center" title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
                                             <td align="center">${item.sjhm}</td>
@@ -64,7 +64,7 @@
                                             <td align="center">${item.age}</td>
                                             <td align="center">${item.birthday}</td>
                                             <td align="center">${item.szd}</td>
-                                            <td align="center">${item.glzh}</td>
+                                            <td align="center">${item.dataType}</td>
                                             <td align="center" title="${item.gxqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.gxqm}</div></td>
                                         </tr>
                                     </c:forEach>
@@ -128,7 +128,7 @@
 
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
-                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容,加%模糊查询 例如:%xxx%" name="seachCode" >${zhxxSeachCode}</textarea>
+                                        <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${zhxxSeachCode}</textarea>
                                     </div>
 
                                     <button type="submit" class="right_a_nav margin_none" >查询</button>

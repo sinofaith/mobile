@@ -28,7 +28,7 @@ public class ZhxxService {
         // 分页对象
         Page page = new Page();
         // 获取总条数
-        int rowAll = zhxxDao.getRowAll(dc);
+        int rowAll = zhxxDao.getRowCount(dc);
         // 封装wuliu_relation表
         List<TAutoQqZhxxEntity> zhxxs = null;
         if (rowAll>0) {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -31,11 +32,17 @@ public class MobileJzxxController {
      * @return
      */
     @RequestMapping()
-    public ModelAndView mobileJzxx(String flag, HttpSession session){
+    public ModelAndView mobileJzxx(String flag, @RequestParam(value="aj_id", defaultValue="0") long aj_id,
+                                   HttpSession session){
         ModelAndView mav = new ModelAndView("redirect:/phone/seach?pageNo=1");
         // 将session域中数据清空
         session.removeAttribute("phoneJzxxSeachCode"); //查询内容
         session.removeAttribute("phoneJzxxSeachCondition");//查询条件
+        Long aj_id1 = (Long) session.getAttribute("aj_id");
+        if(aj_id1==null || aj_id1==0){
+            session.setAttribute("aj_id",aj_id);
+        }
+
         if(flag==null){
             flag = "a11";
         }
@@ -57,13 +64,13 @@ public class MobileJzxxController {
         // 将域中对象取出
         String seachCode = (String) session.getAttribute("phoneJzxxSeachCode");
         String seachCondition = (String) session.getAttribute("phoneJzxxSeachCondition");
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
+        long aj_id = (long) session.getAttribute("aj_id");
+        if(aj_id==0){
             return "mobile/phoneJzxxinfo";
         }
-        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
+        dc.add(Restrictions.eq("aj_id",aj_id));
         if(seachCode!=null && !seachCode.trim().equals("")){
-            dc.add(Restrictions.like(seachCondition,seachCode));
+            dc.add(Restrictions.like(seachCondition,"%"+seachCode+"%"));
         }
         // 调用service获取分页对象
         Page page = jzxxService.queryForPage(pageNo,10,dc);

@@ -67,15 +67,15 @@ public class WxFriendsChatxxController {
         // 排序方式(desc降，asc升)
         String desc = (String) session.getAttribute("wxFriendsChatDesc");
         // 所属案件
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
+        Long aj_id = (Long) session.getAttribute("aj_id");
+        if(aj_id==null || aj_id==0){
             return "phone/phoneWXfriendsChat";
         }
 
         // 封装sql语句
         String seach = fcService.getSeach(seachCondition, seachCode, orderby, desc);
         // 封装分页对象
-        Page page = fcService.queryForPage(parseInt(pageNo), 10, seach, aj.getCaseId());
+        Page page = fcService.queryForPage(parseInt(pageNo), 10, seach, aj_id);
         if (page != null) {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());
@@ -118,13 +118,13 @@ public class WxFriendsChatxxController {
         String lastOrder = (String) session.getAttribute("wxFriendsChatlastOrder");
         // 当不是首次点击的时候
         if (orderby.equals(lastOrder)) {
-            if (desc == null || " ,t.id ".equals(desc)) {
-                desc = " desc ";
+            if (desc == null || " ".equals(desc)) {
+                desc = " desc,id desc ";
             } else {
-                desc = " ,t.id ";
+                desc = " ";
             }
         } else {
-            desc = " desc ";
+            desc = " desc,id desc ";
         }
         // 将数据存入session中
         session.setAttribute("wxFriendsChatDesc", desc);

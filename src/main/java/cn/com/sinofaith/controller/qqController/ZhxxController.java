@@ -5,6 +5,8 @@ import cn.com.sinofaith.bean.TAutoQqZhxxEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.phone.ZhxxService;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Distinct;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,14 +54,14 @@ public class ZhxxController {
         // 取出session域中的数据
         String seachCode = (String) session.getAttribute("zhxxSeachCode");
         String seachCondition = (String) session.getAttribute("zhxxSeachCondition");
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
+        Long aj_id = (Long) session.getAttribute("aj_id");
+        if(aj_id==null || aj_id==0){
             return "phone/phoneinfo";
         }
-        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
+        dc.add(Restrictions.eq("aj_id",aj_id));
         // 判断此时域中是否有seachCode
         if(seachCode!=null && !seachCode.isEmpty()){
-            dc.add(Restrictions.like(seachCondition,seachCode));
+            dc.add(Restrictions.like(seachCondition,"%"+seachCode+"%"));
         }
         // 调用Service获得分页数据
         Page page = zhxxService.queryForPage(parseInt(pageNo), 10, dc);

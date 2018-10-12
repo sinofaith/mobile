@@ -73,8 +73,8 @@
                                     </form>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
-                                            <td align="center">${item.role_id}</td>
-                                            <td align="center">${item.role_name}</td>
+                                            <td align="center">${(st.index+1)+(page.pageNo-1)*page.pageSize}</td>
+                                            <td align="center"><a href="${pageContext.request.contextPath}/phone?aj_id=${item.role_id}">${item.role_name}</a></td>
                                             <td align="center">${fn:replace(item.sfzhm,fn:substring(item.sfzhm,6,14),"********")}</td>
                                             <td align="center">${item.role}</td>
                                             <td align="center">${item.insertTime}</td>

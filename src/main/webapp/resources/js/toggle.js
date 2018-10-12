@@ -271,7 +271,106 @@ function toggle3(){
             left: 'center'
         },
         tooltip: {
-            trigger: 'item'
+            trigger: 'item',
+            formatter: function (params) {
+                if(params.data==null){
+                    return '暂无涉及';
+                }
+                var data = [];
+                var data1 = [];
+                var data2 = [];
+                var flag = true;
+                var flag1 = true;
+                var flag2 = true;
+                for(i=0;i<content.length;i++){
+                    if(selected==null){
+                        if(content[i]['name']==params.data['name']){
+                            var list4 = content[i]['area'].split(',');
+                            for(k=0;k<list4.length;k++){
+                                for(j=0;j<data.length;j++){
+                                    if(data[j] == list4[k]){
+                                        flag = false;
+                                    }
+                                }
+                                if(flag){
+                                    data.push(list4[k]);
+                                }
+                                flag = true;
+                            }
+                            // 品牌去重
+                            for(h=0;h<data1.length;h++){
+                                if(data1[h] == content[i]['brand_name']){
+                                    flag1 = false;
+                                }
+                            }
+                            if(flag1){
+                                data1.push(content[i]['brand_name']);
+                            }
+                            flag1 = true;
+                            // 案件去重
+                            for(l=0;l<data2.length;l++){
+                                if(data2[l] == content[i]['case_name']){
+                                    flag2 = false;
+                                }
+                            }
+                            if(flag2){
+                                data2.push(content[i]['case_name']);
+                            }
+                            flag2 = true;
+                        }
+                    }else{
+                        // 当工具条点击后
+                        if(selected[content[i]['brand_name']]==true) {
+                            if(content[i]['name']==params.data['name']){
+                                var list4 = content[i]['area'].split(',');
+                                for(q=0;q<list4.length;q++){
+                                    for(w=0;w<data.length;w++){
+                                        if(data[w] == list4[q]){
+                                            flag = false;
+                                        }
+                                    }
+                                    if(flag){
+                                        data.push(list4[q]);
+                                    }
+                                    flag = true;
+                                }
+                                // 品牌去重
+                                for(h=0;h<data1.length;h++){
+                                    if(data1[h] == content[i]['brand_name']){
+                                        flag1 = false;
+                                    }
+                                }
+                                if(flag1){
+                                    data1.push(content[i]['brand_name']);
+                                }
+                                flag1 = true;
+
+                                // 案件去重
+                                for(l=0;l<data2.length;l++){
+                                    if(data2[l] == content[i]['case_name']){
+                                        flag2 = false;
+                                    }
+                                }
+                                if(flag2){
+                                    data2.push(content[i]['case_name']);
+                                }
+                                flag2 = true;
+                            }
+                        }
+                    }
+                }
+                var con = '涉及品牌:';
+                con += data1.join(',');
+                con += '</br>涉及案件:';
+                con += data2.join(',');
+                con += '</br>省:'+params.data['name'] + '</br>包含市:';
+                con += data.join(',');
+                con += '</br>区域数:' + params.value;
+                return con;
+                /*return ('涉及品牌:'+params.data['brand_name']
+                    +'</br>立案单位:'+params.data['name']
+                    +'</br>合作次数:'+params.data['value']);*/
+            }
         },
         legend: {
             type: 'scroll',

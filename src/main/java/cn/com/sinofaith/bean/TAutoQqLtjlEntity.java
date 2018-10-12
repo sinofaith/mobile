@@ -17,13 +17,13 @@ public class TAutoQqLtjlEntity {
     private String jsqqnc;
     private String fslx;
     private byte[] fanr;
-    private String fanrs;
     private String lujing;
     private String dataType;
     private String insertTime;
     private String uName;
     private String uNumber;
     private long aj_id;
+    private String fsfx;
 
     public void setNull() {
         this.fsqq = null;
@@ -148,7 +148,13 @@ public class TAutoQqLtjlEntity {
         this.insertTime = insertTime;
     }
 
+    public String getFsfx() {
+        return fsfx;
+    }
 
+    public void setFsfx(String fsfx) {
+        this.fsfx = fsfx;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -216,13 +222,5 @@ public class TAutoQqLtjlEntity {
 
     public void setAj_id(long aj_id) {
         this.aj_id = aj_id;
-    }
-
-    public String getFanrs() {
-        return fanrs;
-    }
-
-    public void setFanrs(String fanrs) {
-        this.fanrs = fanrs;
     }
 }

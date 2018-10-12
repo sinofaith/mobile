@@ -54,13 +54,13 @@ public class MobileTxlController {
         // 将域中对象取出
         String seachCode = (String) session.getAttribute("phoneTxlSeachCode");
         String seachCondition = (String) session.getAttribute("phoneTxlSeachCondition");
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
+        long aj_id = (long) session.getAttribute("aj_id");
+        if(aj_id==0){
             return "mobile/phoneTxl";
         }
-        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
+        dc.add(Restrictions.eq("aj_id",aj_id));
         if(seachCode!=null && !seachCode.trim().equals("")){
-            dc.add(Restrictions.like(seachCondition,seachCode));
+            dc.add(Restrictions.like(seachCondition,"%"+seachCode+"%"));
         }
         // 调用service获取分页对象
         Page page = txlService.queryForPage(pageNo,10,dc);

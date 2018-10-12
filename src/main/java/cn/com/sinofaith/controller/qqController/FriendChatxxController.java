@@ -70,14 +70,14 @@ public class FriendChatxxController {
         // 排序方式(desc降，asc升)
         String desc = (String) session.getAttribute("friendChatDesc");
         // 所属案件
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
+        Long aj_id = (Long) session.getAttribute("aj_id");
+        if(aj_id==null || aj_id==0){
             return "phone/phonefriendChat";
         }
         // 封装sql语句
         String seach = fcService.getSeach(seachCondition, seachCode, orderby, desc);
         // 封装分页对象
-        Page page = fcService.queryForPage(parseInt(pageNo), 10, seach, aj.getCaseId());
+        Page page = fcService.queryForPage(parseInt(pageNo), 10, seach, aj_id);
         if (page != null) {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());
@@ -119,10 +119,10 @@ public class FriendChatxxController {
         String lastOrder = (String) session.getAttribute("friendChatlastOrder");
         // 当不是首次点击的时候
         if (orderby.equals(lastOrder)) {
-            if (desc == null || " ,t.id ".equals(desc)) {
+            if (desc == null || " ".equals(desc)) {
                 desc = " desc ";
             } else {
-                desc = " ,t.id ";
+                desc = " ";
             }
         } else {
             desc = " desc ";

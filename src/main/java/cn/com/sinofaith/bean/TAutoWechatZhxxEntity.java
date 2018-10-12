@@ -1,6 +1,8 @@
 package cn.com.sinofaith.bean;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xs on 2018/8/31.
@@ -258,5 +260,25 @@ public class TAutoWechatZhxxEntity {
 
     public void setAj_id(long aj_id) {
         this.aj_id = aj_id;
+    }
+
+    // 数据转换
+    public List<TAutoWechatZhxxEntity> distinctToList(List zhxxs) {
+        List<TAutoWechatZhxxEntity> zhxxs1 = new ArrayList<>();
+        for(int i=0;i<zhxxs.size();i++){
+            TAutoWechatZhxxEntity zhxx = new TAutoWechatZhxxEntity();
+            Object[] o = (Object[]) zhxxs.get(i);
+            if(o[0]==null){zhxx.setName(null);}else{zhxx.setName((String) o[0]);}
+            if(o[1]==null){zhxx.setSfzhm(null);}else{zhxx.setSfzhm((String) o[1]);}
+            if(o[2]==null){zhxx.setSjhm(null);}else{zhxx.setSjhm((String) o[2]);}
+            if(o[3]==null){zhxx.setSex(null);}else{zhxx.setSex((String) o[3]);}
+            if(o[4]==null){zhxx.setWxh(null);}else{zhxx.setWxh((String) o[4]);}
+            if(o[5]==null){zhxx.setNicheng(null);}else{zhxx.setNicheng((String) o[5]);}
+            if(o[6]==null){zhxx.setQq(null);}else{zhxx.setQq((String) o[6]);}
+            if(o[7]==null){zhxx.setEmail(null);}else{zhxx.setEmail((String) o[6]);}
+            if(o[8]==null){zhxx.setGxqm(null);}else{zhxx.setGxqm((String) o[10]);}
+            zhxxs1.add(zhxx);
+        }
+        return zhxxs1;
     }
 }
