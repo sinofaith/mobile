@@ -103,6 +103,39 @@ function toggle2(){
     $("#div2").css("display", "none");
     $("#div3").css("display", "none");
     $("#div4").css("display", "none");
+    $.ajax({
+        url : '${pageContext.request.contextPath}/data/staff',
+        async : false,
+        type : "POST",
+        dataType : 'json',
+        success : function (data){
+            content9 = data;
+        }
+    });
+    console.log(content9)
+    var data10 = [];
+    var data11 = {};
+    var data12 = [];
+    var data13 = {};
+    var data14 = [];
+    var t = true;
+    for(i=0;i<content9.length;i++){
+        data10.push(content9[i].name);
+        if((content9[i].qqNum+content9[i].wxNum)>0){
+            if(t){
+                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name,selected:true};
+                t = false;
+            }else{
+                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name};
+            }
+            data12.push(data11);
+            data13 = {value:content9[i].qqNum,name:"QQ总数"};
+            data14.push(data13);
+            data13 = {value:content9[i].wxNum,name:"微信总数"};
+            data14.push(data13);
+        }
+    }
+    data10.push("QQ总数");data10.push("微信总数");
     var dom1 = document.getElementById("container5");
     var myChart1 = echarts.init(dom1);
     var app = {};
@@ -111,19 +144,93 @@ function toggle2(){
 
     option1 = {
         title : {
-            text: 'xxx',
-            subtext: 'Filing unit',
+            text: '人员分析',
+            subtext: 'Man analysis',
             x:'center'
         },
         tooltip: {
             trigger: 'item',
-            formatter: "{a} <br/>{b}: {c} ({d}%)"
+            formatter: function (params) {
+
+                for(i=0;i<content9.length;i++){
+                    var num = content9[i].qqNum+content9[i].wxNum;
+                    if(params.name==content9[i].name &&(params.name!="QQ总数" || params.name!="微信总数")){
+                        return ('人员名:'+params.name+'('+params.percent+'%)'
+                            +'</br>通讯录个数:'+content9[i].txlNum
+                            +'</br>通话清单总数:'+content9[i].thqdNum
+                            +'</br>短信总数:'+content9[i].dxNum
+                        );
+                    }else if(params.name=="QQ总数" && content9[i].qqNum==params.data['value'] && (num-content9[i].wxNum)==params.data['value']){
+                        return ('<span style="font-size: 16px">'+params.name+'</span>'+'('+content9[i].name+')'
+                            +'</br>qq好友个数:'+content9[i].qqfriendNum
+                            +'</br>qq群好友个数:'+content9[i].qqfriendsNum
+                            +'</br>qq好友聊天总数:'+content9[i].qqltNum
+                            +'</br>qq群好友聊天总数:'+content9[i].qqltsNum
+                        );
+                    }else if(params.name=="微信总数"  && content9[i].wxNum==params.data['value'] && (num-content9[i].qqNum)==params.data['value']){
+                        return ('<span style="font-size: 16px">'+params.name+'</span>'+'('+content9[i].name+')'
+                            +'</br>微信好友个数:'+content9[i].wxfriendNum
+                            +'</br>微信群好友个数:'+content9[i].wxfriendsNum
+                            +'</br>微信好友聊天总数:'+content9[i].wxltNum
+                            +'</br>微信群好友聊天总数:'+content9[i].wxltsNum
+                        );
+                    }
+                }
+            }
         },
         legend: {
             type: 'scroll',
             orient: 'vertical',
             x: 'left',
-            data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
+            data: data10
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {
+                    readOnly: true,
+                    optionToContent: function dataView(opt) {
+                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">姓名</td>'
+                            + '<td style="font-weight: bold;">通讯录总数</td>'
+                            + '<td style="font-weight: bold;">通话清单总数</td>'
+                            + '<td style="font-weight: bold;">短信总数</td>'
+                            + '<td style="font-weight: bold;">QQ好友总数</td>'
+                            + '<td style="font-weight: bold;">QQ群好友总数</td>'
+                            + '<td style="font-weight: bold;">QQ好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">QQ群好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">微信好友总数</td>'
+                            + '<td style="font-weight: bold;">微信群好友总数</td>'
+                            + '<td style="font-weight: bold;">微信好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">微信群好友聊天总数</td>'
+                            + '</tr>';
+                        for (i = 0; i < content9.length; i++) {
+                            if((content9[i].qqNum+content9[i].wxNum)>0){
+                                table += '<tr><td>' + content9[i]['name'] + '</td>'
+                                    + '<td>' + content9[i]['txlNum'] + '</td>'
+                                    + '<td>' + content9[i]['thqdNum'] + '</td>'
+                                    + '<td>' + content9[i]['dxNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqfriendNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqfriendsNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqltNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqltsNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxfriendNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxfriendsNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxltNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxltsNum'] + '</td></tr>';
+                            }
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
+                },
+                restore: {},
+                saveAsImage: {}
+            }
         },
         series: [
             {
@@ -131,7 +238,6 @@ function toggle2(){
                 type:'pie',
                 selectedMode: 'single',
                 radius: [0, '30%'],
-
                 label: {
                     normal: {
                         position: 'inner'
@@ -142,14 +248,10 @@ function toggle2(){
                         show: false
                     }
                 },
-                data:[
-                    {value:335, name:'直达', selected:true},
-                    {value:679, name:'营销广告'},
-                    {value:1548, name:'搜索引擎'}
-                ]
+                data: data12
             },
             {
-                name:'访问来源',
+                name:'数据来源',
                 type:'pie',
                 radius: ['40%', '55%'],
                 label: {
@@ -185,19 +287,10 @@ function toggle2(){
                         }
                     }
                 },
-                data:[
-                    {value:335, name:'直达'},
-                    {value:310, name:'邮件营销'},
-                    {value:234, name:'联盟广告'},
-                    {value:135, name:'视频广告'},
-                    {value:1048, name:'百度'},
-                    {value:251, name:'谷歌'},
-                    {value:147, name:'必应'},
-                    {value:102, name:'其他'}
-                ]
+                data: data14
             }
         ]
-    };;
+    };
     if (option1 && typeof option1 === "object") {
         myChart1.setOption(option1, true);
     }
@@ -249,6 +342,7 @@ function toggle3(){
             name: list1[j],
             type: 'map',
             mapType: 'china',
+            showLegendSymbol: false,
             roam: true,
             label: {
                 normal: {

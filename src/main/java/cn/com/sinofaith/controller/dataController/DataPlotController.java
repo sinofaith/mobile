@@ -4,6 +4,7 @@ import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.form.AnnualDataForm;
 import cn.com.sinofaith.form.PlotForm;
+import cn.com.sinofaith.form.StaffForm;
 import cn.com.sinofaith.service.data.DataPlotService;
 import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
@@ -74,6 +75,12 @@ public class DataPlotController {
         // 接收数据
         Map<String,List<AnnualDataForm>> annualDatas = dpService.getMapAnnualData();
         return annualDatas;
+    }
+
+    @RequestMapping("/staff")
+    public @ResponseBody List<StaffForm> staff(){
+        List<StaffForm> staffForms = dpService.getStaff();
+        return staffForms;
     }
 
 }

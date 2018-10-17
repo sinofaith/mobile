@@ -39,7 +39,7 @@
                                         </td>
                                     </tr>
                                     <tr align="center">
-                                        <td width="2%">序号</td>
+                                        <td width="3%">序号</td>
                                         <td width="8%">微信号</td>
                                         <td width="8%">微信昵称</td>
                                         <td width="10%"><a href="${pageContext.request.contextPath}/phonewxFriendChat/order?orderby=fstime">发送时间</a></td>
@@ -56,7 +56,7 @@
                                             <td align="center">${item.fswechatnc}</td>
                                             <td align="center">${item.fstime}</td>
                                             <td align="center">${item.jswechatno}</td>
-                                            <td align="center">${item.jsfriendnc}</td>
+                                            <td align="center" title='${item.jsfriendnc}'><div style="width:180px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.jsfriendnc}</div></td>
                                             <td align="center">${item.fsfx}</td>
                                             <td align="center">${item.fslx}</td>
                                             <td align="center" title='${item.lujing}'>
@@ -121,6 +121,7 @@
                                             <option value="jswechatno"<c:if test="${wxFriendChatxxSeachCondition=='jswechatno'}">selected="selected"</c:if>>对方微信号</option>
                                             <option value="jsfriendnc" <c:if test="${wxFriendChatxxSeachCondition=='jsfriendnc'}">selected="selected"</c:if> >对方微信昵称</option>
                                             <option value="fslx" <c:if test="${wxFriendChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>
+                                            <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'}">selected="selected"</c:if>>内容</option>
                                         </select>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${wxFriendChatxxSeachCode}</textarea>
                                     </div>
@@ -130,16 +131,17 @@
                                 </form>
                             </div>
 
+                            <%--
                             <div class="width100" style="margin-top: 10px;float: left;">
 
                                 <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">导入/导出</span>
-                                <%--<div class="demo">--%>
-                                <%--<div class="drag-area" id="upload-area">--%>
-                                <%--<strong>将Word文件拖拽到这里</strong>--%>
-                                <%--<br>--%>
-                                <%--<strong>(10个以内)</strong>--%>
-                                <%--</div>--%>
-                                <%--</div>--%>
+                                &lt;%&ndash;<div class="demo">&ndash;%&gt;
+                                &lt;%&ndash;<div class="drag-area" id="upload-area">&ndash;%&gt;
+                                &lt;%&ndash;<strong>将Word文件拖拽到这里</strong>&ndash;%&gt;
+                                &lt;%&ndash;<br>&ndash;%&gt;
+                                &lt;%&ndash;<strong>(10个以内)</strong>&ndash;%&gt;
+                                &lt;%&ndash;</div>&ndash;%&gt;
+                                &lt;%&ndash;</div>&ndash;%&gt;
                                 <div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">
                                     <div class="if_tel width100">
                                        <span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">
@@ -149,6 +151,7 @@
                                     </div>
                                 </div>
                             </div>
+                            --%>
                         </div>
                     </div>
                 </div>

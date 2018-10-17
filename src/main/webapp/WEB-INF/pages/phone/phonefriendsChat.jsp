@@ -118,6 +118,7 @@
                                             <option value="fsqq"<c:if test="${friendsChatxxSeachCondition=='qq'}">selected="selected"</c:if>>发送QQ号</option>
                                             <option value="jsqqno" <c:if test="${friendsChatxxSeachCondition=='jsqqno'}">selected="selected"</c:if> >接收QQ群号</option>
                                             <option value="fslx" <c:if test="${friendsChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>
+                                            <option value="lujing" <c:if test="${friendsChatxxSeachCondition=='lujing'}">selected="selected"</c:if>>发送内容</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${friendsChatxxSeachCode}</textarea>
@@ -128,16 +129,17 @@
                                 </form>
                             </div>
 
+                            <%--
                             <div class="width100" style="margin-top: 10px;float: left;">
 
                                 <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">导入/导出</span>
-                                <%--<div class="demo">--%>
-                                <%--<div class="drag-area" id="upload-area">--%>
-                                <%--<strong>将Word文件拖拽到这里</strong>--%>
-                                <%--<br>--%>
-                                <%--<strong>(10个以内)</strong>--%>
-                                <%--</div>--%>
-                                <%--</div>--%>
+                                &lt;%&ndash;<div class="demo">&ndash;%&gt;
+                                &lt;%&ndash;<div class="drag-area" id="upload-area">&ndash;%&gt;
+                                &lt;%&ndash;<strong>将Word文件拖拽到这里</strong>&ndash;%&gt;
+                                &lt;%&ndash;<br>&ndash;%&gt;
+                                &lt;%&ndash;<strong>(10个以内)</strong>&ndash;%&gt;
+                                &lt;%&ndash;</div>&ndash;%&gt;
+                                &lt;%&ndash;</div>&ndash;%&gt;
                                 <div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">
                                     <div class="if_tel width100">
                                        <span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">
@@ -147,6 +149,7 @@
                                     </div>
                                 </div>
                             </div>
+                            --%>
                         </div>
                     </div>
                 </div>

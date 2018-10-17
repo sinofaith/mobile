@@ -21,12 +21,12 @@ public class WxZhxxDao extends BaseDao<TAutoWechatZhxxEntity> {
      * 获取所有条目
      * @return
      */
-    public int getRowAll() {
+    public int getRowCount(DetachedCriteria dc) {
         Session session = getSession();
         Long rowAll = 0l;
         try {
             Transaction tx = session.beginTransaction();
-            Criteria criteria = session.createCriteria(TAutoWechatZhxxEntity.class);
+            Criteria criteria = dc.getExecutableCriteria(session);
             // 设置聚合查询函数
             criteria.setProjection(Projections.countDistinct("wxh"));
             rowAll = (Long) criteria.uniqueResult();

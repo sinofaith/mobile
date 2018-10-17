@@ -83,6 +83,13 @@ public class MobileDxController {
                 dc.addOrder(Order.desc(orderby));
                 desc = "";
             }
+        }else if(lastOrder!=null){
+            if(("").equals(desc)){
+                dc.addOrder(Order.desc(lastOrder));
+            }else if("desc".equals(desc)){
+                dc.addOrder(Order.asc(lastOrder));
+            }
+
         }
         // 调用service获取分页对象
         Page page = dxService.queryForPage(pageNo,10,dc);
@@ -90,7 +97,9 @@ public class MobileDxController {
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());
         }
-        session.setAttribute("phoneDxLastOrder",orderby);
+        if(orderby!=null){
+            session.setAttribute("phoneDxLastOrder",orderby);
+        }
         session.setAttribute("phoneDxDesc",desc);
         model.addAttribute("phone","phoneDx");
         return "mobile/phoneDx";

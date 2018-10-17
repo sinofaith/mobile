@@ -80,6 +80,13 @@ public class MobileThqdController {
                 dc.addOrder(Order.desc(orderby));
                 desc = "";
             }
+        }else if(lastOrder!=null){
+            if(("").equals(desc)){
+                dc.addOrder(Order.desc(lastOrder));
+            }else if("desc".equals(desc)){
+                dc.addOrder(Order.asc(lastOrder));
+            }
+
         }
         // 调用service获取分页对象
         Page page = thqdService.queryForPage(pageNo,10,dc);
@@ -87,7 +94,9 @@ public class MobileThqdController {
             model.addAttribute("page",page);
             model.addAttribute("detailinfo",page.getList());
         }
-        session.setAttribute("phoneThqdLastOrder",orderby);
+        if(orderby!=null){
+            session.setAttribute("phoneThqdLastOrder",orderby);
+        }
         session.setAttribute("phoneThqdDesc",desc);
         model.addAttribute("phone","phoneThqd");
         return "mobile/phoneThqd";

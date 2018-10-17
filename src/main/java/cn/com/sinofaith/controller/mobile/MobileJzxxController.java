@@ -39,7 +39,7 @@ public class MobileJzxxController {
         session.removeAttribute("phoneJzxxSeachCode"); //查询内容
         session.removeAttribute("phoneJzxxSeachCondition");//查询条件
         Long aj_id1 = (Long) session.getAttribute("aj_id");
-        if(aj_id1==null || aj_id1==0){
+        if(aj_id1==null || aj_id1==0 || aj_id!=0){
             session.setAttribute("aj_id",aj_id);
         }
 

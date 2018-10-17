@@ -91,7 +91,7 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         for (int i = 0; i < wxForms.size(); i++) {
             for(int j=0;j<wechat.size();j++){
                 if(wxForms.get(i).getFswechatno().equals(wechat.get(j))) {
-                    wxForms.get(i).setFsfx("发送方");
+                    wxForms.get(i).setFsfx("发送");
                 }else if(wxForms.get(i).getJswechatno().equals(wechat.get(j))){
                     tempWechatno = wxForms.get(i).getFswechatno();
                     wxForms.get(i).setFswechatno(wxForms.get(i).getJswechatno());
@@ -99,7 +99,7 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
                     tempWechatnc = wxForms.get(i).getFswechatnc();
                     wxForms.get(i).setFswechatnc(wxForms.get(i).getJsfriendnc());
                     wxForms.get(i).setJsfriendnc(tempWechatnc);
-                    wxForms.get(i).setFsfx("接收方");
+                    wxForms.get(i).setFsfx("接收");
                 }
             }
         }

@@ -36,6 +36,8 @@ public class WxFriendChatxxSerivce {
                 seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or fswechatno like '%"+seachCode+"%')");
             }else if(seachCondition.equals("jsfriendnc")){
                 seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or fswechatnc like '%"+seachCode+"%')");
+            }else{
+                seach.append(" and " + seachCondition + " like '%" + seachCode + "%'");
             }
         }
         if(orderby!=null){

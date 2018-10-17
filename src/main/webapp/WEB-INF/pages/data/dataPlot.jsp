@@ -18,7 +18,17 @@
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
 <script src="<c:url value="/resources/js/toggle.js"/> "></script>
 
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script src="<c:url value="/resources/js/echars/echarts.min.js"/> "></script>
+<script src="<c:url value="/resources/js/echars/echarts-gl.min.js"/> "></script>
+<script src="<c:url value="/resources/js/echars/ecStat.min.js"/> "></script>
+<script src="<c:url value="/resources/js/echars/dataTool.min.js"/> "></script>
+<script src="<c:url value="/resources/js/echars/china.js"/> "></script>
+<script src="<c:url value="/resources/js/echars/world.js"/> "></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script src="<c:url value="/resources/js/echars/bmap.min.js"/> "></script>
+<script src="<c:url value="/resources/js/echars/simplex.js"/> "></script>
+
+<%--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
@@ -26,7 +36,8 @@
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
 <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>--%>
+
 <style type="text/css">
     .qgg-table{
         border-collapse: collapse;
@@ -97,21 +108,6 @@
 </style>
 
 <div class="tab_div">
-    <%--<%@include file="../phone/title.jsp" %>--%>
-    <%--<div style="width: 730px; height: 300px; float:left;">
-        <div id="container" style="height: 100%"></div>
-    </div>
-    <div style="width: 730px; height: 300px; float:right;">
-        <div id="container1" style="height: 100%"></div>
-    </div>
-    <div style="width: 730px; height: 300px; float:left;">
-        <div id="container2" style="height: 115%"></div>
-    </div>
-    <div style="width: 730px; height: 300px; float:right;">
-        <div id="container3" style="height: 115%"></div>
-    </div>--%>
-
-
     <div id="div1" style="width: 730px; height: 300px;">
         <div id="container" style="height: 100%"></div>
     </div>
@@ -145,7 +141,6 @@
         <span class="back_btn2" onclick="toggle1('con4')">关闭</span>
         <div id="container7" style="height: 80%"></div>
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -241,6 +236,40 @@
      * 第二个
      * @type {HTMLElement | null}
      */
+    var content9 = "";
+    $.ajax({
+        url : '${pageContext.request.contextPath}/data/staff',
+        async : false,
+        type : "POST",
+        dataType : 'json',
+        success : function (data){
+            content9 = data;
+        }
+    });
+    var data10 = [];
+    var data11 = {};
+    var data12 = [];
+    var data13 = {};
+    var data14 = [];
+    var t = true;
+    for(i=0;i<content9.length;i++){
+        data10.push(content9[i].name);
+        if((content9[i].qqNum+content9[i].wxNum)>0){
+            if(t){
+                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name,selected:true};
+                t = false;
+            }else{
+                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name};
+            }
+            data12.push(data11);
+            data13 = {value:content9[i].qqNum,name:"QQ总数"};
+            data14.push(data13);
+            data13 = {value:content9[i].wxNum,name:"微信总数"};
+            data14.push(data13);
+
+        }
+    }
+    data10.push("QQ总数");data10.push("微信总数");
     var dom1 = document.getElementById("container1");
     var myChart1 = echarts.init(dom1);
     var app = {};
@@ -255,13 +284,86 @@
         },
         tooltip: {
             trigger: 'item',
-            formatter: "{a} <br/>{b}: {c} ({d}%)"
+            formatter: function (params) {
+                for(i=0;i<content9.length;i++){
+                    var num = content9[i].qqNum+content9[i].wxNum;
+                    if(params.name==content9[i].name &&(params.name!="QQ总数" || params.name!="微信总数")){
+                        return ('人员名:'+params.name+'('+params.percent+'%)'
+                            +'</br>通讯录个数:'+content9[i].txlNum
+                            +'</br>通话清单总数:'+content9[i].thqdNum
+                            +'</br>短信总数:'+content9[i].dxNum
+                        );
+                    }else if(params.name=="QQ总数" && content9[i].qqNum==params.data['value'] && (num-content9[i].wxNum)==params.data['value']){
+                        return ('<span style="font-size: 16px">'+params.name+'</span>'+'('+content9[i].name+')'
+                            +'</br>qq好友个数:'+content9[i].qqfriendNum
+                            +'</br>qq群好友个数:'+content9[i].qqfriendsNum
+                            +'</br>qq好友聊天总数:'+content9[i].qqltNum
+                            +'</br>qq群好友聊天总数:'+content9[i].qqltsNum
+                        );
+                    }else if(params.name=="微信总数"  && content9[i].wxNum==params.data['value'] && (num-content9[i].qqNum)==params.data['value']){
+                        return ('<span style="font-size: 16px">'+params.name+'</span>'+'('+content9[i].name+')'
+                            +'</br>微信好友个数:'+content9[i].wxfriendNum
+                            +'</br>微信群好友个数:'+content9[i].wxfriendsNum
+                            +'</br>微信好友聊天总数:'+content9[i].wxltNum
+                            +'</br>微信群好友聊天总数:'+content9[i].wxltsNum
+                        );
+                    }
+                }
+            }
         },
         legend: {
             type: 'scroll',
             orient: 'vertical',
             x: 'left',
-            data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他','百','谷','应','他']
+            data: data10
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {
+                    readOnly: true,
+                    optionToContent: function dataView(opt) {
+                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">姓名</td>'
+                            + '<td style="font-weight: bold;">通讯录总数</td>'
+                            + '<td style="font-weight: bold;">通话清单总数</td>'
+                            + '<td style="font-weight: bold;">短信总数</td>'
+                            + '<td style="font-weight: bold;">QQ好友总数</td>'
+                            + '<td style="font-weight: bold;">QQ群好友总数</td>'
+                            + '<td style="font-weight: bold;">QQ好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">QQ群好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">微信好友总数</td>'
+                            + '<td style="font-weight: bold;">微信群好友总数</td>'
+                            + '<td style="font-weight: bold;">微信好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">微信群好友聊天总数</td>'
+                            + '</tr>';
+                        for (i = 0; i < content9.length; i++) {
+                            if((content9[i].qqNum+content9[i].wxNum)>0){
+                                table += '<tr><td>' + content9[i]['name'] + '</td>'
+                                    + '<td>' + content9[i]['txlNum'] + '</td>'
+                                    + '<td>' + content9[i]['thqdNum'] + '</td>'
+                                    + '<td>' + content9[i]['dxNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqfriendNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqfriendsNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqltNum'] + '</td>'
+                                    + '<td>' + content9[i]['qqltsNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxfriendNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxfriendsNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxltNum'] + '</td>'
+                                    + '<td>' + content9[i]['wxltsNum'] + '</td></tr>';
+                            }
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
+                },
+                restore: {},
+                saveAsImage: {}
+            }
         },
         series: [
             {
@@ -279,14 +381,10 @@
                         show: false
                     }
                 },
-                data:[
-                    {value:335, name:'直达', selected:true},
-                    {value:679, name:'营销广告'},
-                    {value:1548, name:'搜索引擎'}
-                ]
+                data: data12
             },
             {
-                name:'访问来源',
+                name:'数据来源',
                 type:'pie',
                 radius: ['40%', '55%'],
                 label: {
@@ -322,20 +420,7 @@
                         }
                     }
                 },
-                data:[
-                    {value:335, name:'直达'},
-                    {value:310, name:'邮件营销'},
-                    {value:234, name:'联盟广告'},
-                    {value:135, name:'视频广告'},
-                    {value:548, name:'百度'},
-                    {value:151, name:'谷歌'},
-                    {value:77, name:'必应'},
-                    {value:82, name:'其他'},
-                    {value:500, name:'百'},
-                    {value:100, name:'谷'},
-                    {value:70, name:'应'},
-                    {value:20, name:'他'}
-                ]
+                data: data14
             }
         ]
     };
@@ -399,6 +484,7 @@
                 name: list1[j],
                 type: 'map',
                 mapType: 'china',
+                showLegendSymbol: false,
                 roam: true,
                 label: {
                     normal: {

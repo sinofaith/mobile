@@ -49,7 +49,6 @@ public class RegionController {
         if(regionId!=null){
             long id = Long.parseLong(regionId.toString());
             dc.add(Restrictions.eq("region_id",id));
-
         }else{
             return "case/caseRegion";
         }

@@ -3,6 +3,7 @@ package cn.com.sinofaith.service.data;
 import cn.com.sinofaith.dao.data.DataPlotDao;
 import cn.com.sinofaith.form.AnnualDataForm;
 import cn.com.sinofaith.form.PlotForm;
+import cn.com.sinofaith.form.StaffForm;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,11 +57,20 @@ public class DataPlotService {
     }
 
     /**
-     * 年度数据获取
+     * 年度数据
      * @return
      */
     public Map<String,List<AnnualDataForm>> getMapAnnualData() {
         Map<String,List<AnnualDataForm>> mapAnnualData = dataPlotDao.getMapAnnualData();
         return mapAnnualData;
+    }
+
+    /**
+     * 人员数据
+     * @return
+     */
+    public List<StaffForm> getStaff() {
+        List<StaffForm> staffForms = dataPlotDao.getStaff();
+        return staffForms;
     }
 }

@@ -6,8 +6,6 @@ import cn.com.sinofaith.form.QqForm;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.transform.Transformers;
-import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -90,15 +88,15 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         for (int i = 0; i < qqForms.size(); i++) {
             for(int j=0;j<qq.size();j++){
                 if(qqForms.get(i).getFsqq().equals(qq.get(j))){
-                    qqForms.get(i).setFsfx("发送方");
-                }else{
+                    qqForms.get(i).setFsfx("发送");
+                }else if(qqForms.get(i).getJsqqno().equals(qq.get(j))){
                     tempQQno = qqForms.get(i).getFsqq();
                     qqForms.get(i).setFsqq(qqForms.get(i).getJsqqno());
                     qqForms.get(i).setJsqqno(tempQQno);
                     tempQQnc = qqForms.get(i).getFsqqnc();
                     qqForms.get(i).setFsqqnc(qqForms.get(i).getJsqqnc());
                     qqForms.get(i).setJsqqnc(tempQQnc);
-                    qqForms.get(i).setFsfx("接收方");
+                    qqForms.get(i).setFsfx("接收");
                 }
             }
         }

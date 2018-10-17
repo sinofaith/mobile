@@ -39,14 +39,14 @@
                                         </td>
                                     </tr>
                                     <tr align="center">
-                                        <td width="5%">序号</td>
-                                        <td width="8%">用户姓名</td>
-                                        <td width="12%">用户号码</td>
+                                        <td width="3%">序号</td>
+                                        <td width="5%">用户姓名</td>
+                                        <td width="10%">用户号码</td>
                                         <td width="10%"><a href="${pageContext.request.contextPath}/phoneDx/seach?pageNo=1&orderby=sendTime">发送时间</a></td>
                                         <td width="8%">对方姓名</td>
                                         <td width="12%">对方号码</td>
-                                        <td width="8%">发送类型</td>
-                                        <td width="15%">短信内容</td>
+                                        <td width="5%">发送类型</td>
+                                        <td width="25%">短信内容</td>
                                     </tr>
                                     <%--<form action="" method="post" id="_form">--%>
                                     <%--</form>--%>
@@ -59,8 +59,7 @@
                                             <td align="center">${item.pName}</td>
                                             <td align="center">${item.pNumber}</td>
                                             <td align="center">${item.sendType}</td>
-                                            <td align="center" title="${item.content}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.content}</div></td>
-                                            <%--<td align="center" title="${item.mac}"><div style="width:140px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mac}</div></td>--%>
+                                            <td align="center" title="${item.content}"><div style="width:300px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.content}</div></td>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -119,6 +118,7 @@
                                             <option value="uNumber"<c:if test="${phoneDxSeachCondition=='uNumber'}">selected="selected"</c:if>>用户号码</option>
                                             <option value="pName"<c:if test="${phoneDxSeachCondition=='pName'}">selected="selected"</c:if>>对方姓名</option>
                                             <option value="pNumber" <c:if test="${phoneDxSeachCondition=='pNumber'}">selected="selected"</c:if>>对方号码</option>
+                                            <option value="content" <c:if test="${phoneDxSeachCondition=='content'}">selected="selected"</c:if>>短信内容</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${phoneDxSeachCode}</textarea>
@@ -129,16 +129,17 @@
                                 </form>
                             </div>
 
+                            <%--
                             <div class="width100" style="margin-top: 10px;float: left;">
 
                                 <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">导入/导出</span>
-                                <%--<div class="demo">--%>
-                                <%--<div class="drag-area" id="upload-area">--%>
-                                <%--<strong>将Word文件拖拽到这里</strong>--%>
-                                <%--<br>--%>
-                                <%--<strong>(10个以内)</strong>--%>
-                                <%--</div>--%>
-                                <%--</div>--%>
+                                &lt;%&ndash;<div class="demo">&ndash;%&gt;
+                                &lt;%&ndash;<div class="drag-area" id="upload-area">&ndash;%&gt;
+                                &lt;%&ndash;<strong>将Word文件拖拽到这里</strong>&ndash;%&gt;
+                                &lt;%&ndash;<br>&ndash;%&gt;
+                                &lt;%&ndash;<strong>(10个以内)</strong>&ndash;%&gt;
+                                &lt;%&ndash;</div>&ndash;%&gt;
+                                &lt;%&ndash;</div>&ndash;%&gt;
                                 <div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">
                                     <div class="if_tel width100">
                        <span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">
@@ -150,6 +151,7 @@
                                     </div>
                                 </div>
                             </div>
+                            --%>
                         </div>
                     </div>
                 </div>

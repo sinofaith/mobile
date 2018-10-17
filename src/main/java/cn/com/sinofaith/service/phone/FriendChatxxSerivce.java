@@ -39,6 +39,8 @@ public class FriendChatxxSerivce {
                 seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or jsqqno like '%"+seachCode+"%')");
             }else if(seachCondition.equals("fsqqnc")){
                 seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or jsqqnc like '%"+seachCode+"%')");
+            }else{
+                seach.append(" and " + seachCondition + " like '%" + seachCode + "%'");
             }
         }
         if(orderby!=null){

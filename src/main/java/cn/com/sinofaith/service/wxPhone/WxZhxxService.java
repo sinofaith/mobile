@@ -30,7 +30,7 @@ public class WxZhxxService {
         // 分页对象
         Page page = new Page();
         // 获取总条数
-        int rowAll = zhxxDao.getRowAll();
+        int rowAll = zhxxDao.getRowCount(dc);
         // 封装wuliu_relation表
         List<TAutoWechatZhxxEntity> zhxxs = null;
         if (rowAll>0) {
