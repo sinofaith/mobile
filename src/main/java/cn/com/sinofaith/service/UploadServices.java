@@ -279,6 +279,9 @@ public class UploadServices {
 //                                读到非短信息结束移到下一个outertable
                                 if (!elementTable.select("a").attr("name").startsWith(afterElementTable)) {
                                     elementTable = elementTable.nextElementSibling();
+                                    if(elementTable.select("a").text().contains("通话记录")){
+                                        break;
+                                    }
                                 } else {
                                     System.out.println("跳出循环");
                                     break;
@@ -1695,6 +1698,7 @@ public class UploadServices {
 //                                                                    message(p,"blob~~~~~~~~~~~");
                                                         Elements quotes=td.getElementsByTag("a");
 //                                                                    message(p,quotes.size()+"");
+
                                                         if(quotes.size()==0) {
 //                                                                        message(p,"null");
                                                             if (ai.contains("27_301~349.ico")) {
@@ -1765,6 +1769,7 @@ public class UploadServices {
                                                                         } else {
                                                                             wechatLtjlEntity.setFanr(buf);
                                                                         }
+                                                                        inputStream.close();
                                                                     }
                                                                 } catch (FileNotFoundException e) {
                                                                     e.printStackTrace();
@@ -1837,7 +1842,7 @@ public class UploadServices {
                                                             }
                                                         }else {
                                                             if (ai.contains("27_301~349.ico")){
-                                                                qqLtjlEntity.setFsqq(td.text());
+                                                                qqLtjlEntity.setFsqq(td.text().replace("()",""));
                                                             }else {
                                                                 wechatLtjlEntity.setFswechatno(td.text());
                                                             }
@@ -1919,7 +1924,6 @@ public class UploadServices {
                                                                 try {
                                                                     if(file.exists()&&file.isFile()) {
                                                                         inputStream = new FileInputStream(file);
-
                                                                         //新建一byte数组
                                                                         byte[] buf = new byte[inputStream.available()];
                                                                         //将文件读入到byte[]中
@@ -1929,6 +1933,7 @@ public class UploadServices {
                                                                         } else {
                                                                             wechatLtjlEntity.setFanr(buf);
                                                                         }
+                                                                        inputStream.close();
                                                                     }
                                                                 } catch (FileNotFoundException e) {
                                                                     e.printStackTrace();

@@ -31,7 +31,7 @@ public class FriendChatxxSerivce {
     public String getSeach(String seachCondition, String seachCode, String orderby, String desc) {
         StringBuffer seach = new StringBuffer();
 
-        seach.append(" l.jsqqno not like '%/%' ");
+        seach.append(" l.jsqqno not like '%(%' ");
         // 当查询内容不为空时
         if(seachCode!=null) {
             seachCode = seachCode.replace("\r\n", "").replace("，", "").replace(" ", "").replace(" ", "").replace("\t", "");

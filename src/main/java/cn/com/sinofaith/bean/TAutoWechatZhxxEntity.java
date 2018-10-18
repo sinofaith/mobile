@@ -275,8 +275,8 @@ public class TAutoWechatZhxxEntity {
             if(o[4]==null){zhxx.setWxh(null);}else{zhxx.setWxh((String) o[4]);}
             if(o[5]==null){zhxx.setNicheng(null);}else{zhxx.setNicheng((String) o[5]);}
             if(o[6]==null){zhxx.setQq(null);}else{zhxx.setQq((String) o[6]);}
-            if(o[7]==null){zhxx.setEmail(null);}else{zhxx.setEmail((String) o[6]);}
-            if(o[8]==null){zhxx.setGxqm(null);}else{zhxx.setGxqm((String) o[10]);}
+            if(o[7]==null){zhxx.setEmail(null);}else{zhxx.setEmail((String) o[7]);}
+            if(o[8]==null){zhxx.setGxqm(null);}else{zhxx.setGxqm((String) o[8]);}
             zhxxs1.add(zhxx);
         }
         return zhxxs1;

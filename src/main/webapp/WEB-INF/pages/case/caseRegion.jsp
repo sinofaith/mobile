@@ -246,14 +246,13 @@
                             type="file" name="file" webkitdirectory class="file" id="file" size="28"
                             onchange="document.getElementById('textfield').value=this.value;" onclick="destroyTooltip('file')"/>
                     <br>
-                    机  &nbsp;主  &nbsp;名:<input type="text" name = 'myjzm' id ='myjzm'
-                                                   class='txt myjzm'  data-toggle="tooltip" data-placement="top">
+                    机  &nbsp;主  &nbsp;名:<input type="text" name = 'jzm' id ='jzm'
+                                                   class='txt jzm'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('jzm')">
                     <br>
-                    数据来源:<input type="text" name = 'mysjy' id ='mysjy'
-                                                   class='txt mysjy'  data-toggle="tooltip" data-placement="top">
+                    数据来源:<input type = "text" name = 'sjy' id="sjy" class="txt sjy" data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('sjy')">
                     <br>
                     角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'froleName' id ='froleName'
-                                                   class='txt froleName'  data-toggle="tooltip" data-placement="top">
+                                                   class='txt froleName'  data-toggle="tooltip" data-placement="top" oninput="destroyTooltip('froleName')">
                     <br>
                     品  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌:<input type="text" name = 'brandname' id ='fbrandname' value="${brand.brandName}"
                                                                     readonly="readonly"  class='txt brandname'  data-toggle="tooltip" data-placement="top">

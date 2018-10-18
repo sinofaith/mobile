@@ -42,9 +42,9 @@
                                         <td width="4%">序号</td>
                                         <td width="6%">发送微信号</td>
                                         <td width="10%">发送微信昵称</td>
-                                        <td width="14%"><a href="${pageContext.request.contextPath}/phonewxFriendsChat/order?orderby=fstime">发送时间</a></td>
+                                        <td width="12%"><a href="${pageContext.request.contextPath}/phonewxFriendsChat/order?orderby=fstime">发送时间</a></td>
                                         <td width="20%">接收微信群号</td>
-                                        <td width="5%">发送类型</td>
+                                        <td width="6%">发送类型</td>
                                         <td width="15%">发送内容</td>
                                     </tr>
                                     <%--<form action="" method="post" id="_form">--%>

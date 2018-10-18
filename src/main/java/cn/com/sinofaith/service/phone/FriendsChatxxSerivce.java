@@ -29,7 +29,7 @@ public class FriendsChatxxSerivce {
      */
     public String getSeach(String seachCondition, String seachCode, String orderby, String desc) {
         StringBuffer seach = new StringBuffer();
-        seach.append(" and t.jsqqno like '%/%'");
+        seach.append(" and t.jsqqno like '%(%'");
         // 当查询内容不为空时
         if(seachCode!=null) {
             seachCode = seachCode.trim();

@@ -167,14 +167,14 @@ function UploadQZ() {
         $("#fregionName").attr('data-original-title',"区域不能为空,请从区域列表选择后添加取证报告").tooltip('show');
         flag = false;
     }
-    var myjzm = $("#myjzm").val();
+    var myjzm = $("#jzm").val();
     if(myjzm==''){
-        $("#myjzm").attr('data-original-title',"机主名不能为空").tooltip('show');
+        $("#jzm").attr('data-original-title',"机主名不能为空").tooltip('show');
         flag = false;
     }
-    var mysjy = $("#mysjy").val();
+    var mysjy = $("#sjy").val();
     if(mysjy==''){
-        $("#mysjy").attr('data-original-title',"数据来源不能为空").tooltip('show');
+        $("#sjy").attr('data-original-title',"数据来源不能为空").tooltip('show');
         flag = false;
     }
     var froleName = $("#froleName").val();

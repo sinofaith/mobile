@@ -58,8 +58,9 @@
                                             <td align="center">${item.sendTime}</td>
                                             <td align="center">${item.pName}</td>
                                             <td align="center">${item.pNumber}</td>
-                                            <td align="center">${item.sendType}</td>
-                                            <td align="center" title="${item.content}"><div style="width:300px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.content}</div></td>
+                                            <td align="center">${item.sendType eq "被叫" ? "接收":"发送"}</td>
+                                            <td align="center" title="${item.content}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.content}</div></td>
+                                            <%--<td align="center" title="${item.mac}"><div style="width:140px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mac}</div></td>--%>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -129,29 +130,27 @@
                                 </form>
                             </div>
 
-                            <%--
-                            <div class="width100" style="margin-top: 10px;float: left;">
+                            <%--<div class="width100" style="margin-top: 10px;float: left;">--%>
 
-                                <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">导入/导出</span>
-                                &lt;%&ndash;<div class="demo">&ndash;%&gt;
-                                &lt;%&ndash;<div class="drag-area" id="upload-area">&ndash;%&gt;
-                                &lt;%&ndash;<strong>将Word文件拖拽到这里</strong>&ndash;%&gt;
-                                &lt;%&ndash;<br>&ndash;%&gt;
-                                &lt;%&ndash;<strong>(10个以内)</strong>&ndash;%&gt;
-                                &lt;%&ndash;</div>&ndash;%&gt;
-                                &lt;%&ndash;</div>&ndash;%&gt;
-                                <div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">
-                                    <div class="if_tel width100">
-                       <span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">
+                                <%--<span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">导入/导出</span>--%>
+                                <%--&lt;%&ndash;<div class="demo">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<div class="drag-area" id="upload-area">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<strong>将Word文件拖拽到这里</strong>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<br>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<strong>(10个以内)</strong>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                                <%--<div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">--%>
+                                    <%--<div class="if_tel width100">--%>
+                       <%--<span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">--%>
 
-                <button class="sideBar_r_button" data-toggle="modal"
-                        data-target="#myModal">文件夹导入</button>
-                           <button  type="button"  class="sideBar_r_button"  onclick="location.href='${pageContext.request.contextPath}/phone/download'" >数据导出</button>
-                       </span>
-                                    </div>
-                                </div>
-                            </div>
-                            --%>
+                <%--<button class="sideBar_r_button" data-toggle="modal"--%>
+                        <%--data-target="#myModal">文件夹导入</button>--%>
+                           <%--<button  type="button"  class="sideBar_r_button"  onclick="location.href='${pageContext.request.contextPath}/phone/download'" >数据导出</button>--%>
+                       <%--</span>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
                         </div>
                     </div>
                 </div>

@@ -28,8 +28,6 @@ import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static cn.com.sinofaith.service.UploadServices.*;
-
 
 @RequestMapping("/Upload")
 @Controller
@@ -87,7 +85,6 @@ public class UploadController {
             long id = Long.parseLong(regionId.toString());
             // 设置一个添加人员对象
             roleEntity.setRegion_id(id);
-
             roleEntity.setRole(role);
             roleEntity.setInsertTime(TimeFormatUtil.getDate("/"));
             TAutoJzxxEntity jzxx = new TAutoJzxxEntity();
@@ -145,6 +142,7 @@ public class UploadController {
                     temps.delete();
                 }
             }
+            new File(uploadPath).delete();
             e.getStackTrace();
         }finally {
             delFolder(uploadPath+"/"+ fname.split("/")[0]);
