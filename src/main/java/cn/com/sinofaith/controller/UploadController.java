@@ -21,10 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -39,10 +36,10 @@ public class UploadController {
 
     @RequestMapping(value = "/importmeiya",method = RequestMethod.POST)
     @ResponseBody
-    public  ModelAndView main(@RequestParam("file") MultipartFile[] mywjlj, String myjzm,
+    public  String main(@RequestParam("file") MultipartFile[] mywjlj, String myjzm,
                                     String mysjy,String role, HttpServletRequest req,HttpSession session) throws IOException, SQLException {
         //        输出测试文件
-        ModelAndView mvc = new ModelAndView("redirect:/case/seach?pageNo=1");
+//        ModelAndView mvc = new ModelAndView("redirect:/case/seach?pageNo=1");
         FileOutputStream fs = new FileOutputStream(new File("jSoupTextResult.txt"));
         PrintStream p = new PrintStream(fs);
         String file =  "D:\\16-17\\intern\\ieven\\html1\\";
@@ -132,18 +129,24 @@ public class UploadController {
             }
 
 
+        }catch (FileNotFoundException e){
+//            File files = new File(uploadPath);
+//            String[] filep = files.list();
+//            File temps = null;
+//            for(int i=0;i<filep.length;i++){
+//                temps = new File(uploadPath+"/"+filep[i]);
+//                if(temps.isFile()){
+//                    temps.delete();
+//                }
+//            }
+//            new File(uploadPath).delete();
+            System.out.println("找不到Report");
+            e.printStackTrace();
+            return "500";
         }catch (Exception e){
-            File files = new File(uploadPath);
-            String[] filep = files.list();
-            File temps = null;
-            for(int i=0;i<filep.length;i++){
-                temps = new File(uploadPath+"/"+filep[i]);
-                if(temps.isFile()){
-                    temps.delete();
-                }
-            }
-            new File(uploadPath).delete();
-            e.getStackTrace();
+            System.out.println("未知错误");
+            e.printStackTrace();
+            return "404";
         }finally {
             delFolder(uploadPath+"/"+ fname.split("/")[0]);
             delAllFile(uploadPath);
@@ -155,7 +158,7 @@ public class UploadController {
 //        } catch (FileNotFoundException e) {
 //            e.printStackTrace();
 //        }
-        return mvc;
+        return "200";
     }
 
 

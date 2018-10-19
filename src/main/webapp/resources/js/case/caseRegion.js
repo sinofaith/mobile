@@ -49,6 +49,75 @@ function destroyTooltip(name) {
     $("."+name).tooltip('destroy');
 }
 
+function getPerson(id) {
+
+    $.ajax({
+        url: "/mobile/caseRegion/getPerson?role_id="+id,
+        type: 'get',
+        dataType: 'json',
+        success: function(result) {
+            $("#editname").attr("value",result.role_name);
+            $("#editsfzhm").attr("value",result.sfzhm);
+            $("#editrole").attr("value",result.role);
+            $("#editrole_id").attr("value",result.role_id);
+            $("#inserttime").attr("value",result.inserttime);
+            $("#region_id").attr("value",result.region_id);
+        }
+    });
+}
+
+function editRole() {
+    var flag = true;
+    var personname = $("#editname").val().trim();
+    var sfzhm = $("#editsfzhm").val().trim();
+    var role = $("#editrole").val().trim();
+    var role_id = $("#editrole_id").val().trim();
+    var inserttime = $("#inserttime").val().trim();
+    var region_id = $("#region_id").val().trim();
+    var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    if(sfzhm!='' && reg.test(sfzhm) === false&&sfzhm!='未获取到信息') {
+        $("#editsfzhm").attr('data-original-title', "身份证号码不合法").tooltip('show');
+        flag = false;
+    }
+    if(personname==""){
+        $("#editname").attr('data-original-title', "姓名不能为空").tooltip('show');
+        flag= false;
+    }
+    if(sfzhm===''&&sfzhm!='未获取到信息'){
+        $("#editsfzhm").attr('data-original-title', "身份证号码不能为空").tooltip('show');
+        flag= false;
+    }
+    if(role===''){
+        $("#editrole").attr('data-original-title', "角色不能为空").tooltip('show');
+        flag= false;
+    }
+    if(role_id===''){
+        alertify.set('notifier','position', 'top-center');
+        alertify.error("错误!请刷新页面后重新点击编辑按钮");
+        return;
+    }
+    if(flag){
+        $.post(
+            "./editRole",
+            {role_name:personname,sfzhm:sfzhm,role:role,role_id:role_id,inserttime:inserttime,region_id:region_id},
+            function(result){
+                if(result == "200"){
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.success("修改成功!");
+                    $(".btn").attr("disabled","true");
+                    $('#editModal').modal('hide');
+                    setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
+                }else{
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.error("修改失败...");
+                }
+            },
+            "json"
+        )
+    }
+    $(".btn").removeAttr("disabled","disabled");
+}
+
 function getSFZHM(){
     var SFZHM = $('#sfzhm').val().trim();
     var flag = true;
@@ -123,12 +192,14 @@ function addRole(){
             {role_name:role_name,sfzhm:sfzhm,role:role},
             function(result){
                 if(result == "200"){
-                    alertify.alert("添加完成!");
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.success("添加完成!");
                     $(".btn").attr("disabled","true");
                     $('#myModal').modal('hide');
                     setTimeout(function () {document.getElementById("seachDetail").submit()},1000);
                 }else if(result == "303"){
-                    alertify.alert("添加失败");
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.error("添加失败!");
                 }
             },
             "json"
@@ -155,6 +226,7 @@ function caseSkip(a){
 
 
 function UploadQZ() {
+    $(".btn").attr("disabled","true");
     var fileObj = document.getElementById("file");// js 获取文件对象
     var file = $("#file").val();
     var flag = true;
@@ -183,6 +255,7 @@ function UploadQZ() {
         flag = false;
     }
     if(!flag){
+        $(".btn").removeAttr("disabled","disabled");
         return;
     }
     var FileController = "/mobile/Upload/importmeiya"; // 接收上传文件的后台地址
@@ -199,13 +272,24 @@ function UploadQZ() {
     var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
     xhr.open("post", FileController, true);
     xhr.onload = function(e) {
-        if(this.status == 200||this.status == 304){
+        if((this.status == 200||this.status == 304)){
+            var responseText = xhr.responseText;
             alertify.set('notifier','position', 'top-center');
-            alertify.success("导入完成!");
-            $('#filemyModal').modal('hide');
-            setTimeout(function () {document.getElementById("seachDetail").submit()},1500);
-        }else{
-            alertify.set('notifier','position', 'top-center');
+            if(responseText=='200') {
+                alertify.success("导入完成!");
+                $('#filemyModal').modal('hide');
+                setTimeout(function () {
+                    document.getElementById("seachDetail").submit()
+                }, 1500);
+            }else if(responseText=='500'){
+                $(".btn").removeAttr("disabled","disabled");
+                alertify.error("未找到Report目录");
+            }else if(responseText=='404'){
+                $(".btn").removeAttr("disabled","disabled");
+                alertify.error("错误!请联系管理员")
+            }
+        }else {
+            $(".btn").removeAttr("disabled","disabled");
             alertify.error("错误!请联系管理员")
             return
         }
@@ -213,6 +297,8 @@ function UploadQZ() {
     xhr.upload.addEventListener("progress", progressFunction, false);
     xhr.send(form);
 }
+
+
 
 function progressFunction(evt) {
 

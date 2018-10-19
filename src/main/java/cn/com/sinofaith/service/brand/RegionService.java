@@ -23,6 +23,19 @@ public class RegionService {
     @Autowired
     private RoleDao roleDao;
 
+    public RoleEntity getRoleById(long id){
+        List<RoleEntity> roleList = roleDao.find(" from RoleEntity where role_id="+id);
+        if(roleList.size()>0){
+            return roleList.get(0);
+        }else{
+            return new RoleEntity();
+        }
+    }
+
+    public void editRole(RoleEntity re){
+        roleDao.saveOrUpdate(re);
+    }
+
      public void add(long caseId,String areaId){
         String[] listArea = areaId.split(",");
         for(int i=0;i<listArea.length;i++){

@@ -67,6 +67,7 @@
                                         <td width="13%">身份证号码</td>
                                         <td width="10%">角色</td>
                                         <td width="7%">创建时间</td>
+                                        <td width="6%">操作</td>
                                     </tr>
                                     <form action="" method="post" id="_form">
 
@@ -78,6 +79,8 @@
                                             <td align="center">${fn:replace(item.sfzhm,fn:substring(item.sfzhm,6,14),"********")}</td>
                                             <td align="center">${item.role}</td>
                                             <td align="center">${item.insertTime}</td>
+                                            <td align="center"><button data-toggle="modal"
+                                                                       data-target="#editModal" onclick="getPerson('${item.role_id}')">编辑</button></td>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
@@ -273,6 +276,48 @@
             <div class="modal-footer">
                 <input type="submit" name="submit" class="btn" value="上传"
                        onclick="UploadQZ()" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <span id="percentageedit" style="color:blue;"></span> <br>
+                <div class="file-box">
+                    <input type="hidden" id="editrole_id">
+                    <input type="hidden" id="inserttime">
+                    <input type="hidden" id="region_id">
+                    姓  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text" name = 'editname' id ='editname'
+                                                                    class='txt editname'  data-toggle="tooltip" data-placement="top"
+                                                                    oninput="destroyTooltip('editname');" />
+                    <br>
+                    身  &nbsp;份  &nbsp;证:<input type="text" name = 'editsfzhm' id ='editsfzhm'
+                                               class='txt editsfzhm' oninput="destroyTooltip('editsfzhm')"  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    角  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:<input type="text" name = 'editrole' id ='editrole'
+                                                                    class='txt editrole' data-toggle="tooltip" data-placement="top"
+                                                                    oninput="destroyTooltip('editrole');" />
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" name="submit" class="btn" value="确定"
+                       onclick="editRole()"/>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
             </div>

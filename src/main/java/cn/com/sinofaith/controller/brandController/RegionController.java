@@ -4,10 +4,12 @@ import cn.com.sinofaith.bean.RoleEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.brand.RegionService;
 import cn.com.sinofaith.util.TimeFormatUtil;
+import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -120,12 +124,37 @@ public class RegionController {
         return rs.getDo(1, 100, dc, "role");
     }
 
+
+    @RequestMapping( value = "/getPerson",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String getPerson(String role_id){
+        Gson gson = new Gson();
+        Map map = new HashMap();
+        System.out.println(gson.toJson(rs.getRoleById(Long.parseLong(role_id))));
+        return gson.toJson(rs.getRoleById(Long.parseLong(role_id)));
+    }
+
+    @RequestMapping(value = "/editRole",method = RequestMethod.POST,produces = "text/pain;charset=UTF-8")
+    @ResponseBody
+    public String editRole(String role_name,String sfzhm,String role,String role_id,String inserttime,String region_id){
+        RoleEntity re = new RoleEntity();
+        re.setRole_name(role_name);
+        re.setSfzhm(sfzhm);
+        re.setRole(role);
+        re.setRole_id(Long.parseLong(role_id));
+        re.setInsertTime(inserttime);
+        re.setRegion_id(Long.parseLong(region_id));
+        rs.editRole(re);
+        return "200";
+    }
+
     /**
      * 获取已有身份证
      * @param sfzhm
      * @param session
      * @return
      */
+
     @RequestMapping("/getSFZHM")
     @ResponseBody
     public String getSFZHM(String sfzhm,HttpSession session){
