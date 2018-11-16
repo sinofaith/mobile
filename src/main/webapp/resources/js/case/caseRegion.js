@@ -60,7 +60,7 @@ function getPerson(id) {
             $("#editsfzhm").attr("value",result.sfzhm);
             $("#editrole").attr("value",result.role);
             $("#editrole_id").attr("value",result.role_id);
-            $("#inserttime").attr("value",result.inserttime);
+            $("#inserttime").attr("value",result.insertTime);
             $("#region_id").attr("value",result.region_id);
         }
     });

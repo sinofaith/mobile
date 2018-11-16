@@ -9,10 +9,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.naming.Name;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -103,5 +103,26 @@ public class MobileJzxxController {
         return "redirect:/phone/seach?pageNo=1";
     }
 
+    /**
+     * 获取要修改的机主信息
+     * @param id
+     * @return
+     */
+    @RequestMapping("/getEditPerson")
+    public @ResponseBody TAutoJzxxEntity getEditPerson(long id){
+        TAutoJzxxEntity jzxxEntity = jzxxService.getEditPerson(id);
+        return jzxxEntity;
+    }
 
+    /**
+     * 修改机主信息
+     * @param jzxxEntity
+     * @return
+     */
+    @RequestMapping(value = "/editPerson", method = RequestMethod.POST)
+    @ResponseBody
+    public String editPerson(@RequestBody TAutoJzxxEntity jzxxEntity){
+        jzxxService.editPerson(jzxxEntity);
+        return "200";
+    }
 }

@@ -126,14 +126,10 @@
 </head>
 
 <body style="height: 100%;><!-- #BeginLibraryItem "/Library/top.lbi" -->
-<header id="navbar">
-    <%--<a class="logo"><img src="<c:url value="/resources/img/logo02.png"/>"style=" width: 63px ;float: left"/></a>--%>
-
-    <span  class="fl_l padd_l_100  font15 color_black" style="margin-left: 75px;">
-          手机取证报告分析系统
-        </span>
+<%--<header id="navbar">
+    &lt;%&ndash;<a class="logo"><img src="<c:url value="/resources/img/logo02.png"/>"style=" width: 63px ;float: left"/></a>&ndash;%&gt;
     <!-- /.navbar-header -->
-    <%--<div class="top_nav" style="width: 100%;">
+    &lt;%&ndash;<div class="top_nav" style="width: 100%;">
         <ul class="top_Navigate">
 
 
@@ -162,28 +158,28 @@
                 &lt;%&ndash;<a href="/AMD/push">推送</a></li>&ndash;%&gt;
 
         </ul>
-    </div>--%>
+    </div>&ndash;%&gt;
         <span class="fl_r font_075 padd_r_30">
-            <%--<span>${user.username}</span>，您已登录&nbsp;<a id="btnLogout" href="/word/logout" style="color:  #6698ce" class="color_black">退出系统</a>--%>
+            &lt;%&ndash;<span>${user.username}</span>，您已登录&nbsp;<a id="btnLogout" href="/word/logout" style="color:  #6698ce" class="color_black">退出系统</a>&ndash;%&gt;
         </span>
 
 
     <div class="nav-search" style="width: 300px">
-        <%--<a  id="nav-enable" style="display:block ;float: right" title="模式切换"><img src="<c:url value="/resources/img/enable.png"/>" width="35" height="30"></a>--%>
+        &lt;%&ndash;<a  id="nav-enable" style="display:block ;float: right" title="模式切换"><img src="<c:url value="/resources/img/enable.png"/>" width="35" height="30"></a>&ndash;%&gt;
 
-        <%--<c:choose>--%>
-        <%--<c:when test="${model==1}">--%>
-        <%--<form class="form-search" action="/AMD/onekeyquery" id="nav-search" style="margin-right: 10px;float: right">--%>
-        <%--</c:when>--%>
-        <%--<c:otherwise>--%>
-        <%--<form class="form-search" action="/AMD/onekeyquery" id="nav-search" style="display: none" >--%>
-        <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
+        &lt;%&ndash;<c:choose>&ndash;%&gt;
+        &lt;%&ndash;<c:when test="${model==1}">&ndash;%&gt;
+        &lt;%&ndash;<form class="form-search" action="/AMD/onekeyquery" id="nav-search" style="margin-right: 10px;float: right">&ndash;%&gt;
+        &lt;%&ndash;</c:when>&ndash;%&gt;
+        &lt;%&ndash;<c:otherwise>&ndash;%&gt;
+        &lt;%&ndash;<form class="form-search" action="/AMD/onekeyquery" id="nav-search" style="display: none" >&ndash;%&gt;
+        &lt;%&ndash;</c:otherwise>&ndash;%&gt;
+        &lt;%&ndash;</c:choose>&ndash;%&gt;
         <form class="form-search" action="/AMD/onekeyquery" id="nav-search" style="margin-right: 10px;float: right">
              	<span class="input-icon">
-			    	<%--<input type="text" placeholder="请输入文本查询条件" class="nav-search-input" name="querycondition"--%>
-                           <%--id="nav-search-input" autocomplete="off"/>--%>
-					<%--<i class="icon-search nav-search-icon"></i>--%>
+			    	&lt;%&ndash;<input type="text" placeholder="请输入文本查询条件" class="nav-search-input" name="querycondition"&ndash;%&gt;
+                           &lt;%&ndash;id="nav-search-input" autocomplete="off"/>&ndash;%&gt;
+					&lt;%&ndash;<i class="icon-search nav-search-icon"></i>&ndash;%&gt;
 				</span>
         </form>
 
@@ -192,7 +188,7 @@
     <!-- /.navbar-header -->
 
     <!-- /.container -->
-</header>
+</header>--%>
 
 
 <%--<script type="text/javascript">--%>

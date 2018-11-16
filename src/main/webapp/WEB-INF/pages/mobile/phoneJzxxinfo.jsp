@@ -17,6 +17,7 @@
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
 <script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/qq.js"/> "></script>
+<script src="<c:url value="/resources/js/case/phoneJzxx.js"/> "></script>
 
 <div class="tab_div">
     <%@include file="../phone/title.jsp" %>
@@ -31,7 +32,7 @@
 
                                 <table class="table  table-hover table_style table_list1 " id="aa" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
                                     <tr>
-                                        <td colspan="13"  align="center" class="dropdown_index" style="background-color: #eee;">
+                                        <td colspan="12"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
                                                 <strong>机主信息</strong>
 
@@ -45,13 +46,12 @@
                                         <td width="12%">证件号码</td>
                                         <td width="8%">手机号码</td>
                                         <td width="10%">MAC地址</td>
-                                        <td width="10%">用户识别码</td>
-                                        <td width="10%">设备身份码</td>
                                         <td width="12%">手机型号</td>
                                         <td width="12%">工作单位</td>
                                         <td width="12%">现住址</td>
                                         <td width="12%">户籍地</td>
                                         <td width="8%">设备编号</td>
+                                        <td width="3%">操作</td>
                                     </tr>
                                     <%--<form action="" method="post" id="_form">--%>
                                     <%--</form>--%>
@@ -63,13 +63,14 @@
                                             <td align="center">${item.zjhm}</td>
                                             <td align="center">${item.sjhm}</td>
                                             <td align="center" title="${item.mac}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mac}</div></td>
-                                            <td align="center" title="${item.yhsbm}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.yhsbm}</div></td>
-                                            <td align="center" title="${item.sbsbm}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sbsbm}</div></td>
                                             <td align="center">${item.sjxh}</td>
                                             <td align="center">${item.gzdw}</td>
                                             <td align="center" title="${item.xzz}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.xzz}</div></td>
                                             <td align="center" title="${item.hjd}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.hjd}</div></td>
                                             <td align="center" title="${item.sbbh}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sbbh}</div></td>
+                                            <td align="center">
+                                                <button style="width: 30px;" data-toggle="modal" data-target="#editModal" onclick="getEditPerson(${item.aj_id})">编辑</button>
+                                            </td>
                                             <%--<td align="center" title="${item.gxqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.gxqm}</div></td>
                                             <td align="center" title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>--%>
                                         </tr>
@@ -190,47 +191,78 @@
     .crimeterrace{ background-color: #636B75 !important;}
 </style>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">文件上传进度</h4>
+                <h4 class="modal-title" id="myModalLabel1">机主信息<span id="title"></span></h4>
             </div>
             <div class="modal-body">
-                <progress id="progressBar" value="0" max="100"
-                          style="width: 100%;height: 20px; "> </progress>
-                <span id="percentage" style="color:blue;"></span> <br>
-                <br>
                 <div class="file-box">
-                    文件夹:<input type='text' name='textfield' id='textfield' class='txt'/>
-                    <input type='button' class='btn' value='浏览...' />
-                    <input
-                            type="file" name="file" webkitdirectory class="file" id="file" size="28"
-                            onchange="document.getElementById('textfield').value=this.value;" />
-                    <%--<br>--%>
-                    <%--案件名:<input type="text" name = 'aj' id ='aj' class='txt' readonly="readonly" value="${aj.aj}">--%>
+                    <input type="hidden" id="id">
+                    <input type="hidden" id="biem">
+                    <input type="hidden" id="mac">
+                    <input type="hidden" id="yhsbm">
+                    <input type="hidden" id="sbsbm">
+                    <input type="hidden" id="xzzqh">
+                    <input type="hidden" id="hjdqh">
+                    <input type="hidden" id="beizhu">
+                    <input type="hidden" id="zjlx">
+                    <input type="hidden" id="cjsj">
+                    <input type="hidden" id="sbbh">
+                    <input type="hidden" id="daorusj">
+                    <input type="hidden" id="gsd">
+                    <input type="hidden" id="dataType">
+                    <input type="hidden" id="insertTime">
+                    <input type="hidden" id="iccid">
+                    <input type="hidden" id="aj_id">
+                    姓  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text" name = 'editname' id ='editname'
+                                                                    class='txt editname'  data-toggle="tooltip" data-placement="top"
+                                                                    oninput="destroyTooltip('editname');" />
                     <br>
-                    <input type="hidden" id="checkbox1" value="1" >
-                    <%--<label for="checkbox1" style="padding-top: 8px">导入数据绑定用户</label>--%>
+                    性  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:<input type="text" name = 'editsex' id ='editsex'
+                                                                    class='txt editname'  data-toggle="tooltip" data-placement="top"
+                                                                    oninput="destroyTooltip('editsex');" />
+                    <br>
+                    证 件 号 码:<input type="text" name = 'editsfzhm' id ='editsfzhm'
+                                                        class='txt editsfzhm' oninput="destroyTooltip('editsfzhm')"  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    手 机 号 码:<input type="text" name = 'editmobile' id ='editmobile'
+                                                        class='txt editrole' data-toggle="tooltip" data-placement="top"
+                                                        oninput="destroyTooltip('editmobile');" />
+                    <br>
+                    手 机 型 号:<input type="text" name = 'editsjxh' id ='editsjxh'
+                                                        class='txt editrole' data-toggle="tooltip" data-placement="top"
+                                                        oninput="destroyTooltip('editsjxh');" />
+                    <br>
+                    工 作 单 位:<input type="text" name = 'editgzdw' id ='editgzdw'
+                                                        class='txt editrole' data-toggle="tooltip" data-placement="top"
+                                                        oninput="destroyTooltip('editgzdw');" />
+                    <br>
+                    现&nbsp;&nbsp;&nbsp;住&nbsp;&nbsp;&nbsp;址:<input type="text" name = 'editxzz' id ='editxzz'
+                                                        class='txt editrole' data-toggle="tooltip" data-placement="top"
+                                                        oninput="destroyTooltip('editxzz');" />
+                    <br>
+                    户&nbsp;&nbsp;&nbsp;籍&nbsp;&nbsp;&nbsp;地:<input type="text" name = 'edithjd' id ='edithjd'
+                                                        class='txt editrole' data-toggle="tooltip" data-placement="top"
+                                                        oninput="destroyTooltip('edithjd');" />
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="submit" name="submit" class="btn" value="上传"
-                       onclick="UploadWord()" />
+                <input type="submit" name="submit" class="btn" value="确定"
+                       onclick="editPerson()"/>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal -->
 </div>
 
 
-<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+<%--<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="top: 0%; min-width: 80%;left: 10%;right: 10%;">
         <div class="modal-content">
@@ -263,6 +295,6 @@
         <!-- /.modal-content -->
     </div>
     <!-- /.modal -->
-</div>
+</div>--%>
 
 <%@include file="../template/newfooter.jsp" %>

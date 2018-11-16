@@ -57,7 +57,6 @@
                                         <td colspan="10"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
                                                 <strong>人员列表(${brand.brandName}-${brand.unitName}-${caseName}-${regionName})</strong>
-
                                             </div>
                                         </td>
                                     </tr>

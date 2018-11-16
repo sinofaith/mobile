@@ -7,6 +7,7 @@ import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.mobile.DxService;
 import cn.com.sinofaith.service.mobile.TxlService;
 import org.apache.poi.ss.formula.functions.Odd;
+import org.hibernate.NullPrecedence;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -73,19 +74,19 @@ public class MobileDxController {
         if(orderby!=null){
             if(orderby.equals(lastOrder)){
                 if(desc==null || desc.equals("desc")){
-                    dc.addOrder(Order.desc(orderby));
+                    dc.addOrder(Order.desc(orderby).nulls(NullPrecedence.LAST));
                     desc = "";
                 }else{
                     dc.addOrder(Order.asc(orderby));
                     desc = "desc";
                 }
             }else{
-                dc.addOrder(Order.desc(orderby));
+                dc.addOrder(Order.desc(orderby).nulls(NullPrecedence.LAST));
                 desc = "";
             }
         }else if(lastOrder!=null){
             if(("").equals(desc)){
-                dc.addOrder(Order.desc(lastOrder));
+                dc.addOrder(Order.desc(lastOrder).nulls(NullPrecedence.LAST));
             }else if("desc".equals(desc)){
                 dc.addOrder(Order.asc(lastOrder));
             }

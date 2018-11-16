@@ -59,7 +59,7 @@
                                             <td align="center">${item.pName}</td>
                                             <td align="center">${item.pNumber}</td>
                                             <td align="center">${item.sendType eq "被叫" ? "接收":"发送"}</td>
-                                            <td align="center" title="${item.content}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.content}</div></td>
+                                            <td align="center" title="${item.content}"><div style="width:300px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.content}</div></td>
                                             <%--<td align="center" title="${item.mac}"><div style="width:140px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.mac}</div></td>--%>
                                         </tr>
                                     </c:forEach>

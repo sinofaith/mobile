@@ -4,6 +4,7 @@ import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.phone.FriendChatxxSerivce;
+import org.hibernate.NullPrecedence;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -120,12 +121,12 @@ public class FriendChatxxController {
         // 当不是首次点击的时候
         if (orderby.equals(lastOrder)) {
             if (desc == null || " ".equals(desc)) {
-                desc = " desc ";
+                desc = " desc nulls last ";
             } else {
                 desc = " ";
             }
         } else {
-            desc = " desc ";
+            desc = " desc nulls last ";
         }
         // 将数据存入session中
         session.setAttribute("friendChatDesc", desc);
@@ -160,7 +161,7 @@ public class FriendChatxxController {
         dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
         if(order.equals(lastOrder)){
            if(desc==null || desc.equals("desc")){
-               dc.addOrder(Order.desc(order));
+               dc.addOrder(Order.desc(order).nulls(NullPrecedence.LAST));
                desc = "";
            }else{
                dc.addOrder(Order.asc(order));

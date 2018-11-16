@@ -3,11 +3,13 @@ package cn.com.sinofaith.dao.data;
 import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.dao.BaseDao;
 import cn.com.sinofaith.form.AnnualDataForm;
+import cn.com.sinofaith.form.Brandperson;
 import cn.com.sinofaith.form.PlotForm;
 import cn.com.sinofaith.form.StaffForm;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
@@ -151,6 +153,9 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
                     for(int y=0;y<annualDatas.size();y++) {
                         if (annualDatas1.get(j).getYear().equals(annualDatas.get(y).getYear())) {
                             annualDatas1.get(j).setNum(annualDatas.get(y).getNum());
+                            break;
+                        }else{
+                            annualDatas1.get(j).setNum(0);
                         }
                     }
 
@@ -170,7 +175,45 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
      * 人员数据
      * @return
      */
-    public List<StaffForm> getStaff() {
+    public List<Brandperson> getStaff() {
+        List<Brandperson> bps = null;
+        StringBuffer sql = new StringBuffer();
+        sql.append("select t.brand_name,wm_concat(j.name) role_name,sum(qf.qfriendnum) qfriendnum,sum(ql.qltjlnum) qltjlnum,");
+        sql.append("sum(wf.wfriendnum) wfriendnum,sum(wl.wltjlnum) wltjlnum,sum(dx.dxnum) dxnum,sum(thqd.thqdnum) thqdnum,sum(txl.txlnum) txlnum from T_BRAND t ");
+        sql.append("left join t_case c on t.brand_id=c.brand_id left join t_region r on c.case_id=r.case_id left join t_role r1 on r.region_id=r1.region_id ");
+        sql.append("inner join t_auto_jzxx j on j.aj_id=r1.role_id ");
+        sql.append("inner join(select aj_id,count(1) qfriendnum from t_auto_qq_friendsxx group by aj_id)qf on r1.role_id=qf.aj_id ");
+        sql.append("inner join(select aj_id,count(1) qltjlnum from t_auto_qq_ltjl group by aj_id)ql on r1.role_id=ql.aj_id ");
+        sql.append("inner join(select aj_id,count(1) wfriendnum from t_auto_wechat_friendsxx group by aj_id)wf on r1.role_id=wf.aj_id ");
+        sql.append("inner join(select aj_id,count(1) wltjlnum from t_auto_wechat_ltjl group by aj_id)wl on r1.role_id=wl.aj_id ");
+        sql.append("inner join(select aj_id,count(1) dxnum from t_auto_dx group by aj_id)dx on r1.role_id=dx.aj_id ");
+        sql.append("inner join(select aj_id,count(1) thqdnum from t_auto_thqd group by aj_id)thqd on r1.role_id=thqd.aj_id ");
+        sql.append("inner join(select aj_id,count(1) txlnum from t_auto_txl group by aj_id)txl on r1.role_id=txl.aj_id group by t.brand_name ");
+        Session session = getSession();
+        try {
+            // 开启事务
+            Transaction tx = session.beginTransaction();
+            bps = session.createSQLQuery(sql.toString())
+                    .addScalar("brand_name")
+                    .addScalar("role_name")
+                    .addScalar("qfriendNum",StandardBasicTypes.LONG)
+                    .addScalar("qltjlNum",StandardBasicTypes.LONG)
+                    .addScalar("wfriendNum",StandardBasicTypes.LONG)
+                    .addScalar("wltjlNum",StandardBasicTypes.LONG)
+                    .addScalar("dxNum",StandardBasicTypes.LONG)
+                    .addScalar("thqdNum",StandardBasicTypes.LONG)
+                    .addScalar("txlNum",StandardBasicTypes.LONG)
+                    .setResultTransformer(Transformers.aliasToBean(Brandperson.class)).list();
+            //关闭事务
+            tx.commit();
+        }catch (Exception e){
+            session.close();
+            e.printStackTrace();
+        }
+        return bps;
+    }
+
+   /* public List<StaffForm> getStaff() {
         List<StaffForm> staffForms = null;
         String sql1 = "select name,aj_id from T_AUTO_JZXX";
         // 获得当前线程绑定的session
@@ -245,5 +288,5 @@ public class DataPlotDao extends BaseDao<BrandEntity>{
             e.printStackTrace();
         }
         return staffForms;
-    }
+    }*/
 }

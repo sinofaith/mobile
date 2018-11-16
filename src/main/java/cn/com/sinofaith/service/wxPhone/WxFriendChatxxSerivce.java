@@ -3,6 +3,7 @@ package cn.com.sinofaith.service.wxPhone;
 import cn.com.sinofaith.bean.TAutoWechatLtjlEntity;
 import cn.com.sinofaith.dao.wxPhone.WxFriendChatxxDao;
 import cn.com.sinofaith.page.Page;
+import cn.com.sinofaith.util.RemoveMessy;
 import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class WxFriendChatxxSerivce {
         if(allRow>0){
             wxForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
             for (int i = 0; i <wxForms.size(); i++) {
+                wxForms.get(i).setFswechatnc(RemoveMessy.rMessy(wxForms.get(i).getFswechatnc()));
                 wxForms.get(i).setId((currentPage-1)*pageSize+i+1);
             }
             // 封装page

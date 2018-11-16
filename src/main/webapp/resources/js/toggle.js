@@ -31,6 +31,9 @@ function toggle(){
         title : {
             text: '立案单位',
             subtext: 'Filing unit',
+            textStyle: {
+                color: '#FFFFFF',
+            },
             x:'center'
         },
         tooltip : {
@@ -46,12 +49,15 @@ function toggle(){
             type: 'scroll',
             orient: 'vertical',
             left: 'left',
+            textStyle:{
+                color: '#6cbbe6'
+            },
             data: list
         },
         toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 1390,
             top: 'center',
             feature: {
                 dataView: {
@@ -88,7 +94,24 @@ function toggle(){
                         shadowOffsetX: 0,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
-                }
+                },
+                label: {
+                    normal: {
+                        position: 'outside',
+                        formatter: '{b}',
+                        textStyle: {
+                            color: '#3db3cb',
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: true,
+                        lineStyle: {
+                            color: '#3db3cb'
+                        }
+                    }
+                },
             }
         ]
     };
@@ -112,30 +135,28 @@ function toggle2(){
             content9 = data;
         }
     });
-    console.log(content9)
     var data10 = [];
     var data11 = {};
     var data12 = [];
     var data13 = {};
     var data14 = [];
-    var t = true;
-    for(i=0;i<content9.length;i++){
-        data10.push(content9[i].name);
-        if((content9[i].qqNum+content9[i].wxNum)>0){
-            if(t){
-                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name,selected:true};
-                t = false;
-            }else{
-                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name};
-            }
-            data12.push(data11);
-            data13 = {value:content9[i].qqNum,name:"QQ总数"};
-            data14.push(data13);
-            data13 = {value:content9[i].wxNum,name:"微信总数"};
-            data14.push(data13);
+    var t = content9[0].num;
+    for(i=1;i<content9.length;i++){
+        if(t<content9[i].num){
+            t = content9[i].num
         }
     }
-    data10.push("QQ总数");data10.push("微信总数");
+    for(i=0;i<content9.length;i++){
+        data10.push(content9[i].brand_name);
+        if(t==content9[i].num){
+            data11 = {value:content9[i].num, name:content9[i].brand_name, selected:true};
+        }else{
+            data11 = {value:content9[i].num, name:content9[i].brand_name};
+        }
+        data13 = {value:content9[i].num, name:content9[i].brand_name};
+        data12.push(data11);
+        data14.push(data13);
+    }
     var dom1 = document.getElementById("container5");
     var myChart1 = echarts.init(dom1);
     var app = {};
@@ -144,16 +165,36 @@ function toggle2(){
 
     option1 = {
         title : {
-            text: '人员分析',
-            subtext: 'Man analysis',
+            text: '品牌人员',
+            subtext: 'Brand personnel',
+            textStyle: {
+                color: '#FFFFFF',
+            },
             x:'center'
         },
         tooltip: {
             trigger: 'item',
             formatter: function (params) {
-
                 for(i=0;i<content9.length;i++){
-                    var num = content9[i].qqNum+content9[i].wxNum;
+                    if(params.name==content9[i].brand_name) {
+                        if(params.seriesName=='访问来源'){
+                            return ('品牌名:' + content9[i].brand_name + '(' + params.percent + '%)'
+                                + '</br>包含人员:' + content9[i].role_name
+                                + '</br>数据总条数:' + content9[i].num
+                            );
+                        }else{
+                            return ('品牌名:' + content9[i].brand_name + '(' + params.percent + '%)'
+                                + '</br>通讯录总数:' + content9[i].txlNum
+                                + '</br>通话清单总数:' + content9[i].thqdNum
+                                + '</br>短信总数:' + content9[i].dxNum
+                                + '</br>QQ好友总数:' + content9[i].qfriendNum
+                                + '</br>QQ聊天总数:' + content9[i].qltjlNum
+                                + '</br>微信好友总数:' + content9[i].wfriendNum
+                                + '</br>微信聊天总数:' + content9[i].wltjlNum
+                            );
+                        }
+                    }
+                    /*var num = content9[i].qqNum+content9[i].wxNum;
                     if(params.name==content9[i].name &&(params.name!="QQ总数" || params.name!="微信总数")){
                         return ('人员名:'+params.name+'('+params.percent+'%)'
                             +'</br>通讯录个数:'+content9[i].txlNum
@@ -174,7 +215,7 @@ function toggle2(){
                             +'</br>微信好友聊天总数:'+content9[i].wxltNum
                             +'</br>微信群好友聊天总数:'+content9[i].wxltsNum
                         );
-                    }
+                    }*/
                 }
             }
         },
@@ -182,18 +223,45 @@ function toggle2(){
             type: 'scroll',
             orient: 'vertical',
             x: 'left',
+            textStyle:{
+                color: '#6cbbe6'
+            },
             data: data10
         },
         toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 1390,
             top: 'center',
             feature: {
                 dataView: {
                     readOnly: true,
                     optionToContent: function dataView(opt) {
-                        var series = opt.series;
+                        var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
+                            + '<td style="font-weight: bold;">品牌名</td>'
+                            + '<td style="font-weight: bold;">包含人员</td>'
+                            + '<td style="font-weight: bold;">通讯录总数</td>'
+                            + '<td style="font-weight: bold;">通话清单总数</td>'
+                            + '<td style="font-weight: bold;">短信总数</td>'
+                            + '<td style="font-weight: bold;">QQ好友总数</td>'
+                            + '<td style="font-weight: bold;">QQ聊天总数</td>'
+                            + '<td style="font-weight: bold;">微信好友总数</td>'
+                            + '<td style="font-weight: bold;">微信聊天总数</td>'
+                            + '</tr>';
+                        for (i = 0; i < content9.length; i++) {
+                            table += '<tr><td>' + content9[i]['brand_name'] + '</td>'
+                                + '<td>' + content9[i]['role_name'] + '</td>'
+                                + '<td>' + content9[i]['txlNum'] + '</td>'
+                                + '<td>' + content9[i]['thqdNum'] + '</td>'
+                                + '<td>' + content9[i]['dxNum'] + '</td>'
+                                + '<td>' + content9[i]['qfriendNum'] + '</td>'
+                                + '<td>' + content9[i]['qltjlNum'] + '</td>'
+                                + '<td>' + content9[i]['wfriendNum'] + '</td>'
+                                + '<td>' + content9[i]['wltjlNum'] + '</td>'
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                        /*var series = opt.series;
                         var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
                             + '<td style="font-weight: bold;">姓名</td>'
                             + '<td style="font-weight: bold;">通讯录总数</td>'
@@ -225,7 +293,7 @@ function toggle2(){
                             }
                         }
                         table += '</tbody></table></div>';
-                        return table;
+                        return table;*/
                     }
                 },
                 restore: {},
@@ -257,7 +325,7 @@ function toggle2(){
                 label: {
                     normal: {
                         formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                        backgroundColor: '#eee',
+                        backgroundColor: '#666',
                         borderColor: '#aaa',
                         borderWidth: 1,
                         borderRadius: 4,
@@ -341,8 +409,9 @@ function toggle3(){
         data = {
             name: list1[j],
             type: 'map',
+            zoom: 1.2,
             mapType: 'china',
-            showLegendSymbol: false,
+            showLegendSymbol: false, //地图显示点
             roam: true,
             label: {
                 normal: {
@@ -350,6 +419,29 @@ function toggle3(){
                 },
                 emphasis: {
                     show: true
+                }
+            },
+            itemStyle:{
+                normal:{
+                    /*opacity:0.7,*/
+                    areaColor:'#1B2351',
+                    label:{
+                        show:true,
+                        textStyle: {
+                            color: "#fff",
+                        }
+                    },
+                    borderColor: '#fff'
+                },
+                emphasis:{
+                    label:{
+                        show:false,
+                        textStyle: {
+                            color: "#5AA8EB",
+                        }
+                    },
+                    borderColor: '#fff',
+                    borderWidth: 2,
                 }
             },
             animation: true,
@@ -362,6 +454,9 @@ function toggle3(){
         title: {
             text: '品牌分布区域',
             subtext: 'Brand distribution area',
+            textStyle: {
+                color: '#FFFFFF',
+            },
             left: 'center'
         },
         tooltip: {
@@ -461,26 +556,21 @@ function toggle3(){
                 con += data.join(',');
                 con += '</br>区域数:' + params.value;
                 return con;
-                /*return ('涉及品牌:'+params.data['brand_name']
-                    +'</br>立案单位:'+params.data['name']
-                    +'</br>合作次数:'+params.data['value']);*/
             }
         },
         legend: {
             type: 'scroll',
             orient: 'vertical',
             left: 'left',
-            data: list1,
-            /*selected: {
-                //不想显示的都设置成false
-                '雀巢' : false,
-                '可口可乐' : false
-            }*/
+            textStyle:{
+                color: '#6cbbe6'
+            },
+            data: list1
         },
         visualMap: {
             show: false,
             min: 0,
-            max: 20,
+            max: 10,
             left: 'left',
             top: 'bottom',
             text: ['高','低'],           // 文本，默认为数值文本
@@ -489,7 +579,7 @@ function toggle3(){
         toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 1390,
             top: 'center',
             feature: {
                 dataView: {
@@ -501,14 +591,18 @@ function toggle3(){
                             + '<td style="font-weight: bold;">案件名</td>'
                             + '<td style="font-weight: bold;">所在省</td>'
                             + '<td style="font-weight: bold;">包含市</td>'
-                            + '<td style="font-weight: bold;">区域数</td>'
+                            // + '<td style="font-weight: bold;">区域数</td>'
                             + '</tr>';
                         for(i=0;i<content.length;i++){
+                            // 地区去重
+                            var split = content[i].area.split(",");
+                            $.unique(split.sort());
+
                             table += '<tr><td>'+content[i]['brand_name']+'</td>'
                                 +'<td>'+content[i]['case_name']+'</td>'
                                 +'<td>'+content[i]['name']+'</td>'
-                                +'<td>'+content[i]['area']+'</td>'
-                                +'<td>'+content[i]['value']+'</td></tr>'
+                                +'<td>'+split.join(",");+'</td></tr>'
+                            // +'<td>'+content[i]['value']+'</td>'
                         }
                         table += '</tbody></table></div>';
                         return table;
@@ -744,9 +838,12 @@ function toggle4(){
         title : {
             text: '年度数据',
             subtext: 'Annual data',
+            textStyle: {
+                color: '#FFFFFF',
+            },
             x:'center'
         },
-        color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+        color: ['#51FFFF', '#61A0A8', '#006699', '#4cabce'],
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -757,12 +854,15 @@ function toggle4(){
             type: 'scroll',
             orient: 'vertical',
             left: 'left',
+            textStyle:{
+                color: '#6cbbe6'
+            },
             data: ['立案单位', '案件', '区域', '人员']
         },
         toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 1390,
             top: 'center',
             feature: {
                 mark: {show: true},
@@ -809,12 +909,34 @@ function toggle4(){
             {
                 type: 'category',
                 axisTick: {show: false},
-                data: list
+                data: list,
+                axisLine:{
+                    lineStyle:{
+                        color:'#0087ED',
+                        width:1
+                    }
+                }
             }
         ],
         yAxis: [
             {
-                type: 'value'
+                type: 'value',
+                splitLine:{
+                    lineStyle:{
+                        color:'#0087ED'
+                    }
+                },
+                nameTextStyle:{
+                    lineStyle:{
+                        color:'#0087ED'
+                    }
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#0087ED',
+                        width:1
+                    }
+                }
             }
         ],
         series: series
@@ -956,11 +1078,12 @@ function creatProvince(name,id,list,num,content,selected){
     var option = {
         title: {
             text: name,
+            top:13,
             left: 'center',
             textStyle: {
-                color: '#000'
+                color: '#FFFFFF',
+                fontSize:16
             }
-            ,top:30
         },
         tooltip: {
             trigger: 'item',
@@ -1044,7 +1167,7 @@ function creatProvince(name,id,list,num,content,selected){
         visualMap: {
             show: false,
             min: 0,
-            max: 20,
+            max: 10,
             left: 'left',
             top: 'bottom',
             text: ['高','低'],           // 文本，默认为数值文本
@@ -1054,6 +1177,7 @@ function creatProvince(name,id,list,num,content,selected){
             name: '区域数',
             type: 'map',
             mapType: pro,
+            zoom: 1.2,
             roam: true,
             label: {
                 normal: {
@@ -1061,6 +1185,29 @@ function creatProvince(name,id,list,num,content,selected){
                 },
                 emphasis: {
                     show: true
+                }
+            },
+            itemStyle:{
+                normal:{
+                    /*opacity:0.7,*/
+                    areaColor:'#1B2351',
+                    label:{
+                        show:true,
+                        textStyle: {
+                            color: "#fff",
+                        }
+                    },
+                    borderColor: '#fff'
+                },
+                emphasis:{
+                    label:{
+                        show:false,
+                        textStyle: {
+                            color: "#5AA8EB",
+                        }
+                    },
+                    borderColor: '#fff',
+                    borderWidth: 2,
                 }
             },
             animation: true,

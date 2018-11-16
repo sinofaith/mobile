@@ -3,6 +3,7 @@ package cn.com.sinofaith.controller.dataController;
 import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.form.AnnualDataForm;
+import cn.com.sinofaith.form.Brandperson;
 import cn.com.sinofaith.form.PlotForm;
 import cn.com.sinofaith.form.StaffForm;
 import cn.com.sinofaith.service.data.DataPlotService;
@@ -78,9 +79,9 @@ public class DataPlotController {
     }
 
     @RequestMapping("/staff")
-    public @ResponseBody List<StaffForm> staff(){
-        List<StaffForm> staffForms = dpService.getStaff();
-        return staffForms;
+    public @ResponseBody List<Brandperson> staff(){
+        List<Brandperson> bps = dpService.getStaff();
+        return bps;
     }
 
 }

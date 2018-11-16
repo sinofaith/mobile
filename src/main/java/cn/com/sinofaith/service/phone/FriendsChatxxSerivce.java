@@ -4,6 +4,7 @@ import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
 import cn.com.sinofaith.dao.phone.FriendsChatxxDao;
 import cn.com.sinofaith.form.QqForm;
 import cn.com.sinofaith.page.Page;
+import cn.com.sinofaith.util.RemoveMessy;
 import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;

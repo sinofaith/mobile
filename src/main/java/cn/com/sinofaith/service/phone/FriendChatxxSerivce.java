@@ -4,6 +4,7 @@ import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
 import cn.com.sinofaith.dao.phone.FriendChatxxDao;
 import cn.com.sinofaith.form.QqForm;
 import cn.com.sinofaith.page.Page;
+import cn.com.sinofaith.util.RemoveMessy;
 import com.google.gson.Gson;
 import org.apache.taglibs.standard.tag.rt.core.ForEachTag;
 import org.hibernate.criterion.DetachedCriteria;
@@ -66,6 +67,7 @@ public class FriendChatxxSerivce {
         if(allRow>0){
             qqForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
             for (int i = 0; i <qqForms.size(); i++) {
+                qqForms.get(i).setFsqqnc(RemoveMessy.rMessy(qqForms.get(i).getFsqqnc()));
                 qqForms.get(i).setId((currentPage-1)*pageSize+i+1);
             }
             // 封装page

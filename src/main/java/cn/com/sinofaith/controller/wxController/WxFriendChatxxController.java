@@ -119,12 +119,12 @@ public class WxFriendChatxxController {
         // 当不是首次点击的时候
         if (orderby.equals(lastOrder)) {
             if (desc == null || " ".equals(desc)) {
-                desc = " desc,id desc ";
+                desc = " desc nulls last,id desc ";
             } else {
                 desc = " ";
             }
         } else {
-            desc = " desc,id desc ";
+            desc = " desc nulls last,id desc ";
         }
         // 将数据存入session中
         session.setAttribute("wxFriendChatDesc", desc);

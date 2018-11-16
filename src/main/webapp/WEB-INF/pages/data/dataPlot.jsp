@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@include file="../template/sideBar_left.jsp" %>
-<%@include file="../template/newmain.jsp" %>
+<%@include file="../template/newmain1.jsp" %>
 
 <%--详情模块脚本--%>
 <link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet" media="screen">
@@ -19,7 +19,7 @@
 <script src="<c:url value="/resources/js/toggle.js"/> "></script>
 
 <script src="<c:url value="/resources/js/echars/echarts.min.js"/> "></script>
-<script src="<c:url value="/resources/js/echars/echarts-gl.min.js"/> "></script>
+<%--<script src="<c:url value="/resources/js/echars/echarts-gl.min.js"/> "></script>--%>
 <script src="<c:url value="/resources/js/echars/ecStat.min.js"/> "></script>
 <script src="<c:url value="/resources/js/echars/dataTool.min.js"/> "></script>
 <script src="<c:url value="/resources/js/echars/china.js"/> "></script>
@@ -27,16 +27,6 @@
 <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
 <script src="<c:url value="/resources/js/echars/bmap.min.js"/> "></script>
 <script src="<c:url value="/resources/js/echars/simplex.js"/> "></script>
-
-<%--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>--%>
 
 <style type="text/css">
     .qgg-table{
@@ -49,7 +39,7 @@
         border-collapse: collapse;
         border-right:1px solid #c6c6c6 !important;
         border-bottom:1px solid #c6c6c6 !important;
-        background-color:#ddeeff !important;
+        /*background-color:#ddeeff !important;*/
         padding:5px 9px;
         font-size:14px;
         font-weight:normal;
@@ -71,73 +61,81 @@
     .qgg-table tr:nth-child(even){
         background-color: #f8f8f8 !important;
     }
-    .close {
-        background: orange;
-        color: red;
-        border-radius: 12px;
-        line-height: 20px;
-        text-align: center;
-        height: 25px;
-        width: 25px;
-        font-size: 18px;
-        padding: 1px;
-    }
-    .close::before {
-        content: "\2716";
-    }
-    .close {
-        top: -10px;
-        right: -10px;
-        position: absolute;
-    }
     .back_btn{position: absolute;left: 700px;
         z-index: 1000;
         width: 40px;height: 40px;border-radius:50%;
-        line-height: 40px;background: #c1c1c1;color: #fff;
+        line-height: 40px;background: #14163A;color: #fff;
         text-align: center;cursor: pointer;display: none;}
     .back_btn1{position: absolute;left: 1390px;top: -10px;
         z-index: 1000;
         width: 40px;height: 40px;border-radius:50%;
-        line-height: 40px;background: #c1c1c1;color: #fff;
+        line-height: 40px;background: #1B316B;color: #fff;
         text-align: center;cursor: pointer;display: none;}
     .back_btn2{position: absolute;left: 1390px;top: -10px;
         z-index: 500;
         width: 40px;height: 40px;border-radius:50%;
-        line-height: 40px;background: #c1c1c1;color: #fff;
+        line-height: 40px;background: #1B316B;color: #fff;
         text-align: center;cursor: pointer;}
+    .sun-title {
+        width: 640px;
+        height: 33px;
+        margin-top: 10px;
+        margin-left: 20px;
+        position: absolute;
+        }
 </style>
 
-<div class="tab_div">
-    <div id="div1" style="width: 730px; height: 300px;">
-        <div id="container" style="height: 100%"></div>
+<div class="tab_div" style="background-size: 100% 100%;background-repeat: no-repeat;background-image:url('${pageContext.request.contextPath}/resources/image/sybj.jpg'); height: 725px;">
+    <div class="herder_bg" style="width: 100%;height:70px;background: url('${pageContext.request.contextPath}/resources/image/tjtopbg.png');background-size: 100% 100%;
+    -moz-background-size: 100% 100%;-webkit-background-size: 100% 100%;"></div>
+
+    <div id="div1" style="background-size: 100% 100%;
+    background: url('${pageContext.request.contextPath}/resources/image/1-4.png') no-repeat;
+    width: 680px; height: 300px;margin-left: 40px;">
+        <div class="sun-title" style="background: url('${pageContext.request.contextPath}/resources/image/2-1.png')
+                no-repeat;-moz-background-size:100% 100%;background-size:100% 100%;"></div>
+        <div id="container" style="height: 100%;"></div>
     </div>
-    <div id="con1" style="display: none;left: 4px;top: -300px;position:relative; background: #FFFFFF;">
+    <div id="con1" style="background-size: 100% 100%;background-repeat: no-repeat;background-image:url('${pageContext.request.contextPath}/resources/image/sybj.jpg');
+            display: none;left: 4px;top: -300px;position:relative;">
         <span class="back_btn2" onclick="toggle1('con1')">关闭</span>
         <div id="container4" style="height: 80%"></div>
     </div>
 
-    <div id="div2" style="width: 730px; height: 300px; margin-top: -300px;margin-left: 730px;">
+    <div id="div2" style="background-size: 100% 100%;background: url('${pageContext.request.contextPath}/resources/image/1-4.png') no-repeat;
+            width: 680px; height: 300px;margin-top: -300px;margin-left: 750px;">
+        <div class="sun-title" style="background: url('${pageContext.request.contextPath}/resources/image/2-1.png')
+                no-repeat;-moz-background-size:100% 100%;background-size:100% 100%;"></div>
         <div id="container1" style="height: 100%"></div>
     </div>
-    <div id="con2" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
+    <div id="con2" style="background-size: 100% 100%;background-repeat: no-repeat;background-image:url('${pageContext.request.contextPath}/resources/image/sybj.jpg');
+            display: none;left: 4px;position:relative;">
         <span class="back_btn2" onclick="toggle1('con2')">关闭</span>
         <div id="container5" style="height: 80%"></div>
     </div>
 
-    <div id="div3" style="width: 730px; height: 300px;">
+    <div id="div3" style="background-size: 100% 100%;background: url('${pageContext.request.contextPath}/resources/image/1-4.png') no-repeat;
+            width: 680px; height: 300px;margin-left: 40px;margin-top: 20px;">
+        <div class="sun-title" style="background: url('${pageContext.request.contextPath}/resources/image/2-1.png')
+                no-repeat;-moz-background-size:100% 100%;background-size:100% 100%;"></div>
         <span class="back_btn">返回</span>
-        <div id="container2" style="height: 115%"></div>
+        <div id="container2" style="height: 100%"></div>
     </div>
-    <div id="con3" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
+    <div id="con3" style="background-size: 100% 100%;background-repeat: no-repeat;background-image:url('${pageContext.request.contextPath}/resources/image/sybj.jpg');
+            display: none;left: 4px;position:relative;">
         <span class="back_btn1">返回</span>
         <span class="back_btn2" onclick="toggle1('con3')">关闭</span>
         <div id="container6" style="height: 80%"></div>
     </div>
 
-    <div id="div4" style="width: 730px; height: 300px; margin-top: -300px;margin-left: 730px;">
-        <div id="container3" style="height: 115%"></div>
+    <div id="div4" style="background-size: 100% 100%;background: url('${pageContext.request.contextPath}/resources/image/1-4.png') no-repeat;
+            width: 680px; height: 300px; margin-top: -300px;margin-left: 750px;">
+        <div class="sun-title" style="background: url('${pageContext.request.contextPath}/resources/image/2-1.png')
+                no-repeat;-moz-background-size:100% 100%;background-size:100% 100%;"></div>
+        <div id="container3" style="height: 100%"></div>
     </div>
-    <div id="con4" style="display: none;left: 4px;position:relative; background: #FFFFFF;">
+    <div id="con4" style="background-size: 100% 100%;background-repeat: no-repeat;background-image:url('${pageContext.request.contextPath}/resources/image/sybj.jpg');
+            display: none;left: 4px;position:relative;">
         <span class="back_btn2" onclick="toggle1('con4')">关闭</span>
         <div id="container7" style="height: 80%"></div>
     </div>
@@ -164,8 +162,12 @@
     option = {
         title : {
             text: '立案单位',
-            subtext: 'Filing unit',
-            x:'center'
+            x:'center',
+            top:13,
+            textStyle: {
+                color: '#FFFFFF',
+                fontSize:16
+            }
         },
         tooltip : {
             trigger: 'item',
@@ -176,16 +178,22 @@
                     +'</br>合作次数:'+params.data['value']);
             }
         },
+        //color:['#000066','#990000','#00CC00','#FFFF00'],
         legend: {
             type: 'scroll',
             orient: 'vertical',
-            left: 15,
+            top:42,
+            left: 'left',
+            textStyle:{
+                fontSize:12,
+                color: '#6cbbe6'
+            },
             data: list
         },
         toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 630,
             top: 'center',
             feature: {
                 dataView: {
@@ -222,7 +230,25 @@
                         shadowOffsetX: 0,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
-                }
+                },
+                label: {
+                    normal: {
+                        position: 'outside',
+                        formatter: '{b}',
+                        textStyle: {
+                            color: '#3db3cb',
+                            fontSize: 12
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: true,
+                        lineStyle: {
+                            color: '#3db3cb'
+                        }
+                    }
+                },
             }
         ]
     };
@@ -251,25 +277,23 @@
     var data12 = [];
     var data13 = {};
     var data14 = [];
-    var t = true;
-    for(i=0;i<content9.length;i++){
-        data10.push(content9[i].name);
-        if((content9[i].qqNum+content9[i].wxNum)>0){
-            if(t){
-                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name,selected:true};
-                t = false;
-            }else{
-                data11 = {value:content9[i].qqNum+content9[i].wxNum,name:content9[i].name};
-            }
-            data12.push(data11);
-            data13 = {value:content9[i].qqNum,name:"QQ总数"};
-            data14.push(data13);
-            data13 = {value:content9[i].wxNum,name:"微信总数"};
-            data14.push(data13);
-
+    var t = content9[0].num;
+    for(i=1;i<content9.length;i++){
+        if(t<content9[i].num){
+            t = content9[i].num
         }
     }
-    data10.push("QQ总数");data10.push("微信总数");
+    for(i=0;i<content9.length;i++){
+        data10.push(content9[i].brand_name);
+        if(t==content9[i].num){
+            data11 = {value:content9[i].num, name:content9[i].brand_name, selected:true};
+        }else{
+            data11 = {value:content9[i].num, name:content9[i].brand_name};
+        }
+        data13 = {value:content9[i].num, name:content9[i].brand_name};
+        data12.push(data11);
+        data14.push(data13);
+    }
     var dom1 = document.getElementById("container1");
     var myChart1 = echarts.init(dom1);
     var app = {};
@@ -278,15 +302,37 @@
 
     option1 = {
         title : {
-            text: '人员分析',
-            subtext: 'Man analysis',
-            x:'center'
+            text: '品牌人员',
+            top:13,
+            x:'center',
+            textStyle: {
+                color: '#FFFFFF',
+                fontSize:16
+            }
         },
         tooltip: {
             trigger: 'item',
             formatter: function (params) {
                 for(i=0;i<content9.length;i++){
-                    var num = content9[i].qqNum+content9[i].wxNum;
+                    if(params.name==content9[i].brand_name) {
+                        if(params.seriesName=='访问来源'){
+                            return ('品牌名:' + content9[i].brand_name + '(' + params.percent + '%)'
+                                + '</br>包含人员:' + content9[i].role_name
+                                + '</br>数据总条数:' + content9[i].num
+                            );
+                        }else{
+                            return ('品牌名:' + content9[i].brand_name + '(' + params.percent + '%)'
+                                + '</br>通讯录总数:' + content9[i].txlNum
+                                + '</br>通话清单总数:' + content9[i].thqdNum
+                                + '</br>短信总数:' + content9[i].dxNum
+                                + '</br>QQ好友总数:' + content9[i].qfriendNum
+                                + '</br>QQ聊天总数:' + content9[i].qltjlNum
+                                + '</br>微信好友总数:' + content9[i].wfriendNum
+                                + '</br>微信聊天总数:' + content9[i].wltjlNum
+                            );
+                        }
+                    }
+                    /*var num = content9[i].qqNum+content9[i].wxNum;
                     if(params.name==content9[i].name &&(params.name!="QQ总数" || params.name!="微信总数")){
                         return ('人员名:'+params.name+'('+params.percent+'%)'
                             +'</br>通讯录个数:'+content9[i].txlNum
@@ -300,14 +346,14 @@
                             +'</br>qq好友聊天总数:'+content9[i].qqltNum
                             +'</br>qq群好友聊天总数:'+content9[i].qqltsNum
                         );
-                    }else if(params.name=="微信总数"  && content9[i].wxNum==params.data['value'] && (num-content9[i].qqNum)==params.data['value']){
+                    }else if(params.name=="微信总数" && content9[i].wxNum==params.data['value'] && (num-content9[i].qqNum)==params.data['value']){
                         return ('<span style="font-size: 16px">'+params.name+'</span>'+'('+content9[i].name+')'
                             +'</br>微信好友个数:'+content9[i].wxfriendNum
                             +'</br>微信群好友个数:'+content9[i].wxfriendsNum
                             +'</br>微信好友聊天总数:'+content9[i].wxltNum
                             +'</br>微信群好友聊天总数:'+content9[i].wxltsNum
                         );
-                    }
+                    }*/
                 }
             }
         },
@@ -315,47 +361,44 @@
             type: 'scroll',
             orient: 'vertical',
             x: 'left',
+            top:42,
+            left: 'left',
+            textStyle:{
+                fontSize:12,
+                color: '#6cbbe6'
+            },
             data: data10
         },
         toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 635,
             top: 'center',
             feature: {
                 dataView: {
                     readOnly: true,
                     optionToContent: function dataView(opt) {
-                        var series = opt.series;
                         var table = '<div class="qgg-table"><table style="width:100%;"><tbody><tr>'
-                            + '<td style="font-weight: bold;">姓名</td>'
+                            + '<td style="font-weight: bold;">品牌名</td>'
+                            + '<td style="font-weight: bold;">包含人员</td>'
                             + '<td style="font-weight: bold;">通讯录总数</td>'
                             + '<td style="font-weight: bold;">通话清单总数</td>'
                             + '<td style="font-weight: bold;">短信总数</td>'
                             + '<td style="font-weight: bold;">QQ好友总数</td>'
-                            + '<td style="font-weight: bold;">QQ群好友总数</td>'
-                            + '<td style="font-weight: bold;">QQ好友聊天总数</td>'
-                            + '<td style="font-weight: bold;">QQ群好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">QQ聊天总数</td>'
                             + '<td style="font-weight: bold;">微信好友总数</td>'
-                            + '<td style="font-weight: bold;">微信群好友总数</td>'
-                            + '<td style="font-weight: bold;">微信好友聊天总数</td>'
-                            + '<td style="font-weight: bold;">微信群好友聊天总数</td>'
+                            + '<td style="font-weight: bold;">微信聊天总数</td>'
                             + '</tr>';
                         for (i = 0; i < content9.length; i++) {
-                            if((content9[i].qqNum+content9[i].wxNum)>0){
-                                table += '<tr><td>' + content9[i]['name'] + '</td>'
-                                    + '<td>' + content9[i]['txlNum'] + '</td>'
-                                    + '<td>' + content9[i]['thqdNum'] + '</td>'
-                                    + '<td>' + content9[i]['dxNum'] + '</td>'
-                                    + '<td>' + content9[i]['qqfriendNum'] + '</td>'
-                                    + '<td>' + content9[i]['qqfriendsNum'] + '</td>'
-                                    + '<td>' + content9[i]['qqltNum'] + '</td>'
-                                    + '<td>' + content9[i]['qqltsNum'] + '</td>'
-                                    + '<td>' + content9[i]['wxfriendNum'] + '</td>'
-                                    + '<td>' + content9[i]['wxfriendsNum'] + '</td>'
-                                    + '<td>' + content9[i]['wxltNum'] + '</td>'
-                                    + '<td>' + content9[i]['wxltsNum'] + '</td></tr>';
-                            }
+                            table += '<tr><td>' + content9[i]['brand_name'] + '</td>'
+                                + '<td>' + content9[i]['role_name'] + '</td>'
+                                + '<td>' + content9[i]['txlNum'] + '</td>'
+                                + '<td>' + content9[i]['thqdNum'] + '</td>'
+                                + '<td>' + content9[i]['dxNum'] + '</td>'
+                                + '<td>' + content9[i]['qfriendNum'] + '</td>'
+                                + '<td>' + content9[i]['qltjlNum'] + '</td>'
+                                + '<td>' + content9[i]['wfriendNum'] + '</td>'
+                                + '<td>' + content9[i]['wltjlNum'] + '</td>'
                         }
                         table += '</tbody></table></div>';
                         return table;
@@ -390,7 +433,7 @@
                 label: {
                     normal: {
                         formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                        backgroundColor: '#eee',
+                        backgroundColor: '#666',
                         borderColor: '#aaa',
                         borderWidth: 1,
                         borderRadius: 4,
@@ -408,8 +451,8 @@
                                 height: 0
                             },
                             b: {
-                                fontSize: 16,
-                                lineHeight: 33
+                                fontSize: 13,
+                                lineHeight: 30,
                             },
                             per: {
                                 color: '#eee',
@@ -470,28 +513,55 @@
 
         var cont = {};
         var map = [];
-        var temp = []
-        var data = {}
+        var temp = [];
+        var data = {};
         for(j=0;j<list1.length;j++){
-            map = []
+            map = [];
             for(i=0;i<content.length;i++){
                 if(list1[j]==content[i]['brand_name']){
-                    cont = {name:content[i]['name'],value:content[i]['value']}
+                    cont = {name:content[i]['name'],value:content[i]['value']};
                     map.push(cont)
                 }
             }
             data = {
                 name: list1[j],
                 type: 'map',
+                zoom: 1.2,
                 mapType: 'china',
-                showLegendSymbol: false,
-                roam: true,
+                showLegendSymbol: false,//  点点
+                roam: true, //缩放
                 label: {
                     normal: {
-                        show: true
+                        show: false
                     },
                     emphasis: {
                         show: true
+                    }
+                },
+                itemStyle:{
+                    normal:{
+                        /*opacity:0.7,*/
+                        areaColor:'#1B2351',
+                        label:{
+                            show:true,
+                            textStyle: {
+                                color: "#fff",
+                            }
+                        },
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    emphasis:{
+                        label:{
+                            show:false,
+                            textStyle: {
+                                fontSize:12,
+                                fontStyle:'bold',
+                                color: "#fff",
+                            }
+                        },
+                        borderColor: '#fff',
+                        borderWidth: 2
                     }
                 },
                 animation: true,
@@ -502,8 +572,12 @@
         option2 = {
             title: {
                 text: '品牌分布区域',
-                subtext: 'Brand distribution area',
-                left: 'center'
+                top:13,
+                left: 'center',
+                textStyle: {
+                    color: '#FFFFFF',
+                    fontSize:16
+                }
             },
             tooltip: {
                 trigger: 'item',
@@ -607,27 +681,30 @@
             legend: {
                 type: 'scroll',
                 orient: 'vertical',
-                left: 15,
+                top:42,
+                left: 'left',
+                textStyle:{
+                    fontSize:12,
+                    color: '#6cbbe6'
+                },
                 data: list1,
-                /*selected: {
-                    //不想显示的都设置成false
-                    '雀巢' : false,
-                    '可口可乐' : false
-                }*/
             },
             visualMap: {
                 show: false,
                 min: 0,
-                max: 20,
+                max: 10,
                 left: 'left',
                 top: 'bottom',
                 text: ['高','低'],           // 文本，默认为数值文本
+                /*inRange: {
+                    color: ['#e0ffff', '#02FFFA']
+                },*/
                 calculable: true
             },
             toolbox: {
                 show: true,
                 orient: 'vertical',
-                left: 'right',
+                left: 630,
                 top: 'center',
                 feature: {
                     dataView: {
@@ -639,14 +716,18 @@
                                 + '<td style="font-weight: bold;">案件名</td>'
                                 + '<td style="font-weight: bold;">所在省</td>'
                                 + '<td style="font-weight: bold;">包含市</td>'
-                                + '<td style="font-weight: bold;">区域数</td>'
+                                // + '<td style="font-weight: bold;">区域数</td>'
                                 + '</tr>';
                             for(i=0;i<content.length;i++){
+                                // 地区去重
+                                var split = content[i].area.split(",");
+                                $.unique(split.sort());
+
                                 table += '<tr><td>'+content[i]['brand_name']+'</td>'
                                     +'<td>'+content[i]['case_name']+'</td>'
                                     +'<td>'+content[i]['name']+'</td>'
-                                    +'<td>'+content[i]['area']+'</td>'
-                                    +'<td>'+content[i]['value']+'</td></tr>'
+                                    +'<td>'+split.join(",");+'</td></tr>'
+                                    // +'<td>'+content[i]['value']+'</td>'
                             }
                             table += '</tbody></table></div>';
                             return table;
@@ -885,10 +966,21 @@
     option3 = {
         title : {
             text: '年度数据',
-            subtext: 'Annual data',
-            x:'center'
+            x:'center',
+            top:13,
+            textStyle: {
+                color: '#FFFFFF',
+                fontSize:16
+            }
         },
-        color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+        grid:{
+            x:80,
+            y:85,
+            x2:80,
+            y2:30,
+            borderWidth:1
+        },
+        color: ['#51FFFF','#61A0A8', '#006699', '#4cabce'],
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -898,14 +990,19 @@
         legend: {
             type: 'scroll',
             orient: 'vertical',
-            left: 'left',
             /*data: ['Forest', 'Steppe', 'Desert', 'Wetland']*/
             data: ['立案单位', '案件', '区域', '人员'],
+            top:42,
+            left: 'left',
+            textStyle:{
+                fontSize:12,
+                color: '#6cbbe6'
+            },
         },
         toolbox: {
             show: true,
             orient: 'vertical',
-            left: 'right',
+            left: 630,
             top: 'center',
             feature: {
                 mark: {show: true},
@@ -952,12 +1049,34 @@
             {
                 type: 'category',
                 axisTick: {show: false},
-                data: list
+                data: list,
+                axisLine:{
+                    lineStyle:{
+                        color:'#0087ED',
+                        width:1
+                    }
+                }
             }
         ],
         yAxis: [
             {
-                type: 'value'
+                type: 'value',
+                splitLine:{
+                    lineStyle:{
+                        color:'#0087ED'
+                    }
+                },
+                nameTextStyle:{
+                    lineStyle:{
+                        color:'#0087ED'
+                    }
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#0087ED',
+                        width:1
+                    }
+                }
             }
         ],
         series: series

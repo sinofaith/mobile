@@ -130,7 +130,6 @@ public class RegionController {
     public String getPerson(String role_id){
         Gson gson = new Gson();
         Map map = new HashMap();
-        System.out.println(gson.toJson(rs.getRoleById(Long.parseLong(role_id))));
         return gson.toJson(rs.getRoleById(Long.parseLong(role_id)));
     }
 

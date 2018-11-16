@@ -42,11 +42,11 @@
                                         <td width="3%">序号</td>
                                         <td width="8%">微信号</td>
                                         <td width="8%">微信昵称</td>
-                                        <td width="10%"><a href="${pageContext.request.contextPath}/phonewxFriendChat/order?orderby=fstime">发送时间</a></td>
+                                        <td width="12%"><a href="${pageContext.request.contextPath}/phonewxFriendChat/order?orderby=fstime">发送时间</a></td>
                                         <td width="8%">对方微信号</td>
                                         <td width="8%">对方微信昵称</td>
                                         <td width="6%">发送方向</td>
-                                        <td width="4%">发送类型</td>
+                                        <td width="6%">发送类型</td>
                                         <td width="15%">内容</td>
                                     </tr>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">

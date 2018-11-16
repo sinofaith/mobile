@@ -42,4 +42,25 @@ public class JzxxService {
         }
         return page;
     }
+
+    /**
+     * 获取要修改的机主信息
+     * @param id
+     * @return
+     */
+    public TAutoJzxxEntity getEditPerson(long id) {
+        TAutoJzxxEntity jzxxEntity = jzxxDao.getEditPerson(id);
+        if(jzxxEntity!=null){
+            return jzxxEntity;
+        }
+        return null;
+    }
+
+    /**
+     * 修改机主信息
+     * @param jzxxEntity
+     */
+    public void editPerson(TAutoJzxxEntity jzxxEntity) {
+        jzxxDao.saveOrUpdate(jzxxEntity);
+    }
 }

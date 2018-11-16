@@ -118,12 +118,12 @@ public class FriendsChatxxController {
         // 当不是首次点击的时候
         if (orderby.equals(lastOrder)) {
             if (desc == null || " ".equals(desc)) {
-                desc = " desc ";
+                desc = " desc nulls last ";
             } else {
                 desc = " ";
             }
         } else {
-            desc = " desc ";
+            desc = " desc nulls last ";
         }
         // 将数据存入session中
         session.setAttribute("friendsChatDesc", desc);
