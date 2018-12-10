@@ -2,7 +2,6 @@ package cn.com.sinofaith.controller.brandController;
 
 import cn.com.sinofaith.bean.BrandEntity;
 import cn.com.sinofaith.bean.CaseEntity;
-import cn.com.sinofaith.bean.RegionEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.brand.CaseService;
 import cn.com.sinofaith.service.brand.RegionService;
@@ -92,6 +91,12 @@ public class CaseController {
         CaseEntity ce = cs.getCase(caseName,Long.parseLong(brandId));
         if(ce.getCaseId()==-1){
             ce.setCaseId(cs.add(caseName,creater,Long.parseLong(brandId)));
+            // 删除gainList
+//            Jedis jedis = JedisPoolUtils.getJedis();
+//            jedis.del("areaList");
+//            jedis.del("brandList");
+//            jedis.del("annualDataList");
+//            JedisPoolUtils.returnResource(jedis);
         }
         rs.add(ce.getCaseId(),areaId);
 

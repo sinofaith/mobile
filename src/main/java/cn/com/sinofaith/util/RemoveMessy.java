@@ -16,4 +16,9 @@ public class RemoveMessy {
             return "";
         }
     }
+
+    public static void main(String[] args) {
+        String s = rMessy("①张？大？？？？？？苏打");
+        System.out.println(s);
+    }
 }

@@ -128,7 +128,10 @@ public class UploadController {
                 }
             }
 
-
+            // 删除gainList
+//            Jedis jedis = JedisPoolUtils.getJedis();
+//            jedis.del("staffList");
+//            JedisPoolUtils.returnResource(jedis);
         }catch (FileNotFoundException e){
 //            File files = new File(uploadPath);
 //            String[] filep = files.list();

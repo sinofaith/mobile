@@ -1,18 +1,14 @@
 package cn.com.sinofaith.controller.dataController;
 
 import cn.com.sinofaith.bean.BrandEntity;
-import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.form.AnnualDataForm;
 import cn.com.sinofaith.form.Brandperson;
 import cn.com.sinofaith.form.PlotForm;
-import cn.com.sinofaith.form.StaffForm;
 import cn.com.sinofaith.service.data.DataPlotService;
-import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -83,7 +79,6 @@ public class DataPlotController {
         List<Brandperson> bps = dpService.getStaff();
         return bps;
     }
-
 }
 
 

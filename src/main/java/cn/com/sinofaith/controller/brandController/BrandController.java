@@ -94,6 +94,11 @@ public class BrandController {
         BrandEntity be = bs.getByname(brandname,unitname);
         if(be.getBrandId()==-1){
             bs.add(brandname,unitname);
+            // 删除gainList
+//            Jedis jedis = JedisPoolUtils.getJedis();
+//            jedis.del("gainList");
+//            jedis.del("annualDataList");
+//            JedisPoolUtils.returnResource(jedis);
             return "200";
         }else {
             return "303";

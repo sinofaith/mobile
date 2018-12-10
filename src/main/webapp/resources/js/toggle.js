@@ -7,6 +7,7 @@ function toggle1(obj) {
 }
 function toggle(){
     $("#con1").css("display", "block");
+    $("#div1").css("display", "none");
     $("#div2").css("display", "none");
     $("#div3").css("display", "none");
     $("#div4").css("display", "none");
@@ -843,7 +844,7 @@ function toggle4(){
             },
             x:'center'
         },
-        color: ['#51FFFF', '#61A0A8', '#006699', '#4cabce'],
+        color: ['#68838B','#61A0A8', '#4cabce', '#006699'],
         tooltip: {
             trigger: 'axis',
             axisPointer: {
