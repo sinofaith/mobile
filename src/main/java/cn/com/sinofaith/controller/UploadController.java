@@ -123,7 +123,7 @@ public class UploadController {
                     us.qqWechatParser(ai, jzxx, qqZhxxEntity, wechatZhxxEntity, filePath, p, conn);
                     us.qqFriendsParser(ai, jzxx, qqZhxxEntity, qqFriendsxxEntity, filePath, p, conn);
                     us.wechatFriendsParser(ai, jzxx, wechatFriendsxxEntity, wechatZhxxEntity, filePath, p, conn);
-                    us.qqWechatLtjlParser(ai,jzxx, qqLtjlEntity, wechatLtjlEntity, filePath, p, conn);
+                    us.qqWechatLtjlParser(ai,jzxx, qqLtjlEntity, wechatLtjlEntity,qqZhxxEntity,wechatZhxxEntity, filePath, p, conn);
 
                 }
             }

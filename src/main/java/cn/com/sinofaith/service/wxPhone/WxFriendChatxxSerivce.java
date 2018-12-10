@@ -62,7 +62,7 @@ public class WxFriendChatxxSerivce {
         if(allRow>0){
             wxForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
             for (int i = 0; i <wxForms.size(); i++) {
-                wxForms.get(i).setFswechatnc(RemoveMessy.rMessy(wxForms.get(i).getFswechatnc()));
+//                wxForms.get(i).setFswechatnc((wxForms.get(i).getFswechatnc()));
                 wxForms.get(i).setId((currentPage-1)*pageSize+i+1);
             }
             // 封装page

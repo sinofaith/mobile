@@ -226,76 +226,81 @@ function caseSkip(a){
 
 
 function UploadQZ() {
-    $(".btn").attr("disabled","true");
-    var fileObj = document.getElementById("file");// js 获取文件对象
-    var file = $("#file").val();
-    var flag = true;
-    if(file==''){
-        $("#file").attr('data-original-title',"请选择取证报告report文件夹").tooltip('show');
-        flag = false;
-    }
-    var regionId = $("#regionId").val();
-    if(regionId==''){
-        $("#fregionName").attr('data-original-title',"区域不能为空,请从区域列表选择后添加取证报告").tooltip('show');
-        flag = false;
-    }
-    var myjzm = $("#jzm").val();
-    if(myjzm==''){
-        $("#jzm").attr('data-original-title',"机主名不能为空").tooltip('show');
-        flag = false;
-    }
-    var mysjy = $("#sjy").val();
-    if(mysjy==''){
-        $("#sjy").attr('data-original-title',"数据来源不能为空").tooltip('show');
-        flag = false;
-    }
-    var froleName = $("#froleName").val();
-    if(froleName==''){
-        $("#froleName").attr('data-original-title',"角色不能为空").tooltip('show');
-        flag = false;
-    }
-    if(!flag){
-        $(".btn").removeAttr("disabled","disabled");
-        return;
-    }
-    var FileController = "/mobile/Upload/importmeiya"; // 接收上传文件的后台地址
-    // FormData 对象
-    var form = new FormData();
-    form.append("regionId", regionId);
-    form.append("myjzm",myjzm);// 可以增加表单数据
-    form.append("mysjy",mysjy);// 可以增加表单数据
-    form.append("role",froleName);// 可以增加表单数据
-    for(i=0;i<fileObj.files.length;i++){
-        form.append("file", fileObj.files[i]);
-        // 文件对象
-    }
-    var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
-    xhr.open("post", FileController, true);
-    xhr.onload = function(e) {
-        if((this.status == 200||this.status == 304)){
-            var responseText = xhr.responseText;
-            alertify.set('notifier','position', 'top-center');
-            if(responseText=='200') {
-                alertify.success("导入完成!");
-                $('#filemyModal').modal('hide');
-                setTimeout(function () {
-                    document.getElementById("seachDetail").submit()
-                }, 1500);
-            }else if(responseText=='500'){
-                $(".btn").removeAttr("disabled","disabled");
-                alertify.error("未找到Report目录");
-            }else if(responseText=='404'){
-                $(".btn").removeAttr("disabled","disabled");
-                alertify.error("错误!请联系管理员")
-            }
-        }else {
-            $(".btn").removeAttr("disabled","disabled");
-            alertify.error("错误!请联系管理员")
-            return
+    try {
+        $(".btn").attr("disabled", "true");
+        var fileObj = document.getElementById("file");// js 获取文件对象
+        var file = $("#file").val();
+        var flag = true;
+        if (file == '') {
+            $("#file").attr('data-original-title', "请选择取证报告report文件夹").tooltip('show');
+            flag = false;
         }
-    };
-    xhr.upload.addEventListener("progress", progressFunction, false);
-    xhr.send(form);
+        var regionId = $("#regionId").val();
+        if (regionId == '') {
+            $("#fregionName").attr('data-original-title', "区域不能为空,请从区域列表选择后添加取证报告").tooltip('show');
+            flag = false;
+        }
+        var myjzm = $("#jzm").val();
+        if (myjzm == '') {
+            $("#jzm").attr('data-original-title', "机主名不能为空").tooltip('show');
+            flag = false;
+        }
+        var mysjy = $("#sjy").val();
+        if (mysjy == '') {
+            $("#sjy").attr('data-original-title', "数据来源不能为空").tooltip('show');
+            flag = false;
+        }
+        var froleName = $("#froleName").val();
+        if (froleName == '') {
+            $("#froleName").attr('data-original-title', "角色不能为空").tooltip('show');
+            flag = false;
+        }
+        if (!flag) {
+            $(".btn").removeAttr("disabled", "disabled");
+            return;
+        }
+        var FileController = "/mobile/Upload/importmeiya"; // 接收上传文件的后台地址
+        // FormData 对象
+        var form = new FormData();
+        form.append("regionId", regionId);
+        form.append("myjzm", myjzm);// 可以增加表单数据
+        form.append("mysjy", mysjy);// 可以增加表单数据
+        form.append("role", froleName);// 可以增加表单数据
+        for (i = 0; i < fileObj.files.length; i++) {
+            form.append("file", fileObj.files[i]);
+            // 文件对象
+        }
+        var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
+        xhr.open("post", FileController, true);
+        xhr.onload = function (e) {
+            if ((this.status == 200 || this.status == 304)) {
+                var responseText = xhr.responseText;
+                alertify.set('notifier', 'position', 'top-center');
+                if (responseText == '200') {
+                    alertify.success("导入完成!");
+                    $('#filemyModal').modal('hide');
+                    setTimeout(function () {
+                        document.getElementById("seachDetail").submit()
+                    }, 1500);
+                } else if (responseText == '500') {
+                    $(".btn").removeAttr("disabled", "disabled");
+                    alertify.error("未找到Report目录");
+                } else if (responseText == '404') {
+                    $(".btn").removeAttr("disabled", "disabled");
+                    alertify.error("错误!请联系管理员")
+                }
+            } else {
+                $(".btn").removeAttr("disabled", "disabled");
+                alertify.error("错误!请联系管理员")
+                return
+            }
+        };
+        xhr.upload.addEventListener("progress", progressFunction, false);
+        xhr.send(form);
+    }catch (e){
+        console.log(e.name + ": " + e.message);
+        $(".btn").attr("disabled", "false");
+    }
 }
 
 

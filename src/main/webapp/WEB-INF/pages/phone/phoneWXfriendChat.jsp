@@ -52,11 +52,11 @@
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center" >${item.id}</td>
-                                            <td align="center">${item.fswechatno}</td>
+                                            <td align="center" title='${item.fswechatno}'><div style="width:120px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fswechatno}</div></td>
                                             <td align="center">${item.fswechatnc}</td>
                                             <td align="center">${item.fstime}</td>
-                                            <td align="center">${item.jswechatno}</td>
-                                            <td align="center" title='${item.jsfriendnc}'><div style="width:180px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.jsfriendnc}</div></td>
+                                            <td align="center" title='${item.jswechatno}'><div style="width:120px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.jswechatno}</div></td>
+                                            <td align="center" title='${item.jsfriendnc}'><div style="width:120px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.jsfriendnc}</div></td>
                                             <td align="center">${item.fsfx}</td>
                                             <td align="center">${item.fslx}</td>
                                             <td align="center" title='${item.lujing}'>

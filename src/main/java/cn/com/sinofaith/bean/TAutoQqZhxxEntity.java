@@ -9,7 +9,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "t_auto_qq_zhxx", schema = "")
-public class TAutoQqZhxxEntity {
+public class
+TAutoQqZhxxEntity {
     private long id;
     private String name;
     private String sfzhm;

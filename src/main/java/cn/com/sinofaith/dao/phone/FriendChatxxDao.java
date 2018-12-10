@@ -85,21 +85,21 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         }
         String tempQQno;
         String tempQQnc;
-        for (int i = 0; i < qqForms.size(); i++) {
-            for(int j=0;j<qq.size();j++){
-                if(qqForms.get(i).getFsqq().equals(qq.get(j))){
-                    qqForms.get(i).setFsfx("发送");
-                }else if(qqForms.get(i).getJsqqno().equals(qq.get(j))){
-                    tempQQno = qqForms.get(i).getFsqq();
-                    qqForms.get(i).setFsqq(qqForms.get(i).getJsqqno());
-                    qqForms.get(i).setJsqqno(tempQQno);
-                    tempQQnc = qqForms.get(i).getFsqqnc();
-                    qqForms.get(i).setFsqqnc(qqForms.get(i).getJsqqnc());
-                    qqForms.get(i).setJsqqnc(tempQQnc);
-                    qqForms.get(i).setFsfx("接收");
-                }
-            }
-        }
+//        for (int i = 0; i < qqForms.size(); i++) {
+//            for(int j=0;j<qq.size();j++){
+//                if(qqForms.get(i).getFsqq().equals(qq.get(j))){
+//                    qqForms.get(i).setFsfx("发送");
+//                }else if(qqForms.get(i).getJsqqno().equals(qq.get(j))){
+//                    tempQQno = qqForms.get(i).getFsqq();
+//                    qqForms.get(i).setFsqq(qqForms.get(i).getJsqqno());
+//                    qqForms.get(i).setJsqqno(tempQQno);
+//                    tempQQnc = qqForms.get(i).getFsqqnc();
+//                    qqForms.get(i).setFsqqnc(qqForms.get(i).getJsqqnc());
+//                    qqForms.get(i).setJsqqnc(tempQQnc);
+//                    qqForms.get(i).setFsfx("接收");
+//                }
+//            }
+//        }
         return qqForms;
     }
 /*

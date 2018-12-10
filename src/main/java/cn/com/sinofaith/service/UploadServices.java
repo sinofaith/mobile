@@ -2,12 +2,16 @@ package cn.com.sinofaith.service;
 
 import cn.com.sinofaith.bean.*;
 import cn.com.sinofaith.service.brand.RegionService;
+import cn.com.sinofaith.util.Amr2Mp3;
+import cn.com.sinofaith.util.TimeFormatUtil;
+import org.apache.commons.io.CopyUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.*;
 import java.sql.Connection;
@@ -165,7 +169,7 @@ public class UploadServices {
 
                         }
                     }
-                    jzxx.setInsertTime(new Timestamp(System.currentTimeMillis()).toString());
+                    jzxx.setInsertTime(TimeFormatUtil.getDate("-"));
                     roleEntity.setSfzhm(jzxx.getZjhm());
                     roleEntity.setRole_name(jzxx.getName());
                     if(roleEntity.getSfzhm()==null){
@@ -1571,7 +1575,7 @@ public class UploadServices {
     }
 
     //    获取qq微信聊天记录  还没调试好
-    public  void qqWechatLtjlParser(String ai, TAutoJzxxEntity jzxxEntity,TAutoQqLtjlEntity qqLtjlEntity, TAutoWechatLtjlEntity wechatLtjlEntity, String filePath, PrintStream p,Connection conn){
+    public  void qqWechatLtjlParser(String ai, TAutoJzxxEntity jzxxEntity,TAutoQqLtjlEntity qqLtjlEntity, TAutoWechatLtjlEntity wechatLtjlEntity,TAutoQqZhxxEntity qqzh,TAutoWechatZhxxEntity wezh, String filePath, PrintStream p,Connection conn){
 //                过滤掉qq
         if ((ai.contains("_849.ico")||ai.contains("27_301~349.ico"))&&(ai.contains("好友聊天记录")||ai.contains("群聊天"))) {
 //                查找基本信息字符,返回跳转文件及位置（扩展时候在这加一个找的内容的数组，循环查找遍历）
@@ -1631,6 +1635,10 @@ public class UploadServices {
                                         for (Element tr : trs) {
                                             wechatLtjlEntity.setNull();
                                             qqLtjlEntity.setNull();
+                                            qqLtjlEntity.setZhxx(qqzh.getQq());
+                                            qqLtjlEntity.setZhnc(qqzh.getNicheng());
+                                            wechatLtjlEntity.setZhxx(wezh.getWxh());
+                                            wechatLtjlEntity.setZhnc(wezh.getNicheng());
 //                                            message(p, "非群~~~~~~~~~~~~~~~~" + tr.text());
                                             Elements tds = tr.children();
                                             int i = 0;//用于限制不嵌套读取列
@@ -1651,17 +1659,35 @@ public class UploadServices {
                                                         if(fsf.length>1){
 //                                                            message(p,td.text()+"\t"+fsf[0]+"\t"+fsf[1]);
                                                             if (ai.contains("27_301~349.ico")){
-                                                                qqLtjlEntity.setFsqq(fsf[0]);
-                                                                qqLtjlEntity.setFsqqnc(fsf[1]);
+                                                                if(qqLtjlEntity.getZhxx().equals(fsf[0])){
+                                                                    qqLtjlEntity.setFsfx("发送");
+                                                                }else {
+                                                                    qqLtjlEntity.setFsfx("接收");
+                                                                    qqLtjlEntity.setDszh(fsf[0]);
+                                                                    qqLtjlEntity.setDsnc(fsf[1]);
+                                                                }
+//                                                                qqLtjlEntity.setFsqq(fsf[0]);
+//                                                                qqLtjlEntity.setFsqqnc(fsf[1]);
                                                             }else {
-                                                                wechatLtjlEntity.setFswechatno(fsf[0]);
-                                                                wechatLtjlEntity.setFswechatnc(fsf[1]);
+                                                                if(wechatLtjlEntity.getZhxx().equals(fsf[0])){
+                                                                    wechatLtjlEntity.setFsfx("发送");
+                                                                }else {
+                                                                    wechatLtjlEntity.setFsfx("接收");
+                                                                    wechatLtjlEntity.setDszh(fsf[0]);
+                                                                    wechatLtjlEntity.setDsnc(fsf[1]);
+                                                                }
+//                                                                wechatLtjlEntity.setFswechatno(fsf[0]);
+//                                                                wechatLtjlEntity.setFswechatnc(fsf[1]);
                                                             }
                                                         }else {
                                                             if (ai.contains("27_301~349.ico")){
-                                                                qqLtjlEntity.setFsqq(td.text());
+//                                                                qqLtjlEntity.setFsqq(td.text());
+                                                                qqLtjlEntity.setDszh(td.text());
+                                                                qqLtjlEntity.setFsfx("");
                                                             }else {
-                                                                wechatLtjlEntity.setFswechatno(td.text());
+//                                                                wechatLtjlEntity.setFswechatno(td.text());
+                                                                wechatLtjlEntity.setDszh(td.text());
+                                                                wechatLtjlEntity.setFsfx("");
                                                             }
                                                         }
                                                         break;
@@ -1671,17 +1697,35 @@ public class UploadServices {
                                                         if(jsf.length>1){
 //                                                            message(p,td.text()+"\t"+jsf[0]+"\t"+jsf[1]);
                                                             if (ai.contains("27_301~349.ico")){
-                                                                qqLtjlEntity.setJsqqno(jsf[0]);
-                                                                qqLtjlEntity.setJsqqnc(jsf[1]);
+                                                                if(qqLtjlEntity.getZhxx().equals(jsf[0])){
+                                                                    qqLtjlEntity.setFsfx("接收");
+                                                                }else{
+                                                                    qqLtjlEntity.setFsfx("发送");
+                                                                    qqLtjlEntity.setDszh(jsf[0]);
+                                                                    qqLtjlEntity.setDsnc(jsf[1]);
+                                                                }
+//                                                                qqLtjlEntity.setJsqqno(jsf[0]);
+//                                                                qqLtjlEntity.setJsqqnc(jsf[1]);
                                                             }else {
-                                                                wechatLtjlEntity.setJswechatno(jsf[0]);
-                                                                wechatLtjlEntity.setJsfriendnc(jsf[1]);
+                                                                if(wechatLtjlEntity.getZhxx().equals(jsf[0])){
+                                                                    wechatLtjlEntity.setFsfx("接收");
+                                                                }else {
+                                                                    wechatLtjlEntity.setFsfx("发送");
+                                                                    wechatLtjlEntity.setDszh(jsf[0]);
+                                                                    wechatLtjlEntity.setDsnc(jsf[1]);
+                                                                }
+//                                                                wechatLtjlEntity.setJswechatno(jsf[0]);
+//                                                                wechatLtjlEntity.setJsfriendnc(jsf[1]);
                                                             }
                                                         }else {
                                                             if (ai.contains("27_301~349.ico")){
-                                                                qqLtjlEntity.setJsqqno(td.text());
+//                                                                qqLtjlEntity.setJsqqno(td.text());
+                                                                qqLtjlEntity.setDszh(td.text());
+                                                                qqLtjlEntity.setFsfx("");
                                                             }else {
-                                                                wechatLtjlEntity.setJswechatno(td.text());
+//                                                                wechatLtjlEntity.setJswechatno(td.text());
+                                                                wechatLtjlEntity.setDszh(td.text());
+                                                                wechatLtjlEntity.setFsfx("");
                                                             }
                                                         }
                                                         break;
@@ -1699,21 +1743,21 @@ public class UploadServices {
                                                         Elements quotes=td.getElementsByTag("a");
 //                                                                    message(p,quotes.size()+"");
 
-                                                        if(quotes.size()==0) {
+                                                        if(quotes.select("img").size()==0) {
 //                                                                        message(p,"null");
                                                             if (ai.contains("27_301~349.ico")) {
                                                                 qqLtjlEntity.setFslx("文字");
                                                                 try {
                                                                     if (td.text().length() > 100) {
                                                                         String wz = td.text().substring(0, 100);
-                                                                        qqLtjlEntity.setFanr(wz.getBytes("GBK"));
+//                                                                        qqLtjlEntity.setFanr(wz.getBytes("UTF8"));
                                                                         qqLtjlEntity.setLujing(wz);
 //                                                                    message(p,"qq文字"+new String(qqLtjlEntity.getFanr(),"UTF8"));
                                                                     } else {
-                                                                        qqLtjlEntity.setFanr(td.text().getBytes("GBK"));
+//                                                                        qqLtjlEntity.setFanr(td.text().getBytes("UTF8"));
                                                                         qqLtjlEntity.setLujing(td.text());
                                                                     }
-                                                                } catch (UnsupportedEncodingException e) {
+                                                                } catch (Exception e) {
                                                                     e.printStackTrace();
                                                                 }
                                                             } else {
@@ -1721,15 +1765,15 @@ public class UploadServices {
                                                                 try {
                                                                     if(td.text().length()>100) {
                                                                         String wz = td.text().substring(0, 100);
-                                                                        wechatLtjlEntity.setFanr(wz.getBytes("GBK"));
+//                                                                        wechatLtjlEntity.setFanr(wz.getBytes("UTF8"));
                                                                         wechatLtjlEntity.setLujing(wz);
 
 //                                                                message(p,"微信文字"+new String(wechatLtjlEntity.getFanr(),"UTF8"));
                                                                     }else{
-                                                                        wechatLtjlEntity.setFanr(td.text().getBytes("GBK"));
+//                                                                        wechatLtjlEntity.setFanr(td.text().getBytes("UTF8"));
                                                                         wechatLtjlEntity.setLujing(td.text());
                                                                     }
-                                                                } catch (UnsupportedEncodingException e) {
+                                                                } catch (Exception e) {
                                                                     e.printStackTrace();
                                                                 }
                                                             }
@@ -1749,27 +1793,51 @@ public class UploadServices {
                                                                     qqLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
                                                                 }else {
                                                                     if(fslx.length>1){
-                                                                        wechatLtjlEntity.setFslx(fslx[fslx.length-1]);
+                                                                        wechatLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,wechatLtjlEntity.getFslx());
                                                                     }
                                                                     wechatLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
                                                                 }
                                                                 String sblob=filePath+lujing;
+                                                                String endPath= "D:\\test\\"+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","");
                                                                 File file = new File(sblob);
                                                                 InputStream inputStream = null;
+                                                                OutputStream os =null;
                                                                 try {
                                                                     if(file.exists()&&file.isFile()) {
                                                                         inputStream = new FileInputStream(file);
                                                                         //新建一byte数组
-                                                                        byte[] buf = new byte[inputStream.available()];
+//                                                                        byte[] buf = new byte[inputStream.available()];
                                                                         //将文件读入到byte[]中
-                                                                        inputStream.read(buf);
+//                                                                        inputStream.read(buf);
                                                                         if (ai.contains("27_301~349.ico")) {
-                                                                            qqLtjlEntity.setFanr(buf);
+                                                                            File endFile = new File(endPath+"\\qq");
+                                                                            if(!endFile.exists()){
+                                                                                endFile.mkdirs();
+                                                                            }
+                                                                            os = new FileOutputStream(endFile.getAbsolutePath()+"\\"+file.getName());
+                                                                            FileCopyUtils.copy(inputStream,os);
+                                                                            qqLtjlEntity.setLujing(endPath+file.getName());
+//                                                                            qqLtjlEntity.setFanr(buf);
                                                                         } else {
-                                                                            wechatLtjlEntity.setFanr(buf);
+                                                                            File endFile = new File(endPath+"\\wechat");
+                                                                            if(!endFile.exists()){
+                                                                                endFile.mkdirs();
+                                                                            }
+                                                                            if(file.getName().endsWith(".amr")){
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                inputStream.close();
+                                                                            }else {
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                FileCopyUtils.copy(inputStream, os);
+                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName());
+//                                                                            wechatLtjlEntity.setFanr(buf);
+                                                                                inputStream.close();
+                                                                                os.close();
+                                                                            }
+//                                                                            wechatLtjlEntity.setFanr(buf);
                                                                         }
-                                                                        inputStream.close();
                                                                     }
                                                                 } catch (FileNotFoundException e) {
                                                                     e.printStackTrace();
@@ -1792,18 +1860,20 @@ public class UploadServices {
 //                                                            message(p, td.toString());
                                             }
                                             if (ai.contains("27_301~349.ico")){
-                                                if(qqLtjlEntity.getFsqq()!=null){
+                                                if(qqLtjlEntity.getDszh()!=null){
                                                     qqLtjlEntity.setuName(jzxxEntity.getName());
                                                     qqLtjlEntity.setuNumber(jzxxEntity.getSjhm());
                                                     qqLtjlEntity.setAj_id(jzxxEntity.getAj_id());
+                                                    qqLtjlEntity.setQunzhxx("");
                                                     insertQQLtjl(qqLtjlEntity,conn);
                                                 }
 //                                                    message(p,insertQQLtjl(qqLtjlEntity,conn)+"qq");
                                             }else {
-                                                if(wechatLtjlEntity.getFswechatno()!=null){
+                                                if(wechatLtjlEntity.getDszh()!=null){
                                                     wechatLtjlEntity.setuName(jzxxEntity.getName());
                                                     wechatLtjlEntity.setuNumber(jzxxEntity.getSjhm());
                                                     wechatLtjlEntity.setAj_id(jzxxEntity.getAj_id());
+                                                    wechatLtjlEntity.setQunzhxx("");
                                                     insertWechatLtjl(wechatLtjlEntity,conn);
                                                 }
 //                                                    message(p,insertWechatLtjl(wechatLtjlEntity,conn)+"wx");
@@ -1814,6 +1884,10 @@ public class UploadServices {
                                         for (Element tr : trs) {
                                             wechatLtjlEntity.setNull();
                                             qqLtjlEntity.setNull();
+                                            qqLtjlEntity.setZhxx(qqzh.getQq());
+                                            qqLtjlEntity.setZhnc(qqzh.getNicheng());
+                                            wechatLtjlEntity.setZhxx(wezh.getWxh());
+                                            wechatLtjlEntity.setDsnc(wezh.getNicheng());
 //                                            message(p, "群~~~~~~~~~~~~~~~~" + tr.text());
                                             Elements tds = tr.children();
                                             int i = 0;//用于限制不嵌套读取列
@@ -1834,17 +1908,37 @@ public class UploadServices {
                                                         if(fsf.length>1){
 //                                                            message(p,td.text()+"\t"+fsf[0]+"\t"+fsf[1]);
                                                             if (ai.contains("27_301~349.ico")){
-                                                                qqLtjlEntity.setFsqq(fsf[0]);
-                                                                qqLtjlEntity.setFsqqnc(fsf[1]);
+                                                                if(qqLtjlEntity.getZhxx().equals(fsf[0])){
+                                                                    qqLtjlEntity.setFsfx("发送");
+                                                                    qqLtjlEntity.setQunzhxx(qun);
+                                                                }else{
+                                                                    qqLtjlEntity.setFsfx("接收");
+                                                                    qqLtjlEntity.setQunzhxx(qun);
+                                                                }
+                                                                qqLtjlEntity.setDszh(fsf[0]);
+                                                                qqLtjlEntity.setDsnc(fsf[1]);
+//                                                                qqLtjlEntity.setFsqq(fsf[0]);
+//                                                                qqLtjlEntity.setFsqqnc(fsf[1]);
                                                             }else {
-                                                                wechatLtjlEntity.setFswechatno(fsf[0]);
-                                                                wechatLtjlEntity.setFswechatnc(fsf[1]);
+                                                                if(wechatLtjlEntity.getZhxx().equals(fsf[0])){
+                                                                    wechatLtjlEntity.setDszh("发送");
+                                                                    wechatLtjlEntity.setQunzhxx(qun);
+                                                                }{
+                                                                    wechatLtjlEntity.setFsfx("接收");
+                                                                    wechatLtjlEntity.setQunzhxx(qun);
+                                                                }
+                                                                wechatLtjlEntity.setDszh(fsf[0]);
+                                                                wechatLtjlEntity.setDsnc(fsf[1]);
+//                                                                wechatLtjlEntity.setFswechatno(fsf[0]);
+//                                                                wechatLtjlEntity.setFswechatnc(fsf[1]);
                                                             }
                                                         }else {
                                                             if (ai.contains("27_301~349.ico")){
-                                                                qqLtjlEntity.setFsqq(td.text().replace("()",""));
+//                                                                qqLtjlEntity.setFsqq(td.text().replace("()",""));
+                                                                qqLtjlEntity.setDszh(td.text().replace("()",""));
                                                             }else {
-                                                                wechatLtjlEntity.setFswechatno(td.text());
+//                                                                wechatLtjlEntity.setFswechatno(td.text().replace("()",""));
+                                                                wechatLtjlEntity.setDszh(td.text().replace("()",""));
                                                             }
                                                         }
                                                         break;
@@ -1863,21 +1957,21 @@ public class UploadServices {
 //                                                        message(p,"blob~~~~~~~~~~~");//+td.toString()
                                                         Elements quotes=td.getElementsByTag("a");
 //                                                        message(p,quotes.text());
-                                                        if(quotes.size()==0) {
+                                                        if(quotes.select("img").size()==0) {
 //                                                            message(p,"null");
                                                             if (ai.contains("27_301~349.ico")) {
                                                                 qqLtjlEntity.setFslx("文字");
                                                                 try {
                                                                     if (td.text().length() > 100) {
                                                                         String wz = td.text().substring(0, 100);
-                                                                        qqLtjlEntity.setFanr(wz.getBytes("GBK"));
+//                                                                        qqLtjlEntity.setFanr(wz.getBytes("UTF8"));
                                                                         qqLtjlEntity.setLujing(wz);
 //                                                                    message(p,"qq文字"+new String(qqLtjlEntity.getFanr(),"UTF8"));
                                                                     }else {
-                                                                        qqLtjlEntity.setFanr(td.text().getBytes("GBK"));
+//                                                                        qqLtjlEntity.setFanr(td.text().getBytes("UTF8"));
                                                                         qqLtjlEntity.setLujing(td.text());
                                                                     }
-                                                                } catch (UnsupportedEncodingException e) {
+                                                                } catch (Exception e) {
                                                                     e.printStackTrace();
                                                                 }
                                                             } else {
@@ -1885,14 +1979,14 @@ public class UploadServices {
                                                                 try {
                                                                     if (td.text().length() > 100) {
                                                                         String wz = td.text().substring(0, 100);
-                                                                        wechatLtjlEntity.setFanr(wz.getBytes("GBK"));
+//                                                                        wechatLtjlEntity.setFanr(wz.getBytes("UTF8"));
                                                                         wechatLtjlEntity.setLujing(wz);
 //                                                                    message(p,"微信文字"+new String(wechatLtjlEntity.getFanr(),"UTF8"));
                                                                     }else{
-                                                                        wechatLtjlEntity.setFanr(td.text().getBytes("GBK"));
+//                                                                        wechatLtjlEntity.setFanr(td.text().getBytes("UTF8"));
                                                                         wechatLtjlEntity.setLujing(td.text());
                                                                     }
-                                                                } catch (UnsupportedEncodingException e) {
+                                                                } catch (Exception e) {
                                                                     e.printStackTrace();
                                                                 }
                                                             }//if(!quotes.text().contains("好友验证"))
@@ -1913,27 +2007,50 @@ public class UploadServices {
                                                                     qqLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
                                                                 }else {
                                                                     if(fslx.length>1){
-                                                                        wechatLtjlEntity.setFslx(fslx[fslx.length-1]);
+                                                                        wechatLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,wechatLtjlEntity.getFslx());
                                                                     }
                                                                     wechatLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
                                                                 }
                                                                 String sblob=filePath+lujing;
+                                                                String endPath= "D:\\test\\"+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","");
                                                                 File file = new File(sblob);
                                                                 InputStream inputStream = null;
+                                                                OutputStream os =null;
                                                                 try {
                                                                     if(file.exists()&&file.isFile()) {
                                                                         inputStream = new FileInputStream(file);
                                                                         //新建一byte数组
-                                                                        byte[] buf = new byte[inputStream.available()];
+//                                                                        byte[] buf = new byte[inputStream.available()];
                                                                         //将文件读入到byte[]中
-                                                                        inputStream.read(buf);
+//                                                                        inputStream.read(buf);
                                                                         if (ai.contains("27_301~349.ico")) {
-                                                                            qqLtjlEntity.setFanr(buf);
+                                                                            File endFile = new File(endPath+"\\qq");
+                                                                            if(!endFile.exists()){
+                                                                                endFile.mkdirs();
+                                                                            }
+                                                                            os = new FileOutputStream(endFile.getAbsolutePath()+"\\"+file.getName());
+                                                                            FileCopyUtils.copy(inputStream,os);
+                                                                            qqLtjlEntity.setLujing(endPath+file.getName());
+//                                                                            qqLtjlEntity.setFanr(buf);
                                                                         } else {
-                                                                            wechatLtjlEntity.setFanr(buf);
+                                                                            File endFile = new File(endPath+"\\wechat");
+                                                                            if(!endFile.exists()){
+                                                                                endFile.mkdirs();
+                                                                            }
+                                                                            if(file.getName().endsWith(".amr")){
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                inputStream.close();
+                                                                            }else {
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                FileCopyUtils.copy(inputStream, os);
+                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName());
+//                                                                            wechatLtjlEntity.setFanr(buf);
+                                                                                inputStream.close();
+                                                                                os.close();
+                                                                            }
                                                                         }
-                                                                        inputStream.close();
                                                                     }
                                                                 } catch (FileNotFoundException e) {
                                                                     e.printStackTrace();
@@ -1957,8 +2074,9 @@ public class UploadServices {
                                             }
 //                                            message(p,wechatLtjlEntity.getFswechatno());
                                             if (ai.contains("27_301~349.ico")){
-                                                if(qqLtjlEntity.getFsqq()!=null) {
-                                                    qqLtjlEntity.setJsqqno(qun);
+                                                if(qqLtjlEntity.getDszh()!=null) {
+                                                    qqLtjlEntity.setQunzhxx(qun);
+//                                                    qqLtjlEntity.setJsqqno(qun);
                                                     qqLtjlEntity.setuName(jzxxEntity.getName());
                                                     qqLtjlEntity.setuNumber(jzxxEntity.getSjhm());
                                                     qqLtjlEntity.setAj_id(jzxxEntity.getAj_id());
@@ -1967,8 +2085,9 @@ public class UploadServices {
 //                                                    message(p,+"qq");
                                                 }
                                             }else {
-                                                if(wechatLtjlEntity.getFswechatno()!=null) {
-                                                    wechatLtjlEntity.setJswechatno(qun);
+                                                if(wechatLtjlEntity.getDszh()!=null) {
+                                                    wechatLtjlEntity.setQunzhxx(qun);
+//                                                    wechatLtjlEntity.setJswechatno(qun);
                                                     wechatLtjlEntity.setuName(jzxxEntity.getName());
                                                     wechatLtjlEntity.setuNumber(jzxxEntity.getSjhm());
                                                     wechatLtjlEntity.setAj_id(jzxxEntity.getAj_id());

@@ -14,8 +14,8 @@ public class UploadJDBC {
         int i = 0;
         String sql = "insert into t_auto_jzxx (Name,biem,Sex,zjhm,sjhm,mac," +
                 "yhsbm,sbsbm,sjxh,gzdw,xzzqh,xzz,hjdqh,hjd,beizhu,zjlx,cjsj," +
-                "sbbh,daorusj,gsd,data_type,aj_id)" +
-                " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "sbbh,daorusj,gsd,data_type,aj_id,insert_time)" +
+                " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement pstmt;
         try {
             pstmt = (PreparedStatement) conn.prepareStatement(sql);
@@ -41,7 +41,7 @@ public class UploadJDBC {
             pstmt.setString(20, tAutoJzxxEntity.getGsd());
             pstmt.setString(21, tAutoJzxxEntity.getDataType());
             pstmt.setLong(22, tAutoJzxxEntity.getAj_id());
-//            pstmt.setString(22, tAutoJzxxEntity.getInsertTime());
+            pstmt.setString(23, tAutoJzxxEntity.getInsertTime());
 //            pstmt.setString(23, tAutoJzxxEntity.getIccid());
             i = pstmt.executeUpdate();
             pstmt.close();
@@ -287,25 +287,30 @@ public class UploadJDBC {
     public static int insertQQLtjl(TAutoQqLtjlEntity qqLtjlEntity, Connection conn) {
 //    Connection conn = getConn();
         int i = 0;
-        String sql = "insert into t_auto_qq_ltjl (fsqq,fsqqnc,fstime,jsqqno,jsqqnc," +
-                "fslx,lujing,data_type,u_name,u_number,fanr,aj_id)" +
-                " values(?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into t_auto_qq_ltjl (fstime,fslx,lujing,data_type,u_name,u_number,aj_id,fsfx,zhxx,zhnc,dszh,dsnc,qunzhxx)" +
+                " values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement pstmt;
         try {
             pstmt = (PreparedStatement) conn.prepareStatement(sql);
-            pstmt.setString(1, qqLtjlEntity.getFsqq());
-            pstmt.setString(2, qqLtjlEntity.getFsqqnc());
-            pstmt.setString(3, qqLtjlEntity.getFstime());
-            pstmt.setString(4, qqLtjlEntity.getJsqqno());
-            pstmt.setString(5, qqLtjlEntity.getJsqqnc());
-            pstmt.setString(6, qqLtjlEntity.getFslx());
-            pstmt.setString(7, qqLtjlEntity.getLujing());
+//            pstmt.setString(1, qqLtjlEntity.getFsqq());
+//            pstmt.setString(2, qqLtjlEntity.getFsqqnc());
+            pstmt.setString(1, qqLtjlEntity.getFstime());
+//            pstmt.setString(4, qqLtjlEntity.getJsqqno());
+//            pstmt.setString(5, qqLtjlEntity.getJsqqnc());
+            pstmt.setString(2, qqLtjlEntity.getFslx());
+            pstmt.setString(3, qqLtjlEntity.getLujing());
 //        pstmt.setString(9, qqLtjlEntity.getInsertTime());
-            pstmt.setString(8,qqLtjlEntity.getDataType());
-            pstmt.setString(9, qqLtjlEntity.getuName());
-            pstmt.setString(10, qqLtjlEntity.getuNumber());
-            pstmt.setBytes(11, qqLtjlEntity.getFanr());
-            pstmt.setLong(12, qqLtjlEntity.getAj_id());
+            pstmt.setString(4,qqLtjlEntity.getDataType());
+            pstmt.setString(5, qqLtjlEntity.getuName());
+            pstmt.setString(6, qqLtjlEntity.getuNumber());
+//            pstmt.setBytes(11, qqLtjlEntity.getFanr());
+            pstmt.setLong(7, qqLtjlEntity.getAj_id());
+            pstmt.setString(8,qqLtjlEntity.getFsfx());
+            pstmt.setString(9,qqLtjlEntity.getZhxx());
+            pstmt.setString(10,qqLtjlEntity.getZhnc());
+            pstmt.setString(11,qqLtjlEntity.getDszh());
+            pstmt.setString(12,qqLtjlEntity.getDsnc());
+            pstmt.setString(13,qqLtjlEntity.getQunzhxx());
             i = pstmt.executeUpdate();
             pstmt.close();
 //        conn.close();
@@ -318,25 +323,30 @@ public class UploadJDBC {
     public static int insertWechatLtjl(TAutoWechatLtjlEntity wechatLtjlEntity, Connection conn)  {
 //        Connection conn = getConn();
         int i = 0;
-        String sql = "insert into t_auto_wechat_ltjl (fswechatno,fswechatnc,fstime,jswechatno,jsfriendnc," +
-                "fslx,lujing,data_type,u_name,u_number,fanr,aj_id)" +
-                " values(?,?,?,?,?, ?,?,?,?,?,?,?)";
+        String sql = "insert into t_auto_wechat_ltjl (fstime,fslx,lujing,data_type,u_name,u_number,aj_id,fsfx,zhxx,zhnc,dszh,dsnc,qunzhxx)" +
+                " values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement pstmt;
         try {
             pstmt = (PreparedStatement) conn.prepareStatement(sql);
-            pstmt.setString(1, wechatLtjlEntity.getFswechatno());
-            pstmt.setString(2, wechatLtjlEntity.getFswechatnc());
-            pstmt.setString(3, wechatLtjlEntity.getFstime());
-            pstmt.setString(4, wechatLtjlEntity.getJswechatno());
-            pstmt.setString(5, wechatLtjlEntity.getJsfriendnc());
-            pstmt.setString(6, wechatLtjlEntity.getFslx());
-            pstmt.setString(7, wechatLtjlEntity.getLujing());
+//            pstmt.setString(1, wechatLtjlEntity.getFswechatno());
+//            pstmt.setString(2, wechatLtjlEntity.getFswechatnc());
+            pstmt.setString(1, wechatLtjlEntity.getFstime());
+//            pstmt.setString(4, wechatLtjlEntity.getJswechatno());
+//            pstmt.setString(5, wechatLtjlEntity.getJsfriendnc());
+            pstmt.setString(2, wechatLtjlEntity.getFslx());
+            pstmt.setString(3, wechatLtjlEntity.getLujing());
 //            pstmt.setString(9, wechatLtjlEntity.getInsertTime());
-            pstmt.setString(8, wechatLtjlEntity.getDataType());
-            pstmt.setString(9, wechatLtjlEntity.getuName());
-            pstmt.setString(10, wechatLtjlEntity.getuNumber());
-            pstmt.setBytes(11,wechatLtjlEntity.getFanr());
-            pstmt.setLong(12,wechatLtjlEntity.getAj_id());
+            pstmt.setString(4, wechatLtjlEntity.getDataType());
+            pstmt.setString(5, wechatLtjlEntity.getuName());
+            pstmt.setString(6, wechatLtjlEntity.getuNumber());
+//            pstmt.setBytes(11,wechatLtjlEntity.getFanr());
+            pstmt.setLong(7,wechatLtjlEntity.getAj_id());
+            pstmt.setString(8,wechatLtjlEntity.getFsfx());
+            pstmt.setString(9,wechatLtjlEntity.getZhxx());
+            pstmt.setString(10,wechatLtjlEntity.getZhnc());
+            pstmt.setString(11,wechatLtjlEntity.getDszh());
+            pstmt.setString(12,wechatLtjlEntity.getDsnc());
+            pstmt.setString(13,wechatLtjlEntity.getQunzhxx());
             i = pstmt.executeUpdate();
             pstmt.close();
 //            conn.close();

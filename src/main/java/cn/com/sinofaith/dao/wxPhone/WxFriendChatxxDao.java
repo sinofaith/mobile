@@ -88,21 +88,21 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         }
         String tempWechatno;
         String tempWechatnc;
-        for (int i = 0; i < wxForms.size(); i++) {
-            for(int j=0;j<wechat.size();j++){
-                if(wxForms.get(i).getFswechatno().equals(wechat.get(j))) {
-                    wxForms.get(i).setFsfx("发送");
-                }else if(wxForms.get(i).getJswechatno().equals(wechat.get(j))){
-                    tempWechatno = wxForms.get(i).getFswechatno();
-                    wxForms.get(i).setFswechatno(wxForms.get(i).getJswechatno());
-                    wxForms.get(i).setJswechatno(tempWechatno);
-                    tempWechatnc = wxForms.get(i).getFswechatnc();
-                    wxForms.get(i).setFswechatnc(wxForms.get(i).getJsfriendnc());
-                    wxForms.get(i).setJsfriendnc(tempWechatnc);
-                    wxForms.get(i).setFsfx("接收");
-                }
-            }
-        }
+//        for (int i = 0; i < wxForms.size(); i++) {
+//            for(int j=0;j<wechat.size();j++){
+//                if(wxForms.get(i).getFswechatno().equals(wechat.get(j))) {
+//                    wxForms.get(i).setFsfx("发送");
+//                }else if(wxForms.get(i).getJswechatno().equals(wechat.get(j))){
+//                    tempWechatno = wxForms.get(i).getFswechatno();
+//                    wxForms.get(i).setFswechatno(wxForms.get(i).getJswechatno());
+//                    wxForms.get(i).setJswechatno(tempWechatno);
+//                    tempWechatnc = wxForms.get(i).getFswechatnc();
+//                    wxForms.get(i).setFswechatnc(wxForms.get(i).getJsfriendnc());
+//                    wxForms.get(i).setJsfriendnc(tempWechatnc);
+//                    wxForms.get(i).setFsfx("接收");
+//                }
+//            }
+//        }
         return wxForms;
     }
     /*public List<WxForm> getDoPage(String seach, int currentPage, int pageSize, long id) {
