@@ -16,6 +16,7 @@ import org.springframework.util.FileCopyUtils;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,15 @@ import static cn.com.sinofaith.dao.UploadJDBC.*;
 
 @Service
 public class UploadServices {
+
+    private static final String FILEPATH;
+
+    static {
+
+        ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
+
+        FILEPATH = bundle.getString("jdbc.path");
+    }
     @Autowired
     private RegionService rs;
     public static String jumpPage(String info, String ai) {
@@ -1799,7 +1809,7 @@ public class UploadServices {
                                                                     wechatLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
                                                                 }
                                                                 String sblob=filePath+lujing;
-                                                                String endPath= "D:\\test\\"+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","");
+                                                                String endPath= FILEPATH+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","").replace("-","").replace(" ","");
                                                                 File file = new File(sblob);
                                                                 InputStream inputStream = null;
                                                                 OutputStream os =null;
@@ -2013,7 +2023,7 @@ public class UploadServices {
                                                                     wechatLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
                                                                 }
                                                                 String sblob=filePath+lujing;
-                                                                String endPath= "D:\\test\\"+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","");
+                                                                String endPath= FILEPATH+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","").replace("-","").replace(" ","");
                                                                 File file = new File(sblob);
                                                                 InputStream inputStream = null;
                                                                 OutputStream os =null;
