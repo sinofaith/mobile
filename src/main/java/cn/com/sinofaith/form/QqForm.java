@@ -5,24 +5,18 @@ package cn.com.sinofaith.form;
  */
 public class QqForm {
     private long id;
-    // 姓名
-    private String name;
-    // 身份证号码
-    private String sfzhm;
-    // 手机号码
-    private String sjhm;
     // 发送QQ号
-    private String fsqq;
+    private String zhnc;
     // 发送qq昵称
-    private String fsqqnc;
+    private String zhxx;
     // 接收QQ号
-    private String jsqqno;
+    private String dsnc;
     // 接收qq昵称
-    private String jsqqnc;
-    // 所属群号
-    private String qqfriendqh;
+    private String dszh;
     // 聊天总次数
     private long num;
+
+    private String u_name;
 
     public long getId() {
         return id;
@@ -32,68 +26,36 @@ public class QqForm {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getZhnc() {
+        return zhnc;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setZhnc(String zhnc) {
+        this.zhnc = zhnc;
     }
 
-    public String getSfzhm() {
-        return sfzhm;
+    public String getZhxx() {
+        return zhxx;
     }
 
-    public void setSfzhm(String sfzhm) {
-        this.sfzhm = sfzhm;
+    public void setZhxx(String zhxx) {
+        this.zhxx = zhxx;
     }
 
-    public String getSjhm() {
-        return sjhm;
+    public String getDsnc() {
+        return dsnc;
     }
 
-    public void setSjhm(String sjhm) {
-        this.sjhm = sjhm;
+    public void setDsnc(String dsnc) {
+        this.dsnc = dsnc;
     }
 
-    public String getFsqq() {
-        return fsqq;
+    public String getDszh() {
+        return dszh;
     }
 
-    public void setFsqq(String fsqq) {
-        this.fsqq = fsqq;
-    }
-
-    public String getFsqqnc() {
-        return fsqqnc;
-    }
-
-    public void setFsqqnc(String fsqqnc) {
-        this.fsqqnc = fsqqnc;
-    }
-
-    public String getJsqqno() {
-        return jsqqno;
-    }
-
-    public void setJsqqno(String jsqqno) {
-        this.jsqqno = jsqqno;
-    }
-
-    public String getJsqqnc() {
-        return jsqqnc;
-    }
-
-    public void setJsqqnc(String jsqqnc) {
-        this.jsqqnc = jsqqnc;
-    }
-
-    public String getQqfriendqh() {
-        return qqfriendqh;
-    }
-
-    public void setQqfriendqh(String qqfriendqh) {
-        this.qqfriendqh = qqfriendqh;
+    public void setDszh(String dszh) {
+        this.dszh = dszh;
     }
 
     public long getNum() {
@@ -104,18 +66,23 @@ public class QqForm {
         this.num = num;
     }
 
+    public String getU_name() {
+        return u_name;
+    }
+
+    public void setU_name(String u_name) {
+        this.u_name = u_name;
+    }
+
     @Override
     public String toString() {
-        return "qqForm{" +
+        return "QqForm{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", sfzhm='" + sfzhm + '\'' +
-                ", sjhm='" + sjhm + '\'' +
-                ", fsqq='" + fsqq + '\'' +
-                ", fsqqnc='" + fsqqnc + '\'' +
-                ", jsqqno='" + jsqqno + '\'' +
-                ", jsqqnc='" + jsqqnc + '\'' +
-                ", num='" + num + '\'' +
+                ", zhnc='" + zhnc + '\'' +
+                ", zhxx='" + zhxx + '\'' +
+                ", dsnc='" + dsnc + '\'' +
+                ", dszh='" + dszh + '\'' +
+                ", num=" + num +
                 '}';
     }
 }
