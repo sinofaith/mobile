@@ -17,6 +17,7 @@
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
+<script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/qq.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
 
