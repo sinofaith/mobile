@@ -1,9 +1,11 @@
 package cn.com.sinofaith.controller.qqController;
 
 import cn.com.sinofaith.bean.CaseEntity;
+import cn.com.sinofaith.bean.RoleEntity;
 import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.phone.FriendChatxxSerivce;
+import com.google.gson.Gson;
 import org.hibernate.NullPrecedence;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -114,7 +116,7 @@ public class FriendChatxxController {
      * @return
      */
     @RequestMapping("/order")
-    public String seachCode(String orderby, HttpSession session) {
+    public String order(String orderby, HttpSession session) {
         // 取出session域中friendChatDesc和friendChatlastOrder
         String desc = (String) session.getAttribute("friendChatDesc");
         String lastOrder = (String) session.getAttribute("friendChatlastOrder");
@@ -126,7 +128,7 @@ public class FriendChatxxController {
                 desc = " ";
             }
         } else {
-            desc = " desc nulls last ";
+            desc = " ";
         }
         // 将数据存入session中
         session.setAttribute("friendChatDesc", desc);
@@ -137,44 +139,24 @@ public class FriendChatxxController {
 
     /**
      * 好友聊天信息
-     * @param fsqq
-     * @param jsqq
-     * @param page
-     * @param order
+     * @param zhxx
+     * @param dszh
      * @param session
      * @return
      */
-    @RequestMapping(value = "/getDetails", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-    @ResponseBody
-    public String getDetails(String fsqq, String jsqq, int page, String order, HttpSession session) {
-        // 创建离线查询对象
-        DetachedCriteria dc = DetachedCriteria.forClass(TAutoQqLtjlEntity.class);
-        dc.add(Restrictions.eq("fsqq",fsqq));
-        dc.add(Restrictions.eq("jsqqno",jsqq));
+    @RequestMapping(value = "/getDetails",  method = RequestMethod.POST)
+    public @ResponseBody String getDetails(String zhxx, String dszh, int pageNo, HttpSession session) {
+        Long aj_id = (Long) session.getAttribute("aj_id");
+        String search = " aj_id = " + aj_id;
+        search += " and zhxx = '" + zhxx + "'";
+        search += " and dszh = '" + dszh + "'";
+        search += " and qunzhxx is null";
+        search += " and lujing is not null";
+        search += " order by fstime";
         // 从session域中取出数据
-        String lastOrder = (String) session.getAttribute("xqlastOrder");
-        String desc = (String) session.getAttribute("xqdesc");
-        CaseEntity aj = (CaseEntity) session.getAttribute("aj");
-        if(aj==null){
-            return "";
-        }
-        dc.add(Restrictions.eq("aj_id",aj.getCaseId()));
-        if(order.equals(lastOrder)){
-           if(desc==null || desc.equals("desc")){
-               dc.addOrder(Order.desc(order).nulls(NullPrecedence.LAST));
-               desc = "";
-           }else{
-               dc.addOrder(Order.asc(order));
-               desc = "desc";
-           }
-        }else{
-            dc.addOrder(Order.asc(order));
-            desc = "desc";
-        }
-        session.setAttribute("xqdesc", desc);
-        session.setAttribute("xqlastOrder", order);
-        String json = fcService.getFriendChat(page, 100, dc);
-        return json;
+        Page page = fcService.getFriendChat(pageNo,100,search);
+        Gson gson = new Gson();
+        return gson.toJson(page);
     }
 
 }

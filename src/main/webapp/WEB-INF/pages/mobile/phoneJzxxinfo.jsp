@@ -57,7 +57,7 @@
                                     <%--</form>--%>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
-                                            <td align="center" >${item.id}</td>
+                                            <td align="center" >${(st.index+1)+(page.pageNo-1)*page.pageSize}</td>
                                             <td align="center">${item.name}</td>
                                             <td align="center">${item.sex}</td>
                                             <td align="center">${item.zjhm}</td>
@@ -69,7 +69,7 @@
                                             <td align="center" title="${item.hjd}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.hjd}</div></td>
                                             <td align="center" title="${item.sbbh}"><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sbbh}</div></td>
                                             <td align="center">
-                                                <button style="width: 30px;" data-toggle="modal" data-target="#editModal" onclick="getEditPerson(${item.aj_id})">编辑</button>
+                                                <button style="width: 30px;" data-toggle="modal" data-target="#editModal" onclick="getEditPerson(${item.id})">编辑</button>
                                             </td>
                                             <%--<td align="center" title="${item.gxqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.gxqm}</div></td>
                                             <td align="center" title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>--%>

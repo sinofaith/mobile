@@ -116,7 +116,11 @@ public class TAutoQqLtjlEntity {
     }
 
     public void setFslx(String fslx) {
-        this.fslx = fslx;
+        if(fslx==null){
+            this.fslx = "";
+        }else {
+            this.fslx = fslx;
+        }
     }
 
 //    @Basic
@@ -136,7 +140,11 @@ public class TAutoQqLtjlEntity {
     }
 
     public void setLujing(String lujing) {
-        this.lujing = lujing;
+        if(lujing==null){
+            this.lujing = "";
+        }else {
+            this.lujing = lujing;
+        }
     }
 
     @Basic
@@ -164,7 +172,11 @@ public class TAutoQqLtjlEntity {
     }
 
     public void setFsfx(String fsfx) {
-        this.fsfx = fsfx;
+        if(fsfx==null){
+            this.fsfx = "";
+        }else {
+            this.fsfx = fsfx;
+        }
     }
 
     @Override

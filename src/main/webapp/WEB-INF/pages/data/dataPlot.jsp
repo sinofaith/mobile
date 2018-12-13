@@ -85,7 +85,7 @@
         }
 </style>
 
-<div class="tab_div" style="background-size: 100% 100%;background-repeat: no-repeat;background-image:url('${pageContext.request.contextPath}/resources/image/sybj.jpg'); height: 725px;">
+<div class="tab_div" style="height: 100%;background-size: 100% 100%;background-repeat: no-repeat;background-image:url('${pageContext.request.contextPath}/resources/image/sybj.jpg');">
     <div class="herder_bg" style="width: 100%;height:70px;background: url('${pageContext.request.contextPath}/resources/image/tjtopbg.png');background-size: 100% 100%;
     -moz-background-size: 100% 100%;-webkit-background-size: 100% 100%;"></div>
 

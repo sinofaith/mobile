@@ -31,21 +31,22 @@ public class FriendChatxxSerivce {
      */
     public String getSeach(String seachCondition, String seachCode, String orderby, String desc) {
         StringBuffer seach = new StringBuffer();
-
-        seach.append(" l.jsqqno not like '%(%' ");
         // 当查询内容不为空时
         if(seachCode!=null) {
             seachCode = seachCode.replace("\r\n", "").replace("，", "").replace(" ", "").replace(" ", "").replace("\t", "");
             if(seachCondition.equals("fsqq")){
-                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or jsqqno like '%"+seachCode+"%')");
+                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%'");
             }else if(seachCondition.equals("fsqqnc")){
-                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%' or jsqqnc like '%"+seachCode+"%')");
+                seach.append(" and (" + seachCondition + " like '%" + seachCode + "%'");
             }else{
                 seach.append(" and " + seachCondition + " like '%" + seachCode + "%'");
             }
         }
+        seach.append(" group by t.dsnc,t.dszh,t.zhnc,t.zhxx,t.u_name");
         if(orderby!=null){
             seach.append(" order by "+orderby).append(desc);
+        }else{
+            seach.append(" order by num desc");
         }
 
         return seach.toString();
@@ -62,12 +63,11 @@ public class FriendChatxxSerivce {
     public Page queryForPage(int currentPage, int pageSize, String seach, long id) {
         Page page = new Page();
         // 封装wuliu_relation表
-        List<TAutoQqLtjlEntity> qqForms = null;
+        List<QqForm> qqForms = null;
         int allRow = fcDao.getAllRowCounts(seach,id);
         if(allRow>0){
             qqForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
             for (int i = 0; i <qqForms.size(); i++) {
-//                qqForms.get(i).setFsqqnc((qqForms.get(i).getFsqqnc()));
                 qqForms.get(i).setId((currentPage-1)*pageSize+i+1);
             }
             // 封装page
@@ -81,27 +81,18 @@ public class FriendChatxxSerivce {
 
     /**
      * 聊天详细信息
-     * @param currentPage
-     * @param pageSize
-     * @param dc
      * @return
      */
-    public String getFriendChat(int currentPage, int pageSize, DetachedCriteria dc) {
-        Gson gson = new Gson();
+    public Page getFriendChat(int currentPage, int pageSize, String search) {
         Page page = new Page();
-        List<TAutoQqLtjlEntity> ltjls = null;
-        int rowAll = fcDao.getRowAll(dc);
+        int rowAll = fcDao.getQQRowAll(search);
         if(rowAll>0){
-            ltjls = fcDao.getDoPage(currentPage, pageSize, dc);
-            for (int i = 0; i <ltjls.size(); i++) {
-                ltjls.get(i).setId((currentPage-1)*pageSize+i+1);
-            }
+            List<TAutoQqLtjlEntity> ltjls = fcDao.getDoPageQQ(currentPage,pageSize,search);
             page.setPageSize(pageSize);
-            page.setTotalRecords(rowAll);
             page.setList(ltjls);
+            page.setTotalRecords(rowAll);
             page.setPageNo(currentPage);
-            return gson.toJson(page);
         }
-        return null;
+        return page;
     }
 }

@@ -12,10 +12,11 @@
 <link href="<c:url value="/resources/css/map.css"/>" rel="stylesheet" media="screen">
 <link href="<c:url value="/resources/css/font.css"/>" rel="stylesheet" media="screen">
 <link href="<c:url value="/resources/thirdparty/alertify/css/bootstrap.css"/> " rel="stylesheet">
+<link href="<c:url value="/resources/css/qq/qq.css"/> " rel="stylesheet">
+
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
-<script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/qq.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
 
@@ -32,44 +33,44 @@
 
                                 <table class="table  table-hover table_style table_list1 " id="aa" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
                                     <tr>
-                                        <td colspan="9"  align="center" class="dropdown_index" style="background-color: #eee;">
+                                        <td colspan="8"  align="center" class="dropdown_index" style="background-color: #eee;">
                                             <div class="dropdown " style="color: #333">
                                                 <strong>QQ好友聊天信息</strong>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr align="center">
-                                        <td width="2%">序号</td>
-                                        <td width="2%">QQ号</td>
-                                        <td width="9%">QQ昵称</td>
-                                        <td width="9%"><a href="${pageContext.request.contextPath}/phoneqqFriendChat/order?orderby=fstime">发送时间</a></td>
-                                        <td width="5%">对方QQ号</td>
-                                        <td width="12%">对方QQ昵称</td>
-                                        <td width="5%">发送方向</td>
-                                        <td width="5%">发送类型</td>
-                                        <td width="15%">内容</td>
+                                        <td width="5%">序号</td>
+                                        <td width="9%">QQ号</td>
+                                        <td width="15%">QQ昵称</td>
+                                        <td width="9%">对方QQ号</td>
+                                        <td width="15%">对方QQ昵称</td>
+                                        <td width="9%">机主姓名</td>
+                                        <td width="10%"><a href="${pageContext.request.contextPath}/phoneqqFriendChat/order?orderby=num">聊天总记录数</a></td>
+                                        <td width="5%">详情</td>
                                     </tr>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center">${item.id}</td>
-                                            <td align="center">${item.fsqq}</td>
-                                            <td align="center">${item.fsqqnc}</td>
-                                            <td align="center">${item.fstime}</td>
-                                            <td align="center">${item.jsqqno}</td>
-                                            <td align="center">${item.jsqqnc}</td>
-                                            <td align="center">${item.fsfx}</td>
-                                            <td align="center" title='${item.fslx}'><div style="width:80px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fslx}</div></td>
-                                            <td align="center" title='${item.lujing}'>
+                                            <td align="center">${item.zhxx}</td>
+                                            <td align="center">${item.zhnc}</td>
+                                            <td align="center">${item.dszh}</td>
+                                            <td align="center">${item.dsnc}</td>
+                                            <td align="center">${item.u_name}</td>
+                                            <td align="center">${item.num}</td>
+                                            <td align="center">
+                                                <button  data-toggle="modal" data-target="#myModal" onclick="getQqFirendDetails(this)">详情</button></td>
+                                            <%--<td align="center" title='${item.lujing}'>
                                                 <div style="width:230px; height: 15px;">
                                                     <xmp style="margin-top: 0px; font-family: 'Microsoft YaHei UI'; width:230px; white-space: nowrap;text-overflow:ellipsis; overflow:hidden">${item.lujing}</xmp>
                                                 </div>
-                                            </td>
+                                            </td>--%>
                                         </tr>
                                     </c:forEach>
                                     <c:choose>
                                         <c:when test="${detailinfo ==null || detailinfo.size()==0}">
                                             <tr>
-                                                <td colspan="9" align="center"> 无数据 </td>
+                                                <td colspan="8" align="center"> 无数据 </td>
                                             </tr>
                                         </c:when>
                                     </c:choose>
@@ -118,9 +119,10 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="fsqq" <c:if test="${friendChatxxSeachCondition=='fsqq'}">selected="selected"</c:if> >对方QQ号</option>
-                                            <option value="fsqqnc" <c:if test="${friendChatxxSeachCondition=='fsqqnc'}">selected="selected"</c:if> >对方QQ昵称</option>
-                                            <option value="lujing" <c:if test="${friendChatxxSeachCondition=='lujing'}">selected="selected"</c:if> >内容</option>
+                                            <option value="zhnc" <c:if test="${friendChatxxSeachCondition=='zhnc'}">selected="selected"</c:if> >QQ昵称</option>
+                                            <option value="zhxx" <c:if test="${friendChatxxSeachCondition=='zhxx'}">selected="selected"</c:if> >QQ号</option>
+                                            <option value="dsnc" <c:if test="${friendChatxxSeachCondition=='dsnc'}">selected="selected"</c:if> >对方QQ昵称</option>
+                                            <option value="dszh" <c:if test="${friendChatxxSeachCondition=='dszh'}">selected="selected"</c:if> >对方QQ号</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${friendChatxxSeachCode}</textarea>
@@ -181,46 +183,33 @@
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="top: 0%; min-width: 80%;left: 10%;right: 10%;">
-        <div class="modal-content">
+    <div class="modal-dialog" style="top: 0%; min-width: 50%;left: 25%;">
+        <div class="modal-content" style="background-color: #F5F5F5;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">QQ好友聊天信息详情<span id="title"></span></h4>
             </div>
-            <div class="modal-body">
-                <table class="table  table-hover table_style table_list1 " style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
-                    <thead style="display:table;width:100%;table-layout:fixed;width: calc( 100% - 16.5px );">
-                    <tr align="center">
-                        <td width="3%">序号</td>
-                        <td width="8%">发送QQ号</td>
-                        <td width="7%">发送昵称</td>
-                        <td width="10%">
-                            <button onclick="orderByFilter('fstime')">发送时间</button>
-                        </td>
-                        <td width="8%">接收QQ号</td>
-                        <td width="7%">接收昵称</td>
-                        <td width="7%">
-                            <button onclick="orderByFilter('fslx')">
-                                发送类型
-                            </button>
-                        </td>
-                        <td width="25%">发送内容</td>
-                        <td width="10%">
-                            <button onclick="orderByFilter('lujing')">
-                                路径
-                            </button>
-                        </td>
-                        <td width="8%">数据类型</td>
-                    </tr>
-                    <input name="label" id="fsqq" hidden="hidden" value="">
-                    <input name="label" id="jsqq" hidden="hidden" value="">
-                    <input name="label" id="allRow" hidden="hidden" value="">
-                    </thead>
-                    <tbody id="result" style="display:block;height:340px;overflow-y:scroll;" onscroll="scrollF()">
-
-                    </tbody>
-                </table>
+            <div class="modal-body" style="max-height: 580px">
+                <input name="label" id="zhxx" hidden="hidden" value="">
+                <input name="label" id="dszh" hidden="hidden" value="">
+                <input name="label" id="allRow" hidden="hidden" value="">
+                <div class="mobile-page" id="qqContent" onscroll="scrollF()">
+                    <%--<div class="admin-group">
+                        <img class="admin-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
+                        <div class="admin-msg"><div class="time"><span class="time">2018-11-30 12:12:12</span></div>
+                            <i class="triangle-admin"></i><span class="admin-reply">欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！</span>
+                        </div>
+                    </div>
+                    <div class="user-group">
+                        <div class="user-msg">
+                            <div class="time"><span class="time">2018-11-30 12:12:12</span></div>
+                            <span class="user-reply">我要抢楼我要抢楼我要抢楼。</span>
+                            <i class="triangle-user"></i>
+                        </div>
+                        <img class="user-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
+                    </div>--%>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="downDetailJylx()">导出</button>

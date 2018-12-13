@@ -32,9 +32,6 @@ public class JzxxService {
         // 当有数据时
         if(rowAll>0){
             jzxxs = jzxxDao.getDoPage(currentPage,pageSize,dc);
-            for (int i = 0; i <jzxxs.size(); i++) {
-                jzxxs.get(i).setId((currentPage-1)*pageSize+i+1);
-            }
             page.setPageSize(pageSize);
             page.setTotalRecords(rowAll);
             page.setList(jzxxs);
