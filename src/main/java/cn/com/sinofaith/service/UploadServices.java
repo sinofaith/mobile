@@ -1625,7 +1625,7 @@ public class UploadServices {
                         String qun="";//群号
 
                         w = w.parent().parent().parent().parent().parent().nextElementSibling();
-                        qun = w.text();
+                        qun = w.text().substring(0,w.text().lastIndexOf("("));
                         Element elementTable = w.nextElementSibling();
 //                            message(p, w.parent().toString() + "~~~\n" + w.toString() + "~~~\n" + elementTable.text() + "~~~\n" + "!!!!!!!!!!!!!!!!\n");
                         int flg = 0;
@@ -1848,6 +1848,14 @@ public class UploadServices {
                                                                             }
 //                                                                            wechatLtjlEntity.setFanr(buf);
                                                                         }
+                                                                    }else{
+                                                                        if (ai.contains("27_301~349.ico")) {
+                                                                            qqLtjlEntity.setFslx("文字");
+                                                                            qqLtjlEntity.setLujing(file.getName()+"-取证报告内该文件丢失");
+                                                                        }else{
+                                                                            wechatLtjlEntity.setFslx("文字");
+                                                                            wechatLtjlEntity.setLujing(file.getName()+"-取证报告内该文件丢失");
+                                                                        }
                                                                     }
                                                                 } catch (FileNotFoundException e) {
                                                                     e.printStackTrace();
@@ -1897,7 +1905,7 @@ public class UploadServices {
                                             qqLtjlEntity.setZhxx(qqzh.getQq());
                                             qqLtjlEntity.setZhnc(qqzh.getNicheng());
                                             wechatLtjlEntity.setZhxx(wezh.getWxh());
-                                            wechatLtjlEntity.setDsnc(wezh.getNicheng());
+                                            wechatLtjlEntity.setZhnc(wezh.getNicheng());
 //                                            message(p, "群~~~~~~~~~~~~~~~~" + tr.text());
                                             Elements tds = tr.children();
                                             int i = 0;//用于限制不嵌套读取列
@@ -2061,6 +2069,14 @@ public class UploadServices {
                                                                                 os.close();
                                                                             }
                                                                         }
+                                                                    }else{
+                                                                        if (ai.contains("27_301~349.ico")) {
+                                                                            qqLtjlEntity.setFslx("文字");
+                                                                            qqLtjlEntity.setLujing(file.getName()+"-取证报告内该文件丢失");
+                                                                        }else{
+                                                                            wechatLtjlEntity.setFslx("文字");
+                                                                            wechatLtjlEntity.setLujing(file.getName()+"-取证报告内该文件丢失");
+                                                                        }
                                                                     }
                                                                 } catch (FileNotFoundException e) {
                                                                     e.printStackTrace();
@@ -2150,7 +2166,7 @@ public class UploadServices {
                                 } else {
 //                                    message(p,elementTable.text());
 //                                    System.out.println(elementTable.select("table").text());
-                                    qun=elementTable.text();
+                                    qun=elementTable.text().substring(0,elementTable.text().lastIndexOf("("));
                                     elementTable = elementTable.nextElementSibling();
                                 }
                             }

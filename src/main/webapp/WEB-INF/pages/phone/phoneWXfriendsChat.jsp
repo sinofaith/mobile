@@ -40,28 +40,22 @@
                                     </tr>
                                     <tr align="center">
                                         <td width="4%">序号</td>
-                                        <td width="6%">发送微信号</td>
-                                        <td width="10%">发送微信昵称</td>
-                                        <td width="12%"><a href="${pageContext.request.contextPath}/phonewxFriendsChat/order?orderby=fstime">发送时间</a></td>
-                                        <td width="20%">接收微信群号</td>
-                                        <td width="6%">发送类型</td>
-                                        <td width="15%">发送内容</td>
+                                        <td width="6%">微信号</td>
+                                        <td width="6%">微信昵称</td>
+                                        <td width="6%">微信群号</td>
+                                        <td width="6%">群消息数</td>
+                                        <td width="5%">详情</td>
                                     </tr>
                                     <%--<form action="" method="post" id="_form">--%>
                                     <%--</form>--%>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center" >${item.id}</td>
-                                            <td align="center">${item.fswechatno}</td>
-                                            <td align="center" title='${item.fswechatnc}'><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.fswechatnc}</div></td>
-                                            <td align="center">${item.fstime}</td>
-                                            <td align="center" title='${item.jswechatno}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.jswechatno}</div></td>
-                                            <td align="center">${item.fslx}</td>
-                                            <td align="center" title='${item.lujing}'>
-                                                <div style="width:280px; height: 15px;">
-                                                    <xmp style="margin-top: 0px; font-family: 'Microsoft YaHei UI';white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.lujing}</xmp>
-                                                </div>
-                                            </td>
+                                            <td align="center" title='${item.zhxx}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.zhxx}</div></td>
+                                            <td align="center" title='${item.zhnc}'><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.zhnc}</div></td>
+                                            <td align="center" title='${item.dszh}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.dszh}</div></td>
+                                            <td align="center" title='${item.num}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.num}</div></td>
+                                            <td align="center" >详情</td>
                                             <%--<td align="center" >${item.id}</td>
                                             <td align="center">${item.name}</td>
                                             <td align="center"title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>

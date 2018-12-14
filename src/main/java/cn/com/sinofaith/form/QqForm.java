@@ -1,5 +1,8 @@
 package cn.com.sinofaith.form;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 /**
  * qq聊天数据
  */
@@ -84,5 +87,23 @@ public class QqForm {
                 ", dszh='" + dszh + '\'' +
                 ", num=" + num +
                 '}';
+    }
+
+    public QqForm wxmapToForm(Map map){
+        QqForm zzf = new QqForm();
+        zzf.setZhxx((String) map.get("ZHXX"));
+        zzf.setZhnc((String) map.get("ZHNC"));
+        zzf.setDszh((String)map.get("DSZH"));
+        zzf.setDsnc((String)map.get("DSNC"));
+        zzf.setNum(Long.valueOf(map.get("NUM").toString()));
+        return zzf;
+    }
+    public QqForm wxsmapToForm(Map map){
+        QqForm zzf = new QqForm();
+        zzf.setZhxx((String) map.get("ZHXX"));
+        zzf.setZhnc((String) map.get("ZHNC"));
+        zzf.setDszh((String)map.get("QUNZHXX"));
+        zzf.setNum(Long.valueOf(map.get("NUM").toString()));
+        return zzf;
     }
 }

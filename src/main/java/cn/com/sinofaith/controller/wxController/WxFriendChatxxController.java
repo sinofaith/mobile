@@ -4,6 +4,7 @@ import cn.com.sinofaith.bean.CaseEntity;
 import cn.com.sinofaith.bean.TAutoWechatLtjlEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.wxPhone.WxFriendChatxxSerivce;
+import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -27,7 +28,7 @@ import static java.lang.Integer.parseInt;
 public class WxFriendChatxxController {
 
     @Autowired
-    private WxFriendChatxxSerivce fcService;
+    private WxFriendChatxxSerivce wfcService;
 
     /**
      * 重定向到分页请求，将session域中的条件数据清空
@@ -73,9 +74,9 @@ public class WxFriendChatxxController {
         }
 
         // 封装sql语句
-        String seach = fcService.getSeach(seachCondition, seachCode, orderby, desc);
+        String seach = wfcService.getSeach(seachCondition, seachCode, orderby, desc);
         // 封装分页对象
-        Page page = fcService.queryForPage(parseInt(pageNo), 10, seach, aj_id);
+        Page page = wfcService.queryForPage(parseInt(pageNo), 10, seach, aj_id);
         if (page != null) {
             model.addAttribute("page", page);
             model.addAttribute("detailinfo", page.getList());
@@ -131,6 +132,21 @@ public class WxFriendChatxxController {
         session.setAttribute("wxFriendChatlastOrder", orderby);
         session.setAttribute("wxFriendChatOrder", orderby);
         return "redirect:/phonewxFriendChat/seach?pageNo=1";
+    }
+
+    @RequestMapping(value = "/getDetails",  method = RequestMethod.POST)
+    public @ResponseBody String getDetails(String zhxx, String dszh, int pageNo, HttpSession session) {
+        Long aj_id = (Long) session.getAttribute("aj_id");
+        String search = " aj_id = " + aj_id;
+        search += " and zhxx = '" + zhxx + "'";
+        search += " and dszh = '" + dszh + "'";
+        search += " and qunzhxx is null";
+        search += " and lujing is not null";
+        search += " order by fstime";
+        // 从session域中取出数据
+        Page page = wfcService.getFriendChat(pageNo,100,search);
+        Gson gson = new Gson();
+        return gson.toJson(page);
     }
 
     /**

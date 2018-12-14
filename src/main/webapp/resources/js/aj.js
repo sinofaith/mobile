@@ -169,7 +169,7 @@ function UploadWord() {
         form.append("file", fileObj.files[i]); // 文件对象
     }
     var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
-    xhr.open("post", FileController, true);
+    xhr.open("POST", FileController, true);
     xhr.onload = function() {
         if(this.status == 200||this.status == 304){
             alertify.set('notifier','position', 'top-center');
@@ -472,83 +472,83 @@ $(function () {
 
 })
 
-$(function(){
-    document.ondragleave=function(e){
-        e.preventDefault();
-        console.info("文件离开执行了我！！");
-    };
-    //鼠标松开文件
-    document.ondrop=function(e){
-        e.preventDefault();
-        console.info("松开以后执行了我！");
-    };
-    //鼠标移动文件
-    document.ondragover=function(e){
-        e.preventDefault();
-        console.info("文件移动以后执行了我！");
-    };
-
-    function tm_upload(){
-        var uploadArea=document.getElementById("upload-area");
-        //2、通过HTML5拖拽事件，ondrop，然后通过拖动区域监听浏览器的drop事件达到文件上传的目的
-        var checkBox = 0;
-        uploadArea.addEventListener("drop", function(e){
-            e.preventDefault();
-            //3、从事件event中获取拖拽到浏览器的文件信息
-            var fileList=e.dataTransfer.files;
-            if(fileList.length>10){
-                alertify.set('notifier','position', 'top-center');
-                alertify.error("拖拽上传只支持10个以内文件");
-                return
-            }
-            var xhr = new XMLHttpRequest();
-            xhr.open("post", "/word/uploadWord", true);
-            var formData = new FormData();//动态给表单赋值，传递二进制文件
-            for(var i=0;i<fileList.length;i++){
-                // 此处判断只能上传图片
-                var fileName=fileList[i].name;
-                console.info(fileName);
-                var index1=fileName.lastIndexOf(".");
-                var index2=fileName.length;
-                var suffix=fileName.substring(index1,index2);
-                if(suffix==".doc"||suffix==".docx") {
-                    var fileSize = fileList[i].size;
-                    console.info(fileSize);
-                    //4、通过XMLHttpRequest上传文件到服务器  就是一个ajax请求
-
-                    //5、这里需要先写好一个data.jsp的上传文件，当然，你写成servlet或者是action都可以
-                    // xhr.setRequestHeader("X-Request-Width", "XMLHttpRequest");
-                    //6、通过HTML5 FormData动态设置表单元素
-                    //其实就相当于<input type="file" name="file"/>
-                    formData.append("file", fileList[i]);
-                    formData.append("checkBox",checkBox);
-                    xhr.onload = function() {
-                        if(this.status == 200||this.status == 304){
-                            alertify.set('notifier','position', 'top-center');
-                            alertify.success("导入完成!");
-                            $('#myModal').modal('hide');
-                            setTimeout(function () {document.getElementById("seachDetail").submit()},3000);
-                        }else{
-                            alertify.set('notifier','position', 'top-center');
-                            alertify.error("错误!请联系管理员");
-                            return
-                        }
-                    };
-                    xhr.upload.addEventListener("progress", progressFunction, false);
-                }else{
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.error("拖拽文件中包含非Word文件");
-                    // if(fileList.length==1){
-                        return
-                    // }
-                }
-            }
-            xhr.send(formData);
-        });
-    }
-
-    tm_upload();
-//直接调用
-});
+// $(function(){
+//     document.ondragleave=function(e){
+//         e.preventDefault();
+//         console.info("文件离开执行了我！！");
+//     };
+//     //鼠标松开文件
+//     document.ondrop=function(e){
+//         e.preventDefault();
+//         console.info("松开以后执行了我！");
+//     };
+//     //鼠标移动文件
+//     document.ondragover=function(e){
+//         e.preventDefault();
+//         console.info("文件移动以后执行了我！");
+//     };
+//
+//     function tm_upload(){
+//         var uploadArea=document.getElementById("upload-area");
+//         //2、通过HTML5拖拽事件，ondrop，然后通过拖动区域监听浏览器的drop事件达到文件上传的目的
+//         var checkBox = 0;
+//         uploadArea.addEventListener("drop", function(e){
+//             e.preventDefault();
+//             //3、从事件event中获取拖拽到浏览器的文件信息
+//             var fileList=e.dataTransfer.files;
+//             if(fileList.length>10){
+//                 alertify.set('notifier','position', 'top-center');
+//                 alertify.error("拖拽上传只支持10个以内文件");
+//                 return
+//             }
+//             var xhr = new XMLHttpRequest();
+//             xhr.open("post", "/word/uploadWord", true);
+//             var formData = new FormData();//动态给表单赋值，传递二进制文件
+//             for(var i=0;i<fileList.length;i++){
+//                 // 此处判断只能上传图片
+//                 var fileName=fileList[i].name;
+//                 console.info(fileName);
+//                 var index1=fileName.lastIndexOf(".");
+//                 var index2=fileName.length;
+//                 var suffix=fileName.substring(index1,index2);
+//                 if(suffix==".doc"||suffix==".docx") {
+//                     var fileSize = fileList[i].size;
+//                     console.info(fileSize);
+//                     //4、通过XMLHttpRequest上传文件到服务器  就是一个ajax请求
+//
+//                     //5、这里需要先写好一个data.jsp的上传文件，当然，你写成servlet或者是action都可以
+//                     // xhr.setRequestHeader("X-Request-Width", "XMLHttpRequest");
+//                     //6、通过HTML5 FormData动态设置表单元素
+//                     //其实就相当于<input type="file" name="file"/>
+//                     formData.append("file", fileList[i]);
+//                     formData.append("checkBox",checkBox);
+//                     xhr.onload = function() {
+//                         if(this.status == 200||this.status == 304){
+//                             alertify.set('notifier','position', 'top-center');
+//                             alertify.success("导入完成!");
+//                             $('#myModal').modal('hide');
+//                             setTimeout(function () {document.getElementById("seachDetail").submit()},3000);
+//                         }else{
+//                             alertify.set('notifier','position', 'top-center');
+//                             alertify.error("错误!请联系管理员");
+//                             return
+//                         }
+//                     };
+//                     xhr.upload.addEventListener("progress", progressFunction, false);
+//                 }else{
+//                     alertify.set('notifier','position', 'top-center');
+//                     alertify.error("拖拽文件中包含非Word文件");
+//                     // if(fileList.length==1){
+//                         return
+//                     // }
+//                 }
+//             }
+//             xhr.send(formData);
+//         });
+//     }
+//
+//     tm_upload();
+// //直接调用
+// });
 
 

@@ -34,7 +34,7 @@ public class UploadController {
     @Autowired
     private UploadServices us;
 
-    @RequestMapping(value = "/importmeiya",method = RequestMethod.POST)
+    @RequestMapping(value = "/importmobile",method = RequestMethod.POST)
     @ResponseBody
     public  String main(@RequestParam("file") MultipartFile[] mywjlj, String myjzm,
                                     String mysjy,String role, HttpServletRequest req,HttpSession session) throws IOException, SQLException {

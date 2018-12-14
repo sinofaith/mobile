@@ -259,7 +259,7 @@ function UploadQZ() {
             $(".btn").removeAttr("disabled", "disabled");
             return;
         }
-        var FileController = "/mobile/Upload/importmeiya"; // 接收上传文件的后台地址
+        var FileController = "/mobile/Upload/importmobile"; // 接收上传文件的后台地址
         // FormData 对象
         var form = new FormData();
         form.append("regionId", regionId);
@@ -271,7 +271,7 @@ function UploadQZ() {
             // 文件对象
         }
         var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
-        xhr.open("post", FileController, true);
+        xhr.open("POST", FileController, true);
         xhr.onload = function (e) {
             if ((this.status == 200 || this.status == 304)) {
                 var responseText = xhr.responseText;

@@ -26,8 +26,10 @@ public class WxFriendsChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
      */
     public int getAllRowCounts(String seach, long id) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select count(*) num from T_AUTO_WECHAT_LTJL t ");
+        sql.append("SELECT count(1) num from ( " +
+                "  select t.zhxx,t.zhnc,t.QUNZHXX,count(1) num from T_AUTO_WECHAT_LTJL t");
         sql.append(" where t.aj_id="+id+seach);
+        sql.append(" GROUP BY t.zhxx,t.zhnc,t.QUNZHXX order by num desc ) ");
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
         // 转成String
@@ -43,28 +45,17 @@ public class WxFriendsChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
      * @param id
      * @return
      */
-    public List<TAutoWechatLtjlEntity> getDoPage(String seach, int currentPage, int pageSize, long id) {
+    public List getDoPage(String seach, int currentPage, int pageSize, long id) {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
         sql.append(" SELECT c.*, ROWNUM rn FROM (");
-        sql.append(" select t.* from T_AUTO_WECHAT_LTJL t");
+        sql.append(" select t.zhxx,t.zhnc,t.QUNZHXX,count(1) num from T_AUTO_WECHAT_LTJL t ");
         sql.append(" where t.aj_id="+id+seach);
+        sql.append(" GROUP BY t.zhxx,t.zhnc,t.QUNZHXX order by num desc ");
         sql.append(" ) c");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
-        // 获得当前线程session
-        Session session = getSession();
-        List<TAutoWechatLtjlEntity> wxForms = null;
-        try{
-            // 开启事务
-            Transaction transaction = session.beginTransaction();
-            wxForms = session.createSQLQuery(sql.toString())
-                    .addEntity(TAutoWechatLtjlEntity.class).list();
-            transaction.commit();
-        }catch (Exception e){
-            e.printStackTrace();
-            session.close();
-        }
-        return wxForms;
+
+        return findBySQL(sql.toString());
     }
     /*public List<WxForm> getDoPage(String seach, int currentPage, int pageSize, long id) {
         if(seach.contains(",t.id")){

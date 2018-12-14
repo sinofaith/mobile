@@ -93,7 +93,7 @@ function insertDiv(data){
             }else{
                 str += "<div class=\"admin-msg\"><div class=\"time\"><span class=\"time\">"+data.fstime+"</span></div>";
             }
-            str += "<i class=\"triangle-admin\"></i><span class=\"admin-reply\">"+data.lujing+"</span></div></div>";
+            str += "<i class=\"triangle-admin\"></i><span class=\"admin-reply\"><xmp style=\"margin-top: 0px;margin-bottom: 0px;white-space:pre-wrap; font-family: 'Microsoft YaHei UI'; \">"+data.lujing+"</xmp></span></div></div>";
         }else if(data.fsfx == "发送" || data.fsfx == ""){
             str += "<div class=\"user-group\"><div class=\"user-msg\">";
             if(data.zhnc!=null) {
@@ -101,7 +101,7 @@ function insertDiv(data){
             }else{
                 str += "<div class=\"time\"><span class=\"time\">" + data.fstime + "</span></div>";
             }
-            str += "<span class=\"user-reply\">"+data.lujing+"</span><i class=\"triangle-user\"></i></div>";
+            str += "<span class=\"user-reply\"><xmp style=\"margin-top: 0px;margin-bottom: 0px;white-space:pre-wrap; font-family: 'Microsoft YaHei UI'; \">"+data.lujing+"</xmp></span><i class=\"triangle-user\"></i></div>";
             str += "<img class=\"user-img\" src=\"/mobile/resources/image/qq.png\"/></div>";
         }
     }else if(data.fslx == "mp3"){
@@ -156,7 +156,7 @@ function insertDiv(data){
             }else{
                 str += "<div class=\"admin-msg\"><div class=\"time\"><span class=\"time\">"+data.fstime+"</span></div>";
             }
-            str += "<span class=\"admin-reply\"><img style='max-height: 300px;max-width: 150px;' src="+data.lujing.replace("D:\\test","\\file")+" /></span><i class=\"triangle-admin\"></i>";
+            str += "<a href="+data.lujing.replace("D:\\test","\\file")+" target='blank'><span class=\"admin-reply\"><img style='max-height: 300px;max-width: 150px;' src="+data.lujing.replace("D:\\test","\\file")+" /></span></a><i class=\"triangle-admin\"></i>";
             str += "</div></div>";
         }else if(data.fsfx == "发送" || data.fsfx == ""){
             str += "<div class=\"user-group\"><div class=\"user-msg\">";
@@ -165,7 +165,7 @@ function insertDiv(data){
             }else{
                 str += "<div class=\"time\"><span class=\"time\">" + data.fstime + "</span></div>";
             }
-            str += "<span class=\"user-reply\"><img style='max-height: 300px;max-width: 150px;' src="+data.lujing.replace("D:\\test","\\file")+" /></span><i class=\"triangle-user\"></i>";
+            str += "<a href="+data.lujing.replace("D:\\test","\\file")+" target='blank'><span class=\"user-reply\"><img style='max-height: 300px;max-width: 150px;' src="+data.lujing.replace("D:\\test","\\file")+" /></span></a><i class=\"triangle-user\"></i>";
             str += "</div><img class=\"user-img\" src=\"/mobile/resources/image/qq.png\"/></div>";
         }
     }else if(data.fslx == "pdf" || data.fslx == "xlsx" || data.fslx == "xls" || data.fslx == "docx"){

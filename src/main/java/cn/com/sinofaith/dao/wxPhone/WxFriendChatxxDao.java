@@ -1,7 +1,10 @@
 package cn.com.sinofaith.dao.wxPhone;
 
+import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
 import cn.com.sinofaith.bean.TAutoWechatLtjlEntity;
+import cn.com.sinofaith.bean.TAutoWechatZhxxEntity;
 import cn.com.sinofaith.dao.BaseDao;
+import cn.com.sinofaith.form.QqForm;
 import cn.com.sinofaith.form.WxForm;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -21,12 +24,12 @@ import java.util.Map;
 public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
 
 
-    /**
-     * 条件查询总条数
-     * @param seach
-     * @param id
-     * @return
-     */
+//    /**
+//     * 条件查询总条数
+//     * @param seach
+//     * @param id
+//     * @return
+//     */
     /*public int getAllRowCounts(String seach, long id) {
         StringBuffer sql = new StringBuffer();
         sql.append("select count(*) num from(select * from(select min(id) id,min(name) name,min(sfzhm) sfzhm,min(sjhm) sjhm,min(fswechatno) fswechatno,min(fswechatnc) fswechatnc,min(jswechatno) ");
@@ -42,10 +45,52 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         BigDecimal num = (BigDecimal) map.get("NUM");
         return Integer.parseInt(num.toString());
     }*/
+
+    public int getWxRowAll(String search) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select count(*) NUM from(");
+        sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
+        sql.append("from T_AUTO_wechat_LTJL q where "+search+")t where su =1");
+        List list = findBySQL(sql.toString());
+        Map map = (Map) list.get(0);
+        BigDecimal num = (BigDecimal) map.get("NUM");
+        // 转成String
+        return Integer.parseInt(num.toString());
+    }
+
+    public List<TAutoWechatLtjlEntity> getDoPageWx(int currentPage, int pageSize, String search) {
+        Session session = getSession();
+        List<TAutoWechatLtjlEntity> zhxxs = null;
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * FROM ( ");
+        sql.append("SELECT c.*, ROWNUM rn FROM ( ");
+        sql.append("select * from(");
+        sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
+        sql.append("from T_AUTO_WECHAT_LTJL q where"+search+")t where su =1");
+        sql.append(") c ");
+        sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
+        try {
+            // 开启事务
+            Transaction tx = session.beginTransaction();
+            zhxxs = session.createSQLQuery(sql.toString())
+                    .addEntity(TAutoWechatLtjlEntity.class).list();
+            // 创建对象
+            tx.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            session.close();
+        }
+        return zhxxs;
+    }
+
     public int getAllRowCounts(String seach, long id) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select count(*) num from T_AUTO_WECHAT_LTJL t ");
-        sql.append(" where t.aj_id="+id+seach);
+        sql.append("select count(1) num from (" +
+                " select t.ZHXX,t.ZHNC,t.DSZH,t.DSNC,count(1)from(" +
+                "  select t.*,row_number() over(partition by t.FSTIME,t.LUJING,t.DSZH order by t.FSTIME ) su " +
+                "  from T_AUTO_WECHAT_LTJL t ");
+        sql.append(" where t.QUNZHXX is null and t.AJ_ID= "+id+seach);
+        sql.append(" ) t where su =1  group by t.ZHXX,t.ZHNC,t.DSZH,t.DSNC ) ");
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
         // 转成String
@@ -61,33 +106,35 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
      * @param id
      * @return
      */
-    public List<TAutoWechatLtjlEntity> getDoPage(String seach, int currentPage, int pageSize, long id) {
+    public List getDoPage(String seach, int currentPage, int pageSize, long id) {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
         sql.append(" SELECT c.*, ROWNUM rn FROM ( ");
-        sql.append("select * from T_AUTO_WECHAT_LTJL t ");
-        sql.append(" where t.aj_id="+id+seach);
-        sql.append(") c ");
+        sql.append(" select t.ZHXX,t.ZHNC,t.DSZH,t.DSNC,count(1) num from(" +
+                "                 select t.*,row_number() over(partition by t.FSTIME,t.LUJING,t.DSZH order by t.FSTIME ) su " +
+                "                  from T_AUTO_WECHAT_LTJL t ");
+        sql.append(" where t.QUNZHXX is null and t.AJ_ID= "+id+seach);
+        sql.append(" ) t where su =1  group by t.ZHXX,t.ZHNC,t.DSZH,t.DSNC order by num desc ) c ");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
 
-        String sql1 = "select distinct wxh from t_auto_wechat_zhxx where aj_id="+id;
-        // 获得当前线程session
-        Session session = getSession();
-        List<TAutoWechatLtjlEntity> wxForms = null;
-        List wechat = null;
-        try{
-            // 开启事务
-            Transaction transaction = session.beginTransaction();
-            wxForms = session.createSQLQuery(sql.toString())
-                    .addEntity(TAutoWechatLtjlEntity.class).list();
-            wechat = session.createSQLQuery(sql1).list();
-            transaction.commit();
-        }catch (Exception e){
-            e.printStackTrace();
-            session.close();
-        }
-        String tempWechatno;
-        String tempWechatnc;
+//        String sql1 = "select distinct wxh from t_auto_wechat_zhxx where aj_id="+id;
+//        // 获得当前线程session
+//        Session session = getSession();
+//        List<TAutoWechatLtjlEntity> wxForms = null;
+//        List wechat = null;
+//        try{
+//            // 开启事务
+//            Transaction transaction = session.beginTransaction();
+//            wxForms = session.createSQLQuery(sql.toString())
+//                    .addEntity(TAutoWechatLtjlEntity.class).list();
+//            wechat = session.createSQLQuery(sql1).list();
+//            transaction.commit();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            session.close();
+//        }
+//        String tempWechatno;
+//        String tempWechatnc;
 //        for (int i = 0; i < wxForms.size(); i++) {
 //            for(int j=0;j<wechat.size();j++){
 //                if(wxForms.get(i).getFswechatno().equals(wechat.get(j))) {
@@ -103,7 +150,7 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
 //                }
 //            }
 //        }
-        return wxForms;
+        return findBySQL(sql.toString());
     }
     /*public List<WxForm> getDoPage(String seach, int currentPage, int pageSize, long id) {
         if(seach.contains(",t.id")){
