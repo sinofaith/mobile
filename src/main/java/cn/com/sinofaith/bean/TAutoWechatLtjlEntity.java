@@ -12,12 +12,12 @@ public class TAutoWechatLtjlEntity {
     private long id;
     //    private String fswechatno;
 //    private String fswechatnc;
-    private String fstime;
+    private String fstime="";
     //    private String jswechatno;
 //    private String jsfriendnc;
-    private String fslx;
+    private String fslx="";
     //    private byte[] fanr;
-    private String lujing;
+    private String lujing="";
     private String dataType;
     private String insertTime;
     private String uNumber;

@@ -50,7 +50,7 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         StringBuffer sql = new StringBuffer();
         sql.append("select count(*) NUM from(");
         sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
-        sql.append("from T_AUTO_wechat_LTJL q where "+search+")t where su =1");
+        sql.append("from T_AUTO_wechat_LTJL q where 1=1 "+search+")t where su =1");
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
         BigDecimal num = (BigDecimal) map.get("NUM");
@@ -58,7 +58,7 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         return Integer.parseInt(num.toString());
     }
 
-    public List<TAutoWechatLtjlEntity> getDoPageWx(int currentPage, int pageSize, String search) {
+    public List<TAutoWechatLtjlEntity> getDoPageWx(int pageNo, int pageSize, String search) {
         Session session = getSession();
         List<TAutoWechatLtjlEntity> zhxxs = null;
         StringBuffer sql = new StringBuffer();
@@ -66,9 +66,13 @@ public class WxFriendChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         sql.append("SELECT c.*, ROWNUM rn FROM ( ");
         sql.append("select * from(");
         sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
-        sql.append("from T_AUTO_WECHAT_LTJL q where"+search+")t where su =1");
+        sql.append("from T_AUTO_WECHAT_LTJL q where 1=1 "+search+")t where su =1");
         sql.append(") c ");
-        sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
+        if((pageNo+pageSize)<pageNo){
+            sql.append(" WHERE ROWNUM <= "+(pageNo)+") WHERE rn >= " + (pageNo+pageSize));
+        }else {
+            sql.append(" WHERE ROWNUM <= " + (pageNo + pageSize) + ") WHERE rn >= " + pageNo);
+        }
         try {
             // 开启事务
             Transaction tx = session.beginTransaction();

@@ -16,9 +16,26 @@
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
+<link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
+<script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/wx.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
+
+<style>
+    .ui-autocomplete {
+        max-height: 300px; //默认最大高度150像素
+    overflow-y: auto; //添加滚动条
+        /* prevent horizontal scrollbar */
+    overflow-x: auto;
+    }
+    /* IE 6 doesn't support max-height
+     * we use height instead, but this forces the menu to always be this tall
+     */
+    * html .ui-autocomplete {
+        height: 300px; //解决IE6下不识别max-height
+    }
+</style>
 
 <div class="tab_div">
     <%@include file="title.jsp" %>
@@ -56,7 +73,7 @@
                                             <td align="center" title='${item.dszh}'><div style="width:120px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.dszh}</div></td>
                                             <td align="center" title='${item.dsnc}'><div style="width:200px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.dsnc}</div></td>
                                             <td align="center">${item.num}</td>
-                                            <td align="center"><button  data-toggle="modal" data-target="#myModal" onclick="getWxFirendDetails(this)">详情</button></td></td>
+                                            <td align="center"><button  data-toggle="modal" data-target="#myModal" onclick="getWxFirendDetails(this);">详情</button></td></td>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -112,9 +129,11 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
+                                            <option value="zhxx"<c:if test="${wxFriendChatxxSeachCondition=='dszh'}">selected="selected"</c:if>>微信号</option>
+                                            <option value="zhnc"<c:if test="${wxFriendChatxxSeachCondition=='dszh'}">selected="selected"</c:if>>微信昵称</option>
                                             <option value="dszh"<c:if test="${wxFriendChatxxSeachCondition=='dszh'}">selected="selected"</c:if>>对方微信号</option>
                                             <option value="dsnc" <c:if test="${wxFriendChatxxSeachCondition=='dsnc'}">selected="selected"</c:if> >对方微信昵称</option>
-                                            <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'}">selected="selected"</c:if>>内容</option>
+                                            <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'||wxFriendChatxxSeachCondition==null}">selected="selected"</c:if>>内容</option>
                                         </select>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${wxFriendChatxxSeachCode}</textarea>
                                     </div>
@@ -179,13 +198,18 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">微信聊天信息详情<span id="title"></span></h4>
+                <h4 class="modal-title" id="myModalLabel" style="font-weight: bold">微信聊天信息详情<span id="title"></span></h4>
+                <div id="project-label" style="font-size: 14px;padding-left: 45%">聊天记录搜索：
+                    <input id="project" type="text"  style="width: 260px;" class="txt ui-autocomplete-input" onfocus="getLtjlOnfocus()" autofocus="autofocus">
+                    <input type="hidden" id="project-id">
+                </div>
+                <p id="project-description"></p>
             </div>
-            <div class="modal-body" style="max-height: 580px">
+            <div class="modal-body" style="max-height:80%;">
                 <input name="label" id="zhxx" hidden="hidden" value="">
                 <input name="label" id="dszh" hidden="hidden" value="">
                 <input name="label" id="allRow" hidden="hidden" value="">
-                <div class="mobile-page" id="wxContent" onscroll="scrollF()">
+                <div class="mobile-page" id="wxContent" onscroll="scrollF()" >
                     <%--<div class="admin-group">
                         <img class="admin-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
                         <div class="admin-msg"><div class="time"><span class="time">2018-11-30 12:12:12</span></div>

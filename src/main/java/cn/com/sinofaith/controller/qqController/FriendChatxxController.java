@@ -149,9 +149,12 @@ public class FriendChatxxController {
         Long aj_id = (Long) session.getAttribute("aj_id");
         String search = " aj_id = " + aj_id;
         search += " and zhxx = '" + zhxx + "'";
-        search += " and dszh = '" + dszh + "'";
-        search += " and qunzhxx is null";
-        search += " and lujing is not null";
+        if(dszh.contains("/")){
+            search+=" and qunzhxx = '"+dszh+"'";
+        }else{
+            search += " and dszh = '" + dszh + "'";
+            search += " and qunzhxx is null";
+        }
         search += " order by fstime";
         // 从session域中取出数据
         Page page = fcService.getFriendChat(pageNo,100,search);

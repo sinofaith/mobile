@@ -5,6 +5,7 @@ import cn.com.sinofaith.bean.TAutoWechatLtjlEntity;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.service.wxPhone.WxFriendChatxxSerivce;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -135,18 +136,39 @@ public class WxFriendChatxxController {
     }
 
     @RequestMapping(value = "/getDetails",  method = RequestMethod.POST)
-    public @ResponseBody String getDetails(String zhxx, String dszh, int pageNo, HttpSession session) {
+    public @ResponseBody String getDetails(String zhxx, String dszh, int pageNo, int pageSize, HttpSession session) {
         Long aj_id = (Long) session.getAttribute("aj_id");
-        String search = " aj_id = " + aj_id;
-        search += " and zhxx = '" + zhxx + "'";
-        search += " and dszh = '" + dszh + "'";
-        search += " and qunzhxx is null";
-        search += " and lujing is not null";
-        search += " order by fstime";
+        StringBuffer seach = new StringBuffer();
+        seach.append(" and aj_id = " + aj_id);
+        seach.append( " and zhxx = '" + zhxx + "'");
+        if(dszh.contains("@")){
+            seach.append(" and qunzhxx = '"+dszh+"' ");
+        }else{
+            seach.append(" and dszh = '" + dszh + "' ");
+            seach.append(" and qunzhxx is null ");
+        }
+        seach.append(" order by fstime");
         // 从session域中取出数据
-        Page page = wfcService.getFriendChat(pageNo,100,search);
-        Gson gson = new Gson();
+        Page page = wfcService.getFriendChat(pageNo,pageSize,seach.toString());
+        Gson gson = new GsonBuilder().serializeNulls().create();
         return gson.toJson(page);
+    }
+
+    @RequestMapping(value = "/getDetailsByFilter",method = RequestMethod.POST)
+    public @ResponseBody String getDetailsByFilter (String zhxx,String dszh,String term,HttpSession session){
+        Long aj_id = (Long) session.getAttribute("aj_id");
+        StringBuffer seach = new StringBuffer();
+        seach.append(" and aj_id = "+aj_id);
+        seach.append( " and zhxx = '" + zhxx + "'");
+        if(dszh.contains("@")){
+            seach.append(" and qunzhxx = '"+dszh+"'");
+        }else{
+            seach.append(" and dszh = '" + dszh + "'");
+            seach.append(" and qunzhxx is null");
+        }
+        seach.append(" order by fstime ");
+
+        return wfcService.getChatByFilter(seach.toString(),term.trim());
     }
 
     /**

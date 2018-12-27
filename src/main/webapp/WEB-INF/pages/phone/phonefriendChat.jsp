@@ -120,10 +120,11 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="zhnc" <c:if test="${friendChatxxSeachCondition=='zhnc'}">selected="selected"</c:if> >QQ昵称</option>
                                             <option value="zhxx" <c:if test="${friendChatxxSeachCondition=='zhxx'}">selected="selected"</c:if> >QQ号</option>
-                                            <option value="dsnc" <c:if test="${friendChatxxSeachCondition=='dsnc'}">selected="selected"</c:if> >对方QQ昵称</option>
+                                            <option value="zhnc" <c:if test="${friendChatxxSeachCondition=='zhnc'}">selected="selected"</c:if> >QQ昵称</option>
                                             <option value="dszh" <c:if test="${friendChatxxSeachCondition=='dszh'}">selected="selected"</c:if> >对方QQ号</option>
+                                            <option value="dsnc" <c:if test="${friendChatxxSeachCondition=='dsnc'}">selected="selected"</c:if> >对方QQ昵称</option>
+                                            <option value="lujing" <c:if test="${friendChatxxSeachCondition=='lujing'||friendChatxxSeachCondition==null}">selected="selected"</c:if> >内容</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${friendChatxxSeachCode}</textarea>

@@ -5,6 +5,7 @@ import cn.com.sinofaith.service.brand.RegionService;
 import cn.com.sinofaith.util.Amr2Mp3;
 import cn.com.sinofaith.util.TimeFormatUtil;
 import org.apache.commons.io.CopyUtils;
+import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -1797,7 +1798,7 @@ public class UploadServices {
                                                                 fslx=quote.attr("href").split("\\.");
                                                                 if (ai.contains("27_301~349.ico")){
                                                                     if(fslx.length>1){
-                                                                        qqLtjlEntity.setFslx(fslx[fslx.length-1]);
+                                                                        qqLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,qqLtjlEntity.getFslx());
                                                                     }
                                                                     qqLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
@@ -1811,11 +1812,9 @@ public class UploadServices {
                                                                 String sblob=filePath+lujing;
                                                                 String endPath= FILEPATH+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","").replace("-","").replace(" ","");
                                                                 File file = new File(sblob);
-                                                                InputStream inputStream = null;
                                                                 OutputStream os =null;
                                                                 try {
                                                                     if(file.exists()&&file.isFile()) {
-                                                                        inputStream = new FileInputStream(file);
                                                                         //新建一byte数组
 //                                                                        byte[] buf = new byte[inputStream.available()];
                                                                         //将文件读入到byte[]中
@@ -1825,9 +1824,15 @@ public class UploadServices {
                                                                             if(!endFile.exists()){
                                                                                 endFile.mkdirs();
                                                                             }
-                                                                            os = new FileOutputStream(endFile.getAbsolutePath()+"\\"+file.getName());
-                                                                            FileCopyUtils.copy(inputStream,os);
-                                                                            qqLtjlEntity.setLujing(endPath+file.getName());
+                                                                            if(file.getName().endsWith(".amr")){
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                qqLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                            }else {
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                FileUtils.copyFile(file, os);
+                                                                                qqLtjlEntity.setLujing(endFile+"\\" + file.getName());
+                                                                                os.close();
+                                                                            }
 //                                                                            qqLtjlEntity.setFanr(buf);
                                                                         } else {
                                                                             File endFile = new File(endPath+"\\wechat");
@@ -1837,13 +1842,11 @@ public class UploadServices {
                                                                             if(file.getName().endsWith(".amr")){
                                                                                 Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
                                                                                 wechatLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
-                                                                                inputStream.close();
                                                                             }else {
                                                                                 os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
-                                                                                FileCopyUtils.copy(inputStream, os);
+                                                                                FileUtils.copyFile(file, os);
                                                                                 wechatLtjlEntity.setLujing(endFile + "\\" + file.getName());
 //                                                                            wechatLtjlEntity.setFanr(buf);
-                                                                                inputStream.close();
                                                                                 os.close();
                                                                             }
 //                                                                            wechatLtjlEntity.setFanr(buf);
@@ -1972,11 +1975,12 @@ public class UploadServices {
                                                         break;
                                                     }
                                                     case 4: {
-//                                                        message(p,"blob~~~~~~~~~~~");//+td.toString()
+//                                                                    message(p,"blob~~~~~~~~~~~");
                                                         Elements quotes=td.getElementsByTag("a");
-//                                                        message(p,quotes.text());
+//                                                                    message(p,quotes.size()+"");
+
                                                         if(quotes.select("img").size()==0) {
-//                                                            message(p,"null");
+//                                                                        message(p,"null");
                                                             if (ai.contains("27_301~349.ico")) {
                                                                 qqLtjlEntity.setFslx("文字");
                                                                 try {
@@ -1985,7 +1989,7 @@ public class UploadServices {
 //                                                                        qqLtjlEntity.setFanr(wz.getBytes("UTF8"));
                                                                         qqLtjlEntity.setLujing(wz);
 //                                                                    message(p,"qq文字"+new String(qqLtjlEntity.getFanr(),"UTF8"));
-                                                                    }else {
+                                                                    } else {
 //                                                                        qqLtjlEntity.setFanr(td.text().getBytes("UTF8"));
                                                                         qqLtjlEntity.setLujing(td.text());
                                                                     }
@@ -1995,11 +1999,12 @@ public class UploadServices {
                                                             } else {
                                                                 wechatLtjlEntity.setFslx("文字");
                                                                 try {
-                                                                    if (td.text().length() > 100) {
+                                                                    if(td.text().length()>100) {
                                                                         String wz = td.text().substring(0, 100);
 //                                                                        wechatLtjlEntity.setFanr(wz.getBytes("UTF8"));
                                                                         wechatLtjlEntity.setLujing(wz);
-//                                                                    message(p,"微信文字"+new String(wechatLtjlEntity.getFanr(),"UTF8"));
+
+//                                                                message(p,"微信文字"+new String(wechatLtjlEntity.getFanr(),"UTF8"));
                                                                     }else{
 //                                                                        wechatLtjlEntity.setFanr(td.text().getBytes("UTF8"));
                                                                         wechatLtjlEntity.setLujing(td.text());
@@ -2007,19 +2012,18 @@ public class UploadServices {
                                                                 } catch (Exception e) {
                                                                     e.printStackTrace();
                                                                 }
-                                                            }//if(!quotes.text().contains("好友验证"))
-                                                        }else {
+                                                            }
+                                                        }else if(!quotes.text().contains("好友验证")){
                                                             String fslx[];
                                                             String lujing;
                                                             for (Element quote:quotes
                                                                     ) {
-//                                                                message(p,"notnull"+quote.text());
+//                                                                            message(p,"notnull"+quote.text());
                                                                 lujing=quote.attr("href");
                                                                 fslx=quote.attr("href").split("\\.");
-//                                                                message(p,quote.text());
                                                                 if (ai.contains("27_301~349.ico")){
                                                                     if(fslx.length>1){
-                                                                        qqLtjlEntity.setFslx(fslx[fslx.length-1]);
+                                                                        qqLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,qqLtjlEntity.getFslx());
                                                                     }
                                                                     qqLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
@@ -2033,11 +2037,9 @@ public class UploadServices {
                                                                 String sblob=filePath+lujing;
                                                                 String endPath= FILEPATH+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","").replace("-","").replace(" ","");
                                                                 File file = new File(sblob);
-                                                                InputStream inputStream = null;
                                                                 OutputStream os =null;
                                                                 try {
                                                                     if(file.exists()&&file.isFile()) {
-                                                                        inputStream = new FileInputStream(file);
                                                                         //新建一byte数组
 //                                                                        byte[] buf = new byte[inputStream.available()];
                                                                         //将文件读入到byte[]中
@@ -2047,9 +2049,15 @@ public class UploadServices {
                                                                             if(!endFile.exists()){
                                                                                 endFile.mkdirs();
                                                                             }
-                                                                            os = new FileOutputStream(endFile.getAbsolutePath()+"\\"+file.getName());
-                                                                            FileCopyUtils.copy(inputStream,os);
-                                                                            qqLtjlEntity.setLujing(endPath+file.getName());
+                                                                            if(file.getName().endsWith(".amr")){
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                qqLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                            }else {
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                FileUtils.copyFile(file, os);
+                                                                                qqLtjlEntity.setLujing(endFile+"\\" + file.getName());
+                                                                                os.close();
+                                                                            }
 //                                                                            qqLtjlEntity.setFanr(buf);
                                                                         } else {
                                                                             File endFile = new File(endPath+"\\wechat");
@@ -2059,15 +2067,14 @@ public class UploadServices {
                                                                             if(file.getName().endsWith(".amr")){
                                                                                 Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
                                                                                 wechatLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
-                                                                                inputStream.close();
                                                                             }else {
                                                                                 os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
-                                                                                FileCopyUtils.copy(inputStream, os);
+                                                                                FileUtils.copyFile(file, os);
                                                                                 wechatLtjlEntity.setLujing(endFile + "\\" + file.getName());
 //                                                                            wechatLtjlEntity.setFanr(buf);
-                                                                                inputStream.close();
                                                                                 os.close();
                                                                             }
+//                                                                            wechatLtjlEntity.setFanr(buf);
                                                                         }
                                                                     }else{
                                                                         if (ai.contains("27_301~349.ico")) {
@@ -2143,7 +2150,6 @@ public class UploadServices {
                                 } catch (IOException e) {
                                     flg = 1;
                                     System.out.println("跳出循环");
-                                    e.printStackTrace();
                                     break;
                                 }
 

@@ -12,9 +12,12 @@
 <link href="<c:url value="/resources/css/map.css"/>" rel="stylesheet" media="screen">
 <link href="<c:url value="/resources/css/font.css"/>" rel="stylesheet" media="screen">
 <link href="<c:url value="/resources/thirdparty/alertify/css/bootstrap.css"/> " rel="stylesheet">
+<link href="<c:url value="/resources/css/qq/qq.css"/> " rel="stylesheet">
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
+<link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
+<script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/wx.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
@@ -40,7 +43,7 @@
                                     </tr>
                                     <tr align="center">
                                         <td width="4%">序号</td>
-                                        <td width="6%">微信号</td>
+                                        <td width="5%">微信号</td>
                                         <td width="6%">微信昵称</td>
                                         <td width="6%">微信群号</td>
                                         <td width="6%">群消息数</td>
@@ -51,11 +54,11 @@
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center" >${item.id}</td>
-                                            <td align="center" title='${item.zhxx}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.zhxx}</div></td>
+                                            <td align="center" title='${item.zhxx}'><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.zhxx}</div></td>
                                             <td align="center" title='${item.zhnc}'><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.zhnc}</div></td>
-                                            <td align="center" title='${item.dszh}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.dszh}</div></td>
-                                            <td align="center" title='${item.num}'><div style="width:280px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.num}</div></td>
-                                            <td align="center" >详情</td>
+                                            <td align="center" title='${item.dszh}'><div style="width:300px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.dszh}</div></td>
+                                            <td align="center" title='${item.num}'><div style="width:100px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.num}</div></td>
+                                            <td align="center"><button  data-toggle="modal" data-target="#myModal" onclick="getWxFirendDetails(this)">详情</button></td></td>
                                             <%--<td align="center" >${item.id}</td>
                                             <td align="center">${item.name}</td>
                                             <td align="center"title="${item.sfzhm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.sfzhm}</div></td>
@@ -122,9 +125,9 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="fswechatno"<c:if test="${wxFriendsChatxxSeachCondition=='fswechatno'}">selected="selected"</c:if>>发送微信号</option>
-                                            <option value="jswechatno" <c:if test="${wxFriendsChatxxSeachCondition=='jswechatno'}">selected="selected"</c:if> >接收微信群号</option>
-                                            <option value="fslx" <c:if test="${wxFriendsChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>
+                                            <option value="dszh"<c:if test="${wxFriendsChatxxSeachCondition=='fswechatno'}">selected="selected"</c:if>>微信号</option>
+                                            <option value="qunzhxx" <c:if test="${wxFriendsChatxxSeachCondition=='jswechatno'}">selected="selected"</c:if> >微信群号</option>
+                                            <%--<option value="fslx" <c:if test="${wxFriendsChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>--%>
                                             <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'}">selected="selected"</c:if>>发送内容</option>
                                         </select>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${wxFriendsChatxxSeachCode}</textarea>
@@ -185,49 +188,40 @@
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="top: 0%; min-width: 80%;left: 10%;right: 10%;">
-        <div class="modal-content">
+    <div class="modal-dialog" style="top: 0%; min-width: 50%;left: 25%;">
+        <div class="modal-content" style="background-color: #F5F5F5;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">QQ好友聊天信息详情<span id="title"></span></h4>
+                <h4 class="modal-title" id="myModalLabel">微信群聊天信息详情<span id="title"></span></h4>
+                <div id="project-label" style="font-size: 14px;padding-left: 45%">聊天记录搜索：
+                    <input id="project" type="text"  style="width: 260px;" class="txt ui-autocomplete-input" onfocus="getLtjlOnfocus()" autofocus="autofocus">
+                    <input type="hidden" id="project-id">
+                </div>
             </div>
-            <div class="modal-body">
-                <table class="table  table-hover table_style table_list1 " style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
-                    <thead style="display:table;width:100%;table-layout:fixed;width: calc( 100% - 16.5px );">
-                    <tr align="center">
-                        <td width="3%">序号</td>
-                        <td width="8%">发送微信号</td>
-                        <td width="7%">发送昵称</td>
-                        <td width="10%">
-                            <button onclick="orderByFilter('fstime')">发送时间</button>
-                        </td>
-                        <td width="8%">接收微信号</td>
-                        <td width="7%">接收昵称</td>
-                        <td width="7%">
-                            <button onclick="orderByFilter('fslx')">
-                                发送类型
-                            </button>
-                        </td>
-                        <td width="25%">发送内容</td>
-                        <td width="10%">
-                            <button onclick="orderByFilter('lujing')">
-                                路径
-                            </button>
-                        </td>
-                        <td width="8%">数据类型</td>
-                    </tr>
-                    <input name="label" id="fswechatno" hidden="hidden" value="">
-                    <input name="label" id="jswechatno" hidden="hidden" value="">
-                    <input name="label" id="allRow" hidden="hidden" value="">
-                    </thead>
-                    <tbody id="result" style="display:block;height:340px;overflow-y:scroll;" onscroll="scrollF()">
-
-                    </tbody>
-                </table>
+            <div class="modal-body" style="max-height: 580px">
+                <input name="label" id="zhxx" hidden="hidden" value="">
+                <input name="label" id="dszh" hidden="hidden" value="">
+                <input name="label" id="allRow" hidden="hidden" value="">
+                <div class="mobile-page" id="wxContent" onscroll="scrollF()">
+                    <%--<div class="admin-group">
+                        <img class="admin-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
+                        <div class="admin-msg"><div class="time"><span class="time">2018-11-30 12:12:12</span></div>
+                            <i class="triangle-admin"></i><span class="admin-reply">欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！欢迎来抢楼！</span>
+                        </div>
+                    </div>
+                    <div class="user-group">
+                        <div class="user-msg">
+                            <div class="time"><span class="time">2018-11-30 12:12:12</span></div>
+                            <span class="user-reply">我要抢楼我要抢楼我要抢楼。</span>
+                            <i class="triangle-user"></i>
+                        </div>
+                        <img class="user-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
+                    </div>--%>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" onclick="downDetailJylx()">导出</button>
+                <%--<button type="button" class="btn btn-default" onclick="downDetailJylx()">导出</button>--%>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
@@ -235,6 +229,7 @@
     </div>
     <!-- /.modal -->
 </div>
+
 
 
 <%--<div class="modal fade" id="myModal" tabindex="-1" role="dialog"

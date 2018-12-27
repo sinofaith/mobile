@@ -3,10 +3,13 @@ package cn.com.sinofaith.service.wxPhone;
 import cn.com.sinofaith.bean.TAutoWechatLtjlEntity;
 import cn.com.sinofaith.dao.wxPhone.WxFriendChatxxDao;
 import cn.com.sinofaith.form.QqForm;
+import cn.com.sinofaith.form.WxForm;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.util.RemoveMessy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.criterion.DetachedCriteria;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,16 +109,33 @@ public class WxFriendChatxxSerivce {
         return null;
     }
 
-    public Page getFriendChat(int currentPage, int pageSize, String search) {
+    public Page getFriendChat(int pageNo, int pageSize, String search) {
         Page page = new Page();
         int rowAll = fcDao.getWxRowAll(search);
         if(rowAll>0){
-            List<TAutoWechatLtjlEntity> ltjls = fcDao.getDoPageWx(currentPage,pageSize,search);
+            List<TAutoWechatLtjlEntity> ltjls = fcDao.getDoPageWx(pageNo,pageSize,search);
             page.setPageSize(pageSize);
             page.setList(ltjls);
             page.setTotalRecords(rowAll);
-            page.setPageNo(currentPage);
+            page.setPageNo(pageNo-1);
         }
         return page;
+    }
+
+    public String  getChatByFilter(String seach,String content){
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        StringBuffer sql = new StringBuffer();
+        sql.append(" select * from ( SELECT c.*, ROWNUM rn FROM ( ");
+        sql.append(" select * from(select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
+        sql.append(" from T_AUTO_WECHAT_LTJL q where 1=1 "+seach);
+        sql.append(" ) t where su =1) c ) where lujing like '%"+content+"%' and fslx = '文字'" );
+        List list = fcDao.findBySQL(sql.toString());
+        List<WxForm> wxs = new ArrayList<>();
+        WxForm wx = new WxForm();
+        for (int i = 0; i < list.size(); i++) {
+            wx = wx.wxsmapToForm((Map) list.get(i));
+            wxs.add(wx);
+        }
+        return gson.toJson(wxs);
     }
 }

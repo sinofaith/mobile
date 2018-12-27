@@ -43,8 +43,12 @@ public class FriendsChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
     }*/
     public int getAllRowCounts(String seach, long id) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select count(*) num from T_AUTO_QQ_LTJL t ");
+        sql.append("SELECT count(1) num from ( " +
+                "  select t.zhnc,t.zhxx,t.qunzhxx,count(1) num from( ");
+        sql.append(" select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.qunzhxx order by q.FSTIME ) su  ");
+        sql.append(" from T_AUTO_qq_LTJL q ) t ");
         sql.append(" where t.aj_id="+id+seach);
+        sql.append(" GROUP BY t.zhxx,t.zhnc,t.QUNZHXX order by num desc ) ");
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
         // 转成String
@@ -103,28 +107,17 @@ public class FriendsChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         }
         return qqForms;
     }*/
-    public List<TAutoQqLtjlEntity> getDoPage(String seach, int currentPage, int pageSize, long id) {
+    public List<TAutoQqLtjlEntity>  getDoPage(String seach, int currentPage, int pageSize, long id) {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
-        sql.append(" SELECT c.*, ROWNUM rn FROM ( ");
-        sql.append(" select t.* from T_AUTO_QQ_LTJL t ");
-        sql.append(" where t.aj_id="+id+seach);
-        sql.append(") c ");
+        sql.append(" SELECT c.*, ROWNUM rn FROM (");
+        sql.append(" select t.zhxx,t.zhnc,t.qunzhxx,count(1) num from(select t.*,row_number() ");
+        sql.append(" over(partition by t.FSTIME,t.LUJING,t.qunzhxx order by t.FSTIME ) su ");
+        sql.append(" from T_AUTO_QQ_LTJL t where t.aj_id="+id+seach);
+        sql.append(" order by fstime) t where su =1 group by t.zhxx,t.zhnc,t.qunzhxx  order by num desc  ");
+        sql.append(" ) c");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
-        // 获得当前线程session
-        Session session = getSession();
-        SQLQuery query = null;
-        List<TAutoQqLtjlEntity> qqForms = null;
-        try{
-            // 开启事务
-            Transaction transaction = session.beginTransaction();
-            qqForms = session.createSQLQuery(sql.toString())
-                    .addEntity(TAutoQqLtjlEntity.class).list();
-            transaction.commit();
-        }catch (Exception e){
-            e.printStackTrace();
-            session.close();
-        }
-        return qqForms;
+
+        return findBySQL(sql.toString());
     }
 }

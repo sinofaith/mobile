@@ -30,7 +30,7 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         sql.append("select count(1) NUM from(");
         sql.append("select t.zhnc,t.zhxx,t.dsnc,t.dszh,t.u_name,count(1) num from(");
         sql.append("select c.*,row_number() over(partition by c.FSTIME,c.LUJING,c.DSZH order by c.FSTIME ) su ");
-        sql.append("from T_AUTO_QQ_LTJL c where QUNZHXX is null and lujing is not null and AJ_ID ="+id+")t where su =1");
+        sql.append("from T_AUTO_QQ_LTJL c where QUNZHXX is null  and AJ_ID ="+id+")t where su =1");
         sql.append(seach+")");
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
@@ -53,7 +53,7 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         sql.append("SELECT c.*, ROWNUM rn FROM ( ");
         sql.append("select t.zhnc,t.zhxx,t.dsnc,t.dszh,t.u_name,count(1) num from(");
         sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
-        sql.append("from T_AUTO_QQ_LTJL q where QUNZHXX is null and lujing is not null and AJ_ID ="+id+")t where su =1 "+seach);
+        sql.append("from T_AUTO_QQ_LTJL q where QUNZHXX is null  and AJ_ID ="+id+")t where su =1 "+seach);
         sql.append(") c ");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
 
@@ -90,7 +90,7 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         Session session = getSession();
         StringBuffer sql = new StringBuffer();
         sql.append("select count(*) NUM from(");
-        sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
+        sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.qunzhxx order by q.FSTIME ) su ");
         sql.append("from T_AUTO_QQ_LTJL q where "+search+")t where su =1");
         List list = findBySQL(sql.toString());
         Map map = (Map) list.get(0);
@@ -106,7 +106,7 @@ public class FriendChatxxDao extends BaseDao<TAutoQqLtjlEntity> {
         sql.append("SELECT * FROM ( ");
         sql.append("SELECT c.*, ROWNUM rn FROM ( ");
         sql.append("select * from(");
-        sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
+        sql.append("select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.qunzhxx order by q.FSTIME ) su ");
         sql.append("from T_AUTO_QQ_LTJL q where"+search+")t where su =1");
         sql.append(") c ");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));

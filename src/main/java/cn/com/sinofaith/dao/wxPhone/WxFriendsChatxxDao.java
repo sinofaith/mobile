@@ -27,7 +27,9 @@ public class WxFriendsChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
     public int getAllRowCounts(String seach, long id) {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT count(1) num from ( " +
-                "  select t.zhxx,t.zhnc,t.QUNZHXX,count(1) num from T_AUTO_WECHAT_LTJL t");
+                "  select t.zhnc,t.zhxx,t.qunzhxx,count(1) num from( ");
+        sql.append(" select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.qunzhxx order by q.FSTIME ) su  ");
+        sql.append(" from T_AUTO_wechat_LTJL q ) t ");
         sql.append(" where t.aj_id="+id+seach);
         sql.append(" GROUP BY t.zhxx,t.zhnc,t.QUNZHXX order by num desc ) ");
         List list = findBySQL(sql.toString());
@@ -49,9 +51,10 @@ public class WxFriendsChatxxDao extends BaseDao<TAutoWechatLtjlEntity> {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT * FROM ( ");
         sql.append(" SELECT c.*, ROWNUM rn FROM (");
-        sql.append(" select t.zhxx,t.zhnc,t.QUNZHXX,count(1) num from T_AUTO_WECHAT_LTJL t ");
-        sql.append(" where t.aj_id="+id+seach);
-        sql.append(" GROUP BY t.zhxx,t.zhnc,t.QUNZHXX order by num desc ");
+        sql.append(" select t.zhxx,t.zhnc,t.qunzhxx,count(1) num from(select t.*,row_number() ");
+        sql.append(" over(partition by t.FSTIME,t.LUJING,t.qunzhxx order by t.FSTIME ) su ");
+        sql.append(" from T_AUTO_wechat_LTJL t where t.aj_id="+id+seach);
+        sql.append(" order by fstime) t where su =1 group by t.zhxx,t.zhnc,t.qunzhxx  order by num desc  ");
         sql.append(" ) c");
         sql.append(" WHERE ROWNUM <= "+currentPage * pageSize+") WHERE rn >= " + ((currentPage - 1) * pageSize + 1));
 

@@ -1,122 +1,61 @@
 package cn.com.sinofaith.form;
 
+import java.util.Map;
+
 /**
  * 微信聊天数据
  */
 public class WxForm {
-    private long id;
+    private String rn;
     // 姓名
-    private String name;
-    // 身份证号码
-    private String sfzhm;
-    // 手机号码
-    private String sjhm;
-    // 发送QQ号
-    private String fswechatno;
-    // 发送qq昵称
-    private String fswechatnc;
-    // 接收QQ号
-    private String jswechatno;
-    // 接收qq昵称
-    private String jsfriendnc;
-    // 所属群号
-    private String friendqh;
-    // 聊天总次数
-    private long num;
+    private String nickname;
 
-    public long getId() {
-        return id;
+    private String fstime;
+
+    private String label;
+
+    public String getRn() {
+        return rn;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setRn(String rn) {
+        this.rn = rn;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getSfzhm() {
-        return sfzhm;
+    public String getFstime() {
+        return fstime;
     }
 
-    public void setSfzhm(String sfzhm) {
-        this.sfzhm = sfzhm;
+    public void setFstime(String fstime) {
+        this.fstime = fstime;
     }
 
-    public String getSjhm() {
-        return sjhm;
+    public String getLabel() {
+        return label;
     }
 
-    public void setSjhm(String sjhm) {
-        this.sjhm = sjhm;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getFswechatno() {
-        return fswechatno;
-    }
-
-    public void setFswechatno(String fswechatno) {
-        this.fswechatno = fswechatno;
-    }
-
-    public String getFswechatnc() {
-        return fswechatnc;
-    }
-
-    public void setFswechatnc(String fswechatnc) {
-        this.fswechatnc = fswechatnc;
-    }
-
-    public String getJswechatno() {
-        return jswechatno;
-    }
-
-    public void setJswechatno(String jswechatno) {
-        this.jswechatno = jswechatno;
-    }
-
-    public String getJsfriendnc() {
-        return jsfriendnc;
-    }
-
-    public void setJsfriendnc(String jsfriendnc) {
-        this.jsfriendnc = jsfriendnc;
-    }
-
-    public String getFriendqh() {
-        return friendqh;
-    }
-
-    public void setFriendqh(String friendqh) {
-        this.friendqh = friendqh;
-    }
-
-    public long getNum() {
-        return num;
-    }
-
-    public void setNum(long num) {
-        this.num = num;
-    }
-
-    @Override
-    public String toString() {
-        return "WxForm{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sfzhm='" + sfzhm + '\'' +
-                ", sjhm='" + sjhm + '\'' +
-                ", fswechatno='" + fswechatno + '\'' +
-                ", fswechatnc='" + fswechatnc + '\'' +
-                ", jswechatno='" + jswechatno + '\'' +
-                ", jsfriendnc='" + jsfriendnc + '\'' +
-                ", friendqh='" + friendqh + '\'' +
-                ", num=" + num +
-                '}';
+    public WxForm wxsmapToForm(Map map){
+        WxForm zzf = new WxForm();
+        zzf.setRn( map.get("RN").toString());
+        if("发送".equals((String) map.get("FSFX"))){
+            zzf.setNickname((String) map.get("ZHNC"));
+        }else{
+            zzf.setNickname((String) map.get("DSNC"));
+        }
+        zzf.setFstime((String)map.get("FSTIME"));
+        zzf.setLabel((String)map.get("LUJING"));
+        return zzf;
     }
 }

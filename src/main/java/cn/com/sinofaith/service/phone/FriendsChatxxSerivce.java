@@ -10,7 +10,9 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * qq群好友聊天业务层
@@ -30,7 +32,7 @@ public class FriendsChatxxSerivce {
      */
     public String getSeach(String seachCondition, String seachCode, String orderby, String desc) {
         StringBuffer seach = new StringBuffer();
-        seach.append(" and t.jsqqno like '%(%'");
+        seach.append(" and t.qunzhxx is not null");
         // 当查询内容不为空时
         if(seachCode!=null) {
             seachCode = seachCode.trim();
@@ -53,16 +55,19 @@ public class FriendsChatxxSerivce {
     public Page queryForPage(int currentPage, int pageSize, String seach, long id) {
         Page page = new Page();
         // 封装wuliu_relation表
-        List<TAutoQqLtjlEntity> qqForms = null;
+        List<QqForm> qfs =  new ArrayList<>();
+        QqForm qf=new QqForm();
         int allRow = fcDao.getAllRowCounts(seach,id);
         if(allRow>0){
-            qqForms = fcDao.getDoPage(seach, currentPage, pageSize, id);
-            for (int i = 0; i <qqForms.size(); i++) {
-                qqForms.get(i).setId((currentPage-1)*pageSize+i+1);
+            List list = fcDao.getDoPage(seach, currentPage, pageSize, id);
+            for (int i = 0; i <list.size(); i++) {
+                qf=qf.wxsmapToForm((Map) list.get(i));
+                qf.setId((currentPage-1)*pageSize+i+1);
+                qfs.add(qf);
             }
             // 封装page
             page.setPageNo(currentPage);
-            page.setList(qqForms);
+            page.setList(qfs);
             page.setTotalRecords(allRow);
             page.setPageSize(pageSize);
         }
