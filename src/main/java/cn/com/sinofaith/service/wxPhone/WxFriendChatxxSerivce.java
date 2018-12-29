@@ -126,7 +126,7 @@ public class WxFriendChatxxSerivce {
         Gson gson = new GsonBuilder().serializeNulls().create();
         StringBuffer sql = new StringBuffer();
         sql.append(" select * from ( SELECT c.*, ROWNUM rn FROM ( ");
-        sql.append(" select * from(select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH order by q.FSTIME ) su ");
+        sql.append(" select * from(select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH,q.ZHXX,q.QUNZHXX order by q.FSTIME ) su ");
         sql.append(" from T_AUTO_WECHAT_LTJL q where 1=1 "+seach);
         sql.append(" ) t where su =1) c ) where lujing like '%"+content+"%' and fslx = '文字'" );
         List list = fcDao.findBySQL(sql.toString());

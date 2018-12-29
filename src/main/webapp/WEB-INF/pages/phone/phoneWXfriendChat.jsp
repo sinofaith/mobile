@@ -133,7 +133,7 @@
                                             <option value="zhnc"<c:if test="${wxFriendChatxxSeachCondition=='dszh'}">selected="selected"</c:if>>微信昵称</option>
                                             <option value="dszh"<c:if test="${wxFriendChatxxSeachCondition=='dszh'}">selected="selected"</c:if>>对方微信号</option>
                                             <option value="dsnc" <c:if test="${wxFriendChatxxSeachCondition=='dsnc'}">selected="selected"</c:if> >对方微信昵称</option>
-                                            <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'||wxFriendChatxxSeachCondition==null}">selected="selected"</c:if>>内容</option>
+                                            <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'||wxFriendChatxxSeachCondition==null}">selected="selected"</c:if>>聊天内容</option>
                                         </select>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${wxFriendChatxxSeachCode}</textarea>
                                     </div>
@@ -227,7 +227,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <%--<button type="button" class="btn btn-default" onclick="downDetailJylx()">导出</button>--%>
+                <%--<button type="button" class="btn btn-default" onclick="exportReportTemplet()">导出</button>--%>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>

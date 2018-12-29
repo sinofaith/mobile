@@ -16,6 +16,8 @@
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
+<link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
+<script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/qq.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
@@ -109,10 +111,10 @@
                                     <div class="form-group_search  fl_l width100" >
                                         <span style="margin-left: 10px;color: #444;padding-bottom: 10px;">查询方式</span>
                                         <select name="seachCondition" class="width100" STYLE="margin-bottom: 20px;">
-                                            <option value="dsqq"<c:if test="${friendsChatxxSeachCondition=='dsqq'}">selected="selected"</c:if>>发送QQ号</option>
-                                            <option value="qunzhxx" <c:if test="${friendsChatxxSeachCondition=='qunzhxx'}">selected="selected"</c:if> >接收QQ群号</option>
+                                            <option value="dsqq"<c:if test="${friendsChatxxSeachCondition=='dsqq'}">selected="selected"</c:if>>QQ号</option>
+                                            <option value="qunzhxx" <c:if test="${friendsChatxxSeachCondition=='qunzhxx'}">selected="selected"</c:if> >QQ群号</option>
                                             <%--<option value="fslx" <c:if test="${friendsChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>--%>
-                                            <option value="lujing" <c:if test="${friendsChatxxSeachCondition=='lujing'}">selected="selected"</c:if>>发送内容</option>
+                                            <option value="lujing" <c:if test="${friendsChatxxSeachCondition=='lujing'||friendsChatxxSeachCondition==null}">selected="selected"</c:if>>聊天内容</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${friendsChatxxSeachCode}</textarea>
@@ -179,6 +181,10 @@
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">QQ群聊天信息详情<span id="title"></span></h4>
+            <div id="project-label" style="font-size: 14px;padding-left: 45%">聊天记录搜索：
+                <input id="project" type="text"  style="width: 260px;" class="txt ui-autocomplete-input" onfocus="getLtjlOnfocus()" autofocus="autofocus">
+                <input type="hidden" id="project-id">
+            </div>
             </div>
             <div class="modal-body" style="max-height: 580px">
                 <input name="label" id="zhxx" hidden="hidden" value="">

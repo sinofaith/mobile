@@ -128,7 +128,7 @@
                                             <option value="dszh"<c:if test="${wxFriendsChatxxSeachCondition=='fswechatno'}">selected="selected"</c:if>>微信号</option>
                                             <option value="qunzhxx" <c:if test="${wxFriendsChatxxSeachCondition=='jswechatno'}">selected="selected"</c:if> >微信群号</option>
                                             <%--<option value="fslx" <c:if test="${wxFriendsChatxxSeachCondition=='fslx'}">selected="selected"</c:if>>发送类型</option>--%>
-                                            <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'}">selected="selected"</c:if>>发送内容</option>
+                                            <option value="lujing" <c:if test="${wxFriendChatxxSeachCondition=='lujing'||wxFriendChatxxSeachCondition==null}">selected="selected"</c:if>>聊天内容</option>
                                         </select>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${wxFriendsChatxxSeachCode}</textarea>
                                     </div>

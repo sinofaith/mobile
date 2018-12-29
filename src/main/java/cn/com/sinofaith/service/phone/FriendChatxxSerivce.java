@@ -3,15 +3,19 @@ package cn.com.sinofaith.service.phone;
 import cn.com.sinofaith.bean.TAutoQqLtjlEntity;
 import cn.com.sinofaith.dao.phone.FriendChatxxDao;
 import cn.com.sinofaith.form.QqForm;
+import cn.com.sinofaith.form.WxForm;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.util.RemoveMessy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.taglibs.standard.tag.rt.core.ForEachTag;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * qq好友聊天业务层
@@ -94,5 +98,22 @@ public class FriendChatxxSerivce {
             page.setPageNo(currentPage);
         }
         return page;
+    }
+
+    public String  getChatByFilter(String seach,String content){
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        StringBuffer sql = new StringBuffer();
+        sql.append(" select * from ( SELECT c.*, ROWNUM rn FROM ( ");
+        sql.append(" select * from(select q.*,row_number() over(partition by q.FSTIME,q.LUJING,q.DSZH,q.ZHXX,q.QUNZHXX order by q.FSTIME ) su ");
+        sql.append(" from T_AUTO_QQ_LTJL q where 1=1 "+seach);
+        sql.append(" ) t where su =1) c ) where lujing like '%"+content+"%' and fslx = '文字'" );
+        List list = fcDao.findBySQL(sql.toString());
+        List<WxForm> wxs = new ArrayList<>();
+        WxForm wx = new WxForm();
+        for (int i = 0; i < list.size(); i++) {
+            wx = wx.wxsmapToForm((Map) list.get(i));
+            wxs.add(wx);
+        }
+        return gson.toJson(wxs);
     }
 }

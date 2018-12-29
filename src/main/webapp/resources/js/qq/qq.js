@@ -1,3 +1,89 @@
+$(function () {
+    $( "#seachLtjl" ).autocomplete({
+
+    });
+});
+
+
+function getLtjlOnfocus() {
+    var seach = $("#project").val().trim();
+    var e = jQuery.Event("keydown");//模拟一个键盘事件
+    e.keyCode = 8;//keyCode=8是空格
+    $("#project").trigger(e);
+    $( "#project" ).autocomplete({
+        minLength: 1,
+        delay:500,
+        source: function(request, response) {
+            $.ajax({
+                url: "/mobile/phoneqqFriendChat/getDetailsByFilter",
+                type:"post",
+                dataType: "json",
+                data: {
+                    term: $("#project").val() ,//搜索栏里的内容
+                    zhxx: $("#zhxx").val() ,
+                    dszh: $("#dszh").val()   //额外参数
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        focus: function( event, ui ) {
+            return false;
+        },
+        select: function( event, ui ) {
+            $( "#project-id" ).val( ui.item.value );
+            var wxContent = $("#qqContent");
+            is_running = true;
+            wxContent.html("");
+            getByRn(ui.item.rn);
+            $("#project").blur();
+
+            return false;
+        }
+    })
+        .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+            .append( "<a><div style='line-height: 20px'><div style='width:120px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden; float: left'><b style='font-size: 12px; '>" + item.nickname + "</b></div>" +
+                "<span style='font-size: 10px; float: right;color: grey'>"+item.fstime+"</span><br>" +
+                "<span style='font-size: 14px; color: grey'><xmp style=\"margin-top: 0px;margin-bottom: 0px;white-space:normal; font-family: 'Microsoft YaHei UI'; \">" + item.label + "</xmp></span></div></a>" +"<hr style='margin: 0;padding: 0'>")
+            .appendTo( ul );
+    };
+}
+
+function getByRn(rn) {
+    var zhxx = $("#zhxx").val();
+    var dszh = $("#dszh").val();
+    window.pageUp=parseInt(rn);
+    window.pageDown=parseInt(rn);
+    var wxContent = window.document.getElementById("qqContent")
+    var url = "/mobile/phoneqqFriendChat/getDetails";
+    $.ajax({
+        type:"post",
+        dataType:"json",
+        url:url,
+        data:{
+            zhxx:zhxx,
+            dszh:dszh,
+            pageNo:parseInt(pageDown),
+            pageSize:parseInt(99)
+        },
+        success:function (msg) {
+            var data = msg.list;
+            var str = "";
+            for(i=0;i<data.length;i++){
+                str += insertDiv(data[i]);
+            }
+            wxContent.innerHTML = str;
+            $("#qqContent").scrollTop(30);
+            is_running = false;
+            $("#zhxx").attr("value",zhxx);
+            $("#dszh").attr("value",dszh);
+            $("#allRow").attr("value",msg.totalRecords)
+        }
+    })
+}
+
 function phoneSkip(a){
     var totalPage = $("#totalPage").text();
     var onPage = $("#num").val();
@@ -17,8 +103,8 @@ function phoneSkip(a){
 function getQqFirendDetails(obj) {
     var zhxx = $(obj).closest("tr").find("td:eq(1)").text()
     var dszh = $(obj).closest("tr").find("td:eq(3)").text()
-    window.page = 1;
-    var qqContent = window.document.getElementById("qqContent")
+    window.pageDown = 1;
+    var wxContent = window.document.getElementById("qqContent")
     var url = "/mobile/phoneqqFriendChat/getDetails";
     $.ajax({
         type:"post",
@@ -27,7 +113,8 @@ function getQqFirendDetails(obj) {
         data:{
             zhxx:zhxx,
             dszh:dszh,
-            pageNo:parseInt(page)
+            pageNo:parseInt(pageDown),
+            pageSize:99
         },
         success:function (msg) {
             var data = msg.list;
@@ -35,27 +122,28 @@ function getQqFirendDetails(obj) {
             for(i=0;i<data.length;i++){
                 str += insertDiv(data[i]);
             }
-            qqContent.innerHTML = str;
+            wxContent.innerHTML = str;
             $("#zhxx").attr("value",zhxx);
             $("#dszh").attr("value",dszh);
             $("#allRow").attr("value",msg.totalRecords)
         }
     })
-}
+};
 
 var is_running = false;
 function scrollF(){
     var qqContent = window.document.getElementById("qqContent")
+
     // 买家用户Id
     var zhxx = $("#zhxx").val();
     var dszh = $("#dszh").val();
     var allRow = $("#allRow").val();
     var scrollT = parseFloat(qqContent.scrollTop) + parseFloat(qqContent.clientHeight)
     var scrollH = parseFloat(qqContent.scrollHeight)
-    if (1 >= scrollH - scrollT && qqContent.scrollTop != 0 && qqContent.childNodes.length < allRow) {
+    if (1 >= scrollH - scrollT && qqContent.scrollTop != 0 && window.pageDown <= allRow) {
         if (is_running == false) {
             is_running = true;
-            window.page = page += 1;
+            window.pageDown = window.pageDown+100;
             var url = "/mobile/phoneqqFriendChat/getDetails";
             $.ajax({
                 type:"post",
@@ -64,7 +152,8 @@ function scrollF(){
                 data:{
                     zhxx:zhxx,
                     dszh:dszh,
-                    pageNo:parseInt(window.page)
+                    pageNo:parseInt(window.pageDown),
+                    pageSize:99
                 },
                 success:function (msg) {
                     var data = msg.list;
@@ -72,7 +161,47 @@ function scrollF(){
                     for(i=0;i<data.length;i++){
                         str += insertDiv(data[i]);
                     }
-                    qqContent.innerHTML += str;
+                    $("#qqContent").append(str) ;
+                    $("#zhxx").attr("value",zhxx);
+                    $("#dszh").attr("value",dszh);
+                    $("#allRow").attr("value",msg.totalRecords);
+                    is_running = false;
+                }
+            })
+        }
+    }
+    if(qqContent.scrollTop==0&window.pageUp>1){
+        var before = qqContent.scrollHeight;
+        if (is_running == false) {
+            is_running = true;
+            var pageSize;
+            if(window.pageUp-100<1){
+                pageSize=window.pageUp-2
+                window.pageUp=1
+            }else{
+                window.pageUp=window.pageUp-100
+                pageSize = 99;
+            }
+            var url = "/mobile/phoneqqFriendChat/getDetails";
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                url:url,
+                data:{
+                    zhxx:zhxx,
+                    dszh:dszh,
+                    pageNo:parseInt(window.pageUp),
+                    pageSize:pageSize
+                },
+                success:function (msg) {
+                    var data = msg.list;
+                    var str = "";
+                    for(i=0;i<data.length;i++){
+                        str += insertDiv(data[i]);
+                    }
+                    $("#qqContent").prepend(str);
+                    var after = qqContent.scrollHeight;
+                    $("#qqContent").scrollTop(after-before);
                     $("#zhxx").attr("value",zhxx);
                     $("#dszh").attr("value",dszh);
                     $("#allRow").attr("value",msg.totalRecords);
@@ -212,5 +341,18 @@ $(function(){
         if(qqContent!=null) {
             qqContent.innerHTML = "";
         }
+        var content  = $("#project");
+        if(content!=null){
+            content.val("")
+        }
+    });
+
+    $('#myModal').on('shown.bs.modal', function () {
+        var select = $('select[name="seachCondition"]').val();
+        var seach = $("#seachCode").val();
+        if(select=='lujing'){
+            $("#project").val(seach)
+        }
+        $("#project").focus();
     });
 });

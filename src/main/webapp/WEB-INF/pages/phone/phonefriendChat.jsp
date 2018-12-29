@@ -17,6 +17,8 @@
 <script src="<c:url value="/resources/jquery/jquery.js"/> "></script>
 <script src="<c:url value="/resources/jquery/jquery.media.js"/> "></script>
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js"/> "></script>
+<link href="<c:url value="/resources/thirdparty/gojs/css/jquery-ui.min.css"/> " rel="stylesheet">
+<script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/qq.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
@@ -124,7 +126,7 @@
                                             <option value="zhnc" <c:if test="${friendChatxxSeachCondition=='zhnc'}">selected="selected"</c:if> >QQ昵称</option>
                                             <option value="dszh" <c:if test="${friendChatxxSeachCondition=='dszh'}">selected="selected"</c:if> >对方QQ号</option>
                                             <option value="dsnc" <c:if test="${friendChatxxSeachCondition=='dsnc'}">selected="selected"</c:if> >对方QQ昵称</option>
-                                            <option value="lujing" <c:if test="${friendChatxxSeachCondition=='lujing'||friendChatxxSeachCondition==null}">selected="selected"</c:if> >内容</option>
+                                            <option value="lujing" <c:if test="${friendChatxxSeachCondition=='lujing'||friendChatxxSeachCondition==null}">selected="selected"</c:if> >聊天内容</option>
                                         </select>
                                         <%--<input  style="margin-left: 10px;" type="checkbox" name="usable" value="1" <c:if test="${usable eq '1'}">checked="checked"</c:if>>上次条件有效--%>
                                         <textarea  class="form-control02 seachCode fl_l width100" id="seachCode" placeholder="请输入要查询内容" name="seachCode" >${friendChatxxSeachCode}</textarea>
@@ -191,6 +193,10 @@
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">QQ好友聊天信息详情<span id="title"></span></h4>
+                <div id="project-label" style="font-size: 14px;padding-left: 45%">聊天记录搜索：
+                    <input id="project" type="text"  style="width: 260px;" class="txt ui-autocomplete-input" onfocus="getLtjlOnfocus()" autofocus="autofocus">
+                    <input type="hidden" id="project-id">
+                </div>
             </div>
             <div class="modal-body" style="max-height: 580px">
                 <input name="label" id="zhxx" hidden="hidden" value="">
@@ -214,7 +220,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <%--<button type="button" class="btn btn-default" onclick="downDetailJylx()">导出</button>--%>
+                <%--<button type="button" class="btn btn-default" onclick="exportReportTemplet()">导出</button>--%>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
