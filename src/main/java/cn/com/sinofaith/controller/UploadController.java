@@ -24,6 +24,8 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RequestMapping("/Upload")
@@ -162,6 +164,71 @@ public class UploadController {
 //            e.printStackTrace();
 //        }
         return "200";
+    }
+
+    @RequestMapping(value = "/importExcel",method = RequestMethod.POST)
+    @ResponseBody
+    public String importExcel(@RequestParam("file") MultipartFile[] mywjlj, int roleId,String roleName
+            ,HttpServletRequest req) throws IOException, SQLException{
+        String fname = "";
+        String directory = "";
+        String uploadPath = req.getSession().getServletContext().getRealPath("/")+"upload/temp/"+System.currentTimeMillis();
+        File uploadPathd = new File(uploadPath);
+        if(!uploadPathd.exists()){
+            uploadPathd.mkdirs();
+        }
+        File file1;
+        try {
+            for (MultipartFile f : mywjlj) {
+                if (f instanceof CommonsMultipartFile) {
+                    CommonsMultipartFile f2 = (CommonsMultipartFile) f;
+                    fname = f2.getFileItem().getName();
+                    directory = fname.substring(0, fname.lastIndexOf("/"));
+                    file1 = new File(uploadPath + "/" + directory);
+                    if (!file1.exists()) {
+                        file1.mkdirs();
+                    }
+                    file1 = new File(uploadPath + "/" + fname);
+                    file1.createNewFile();
+                    f.transferTo(file1);
+
+                }
+            }
+            String filePath = uploadPath + "/" + fname.split("/")[0] + "/";
+            if(uploadPathd.listFiles()!=null) {
+                List<String> qun = getFileLists(filePath,"群号");
+                List<String> ltjl = getFileLists(filePath,"用户");
+
+                if(qun.size()>0){
+                    us.insertWxqlt(qun,roleId,roleName);
+                }
+                if(ltjl.size()>0){
+                    us.insertWxlt(ltjl,roleId,roleName);
+                }
+            }
+
+        }catch (Exception e){
+            System.out.println("未知错误");
+            e.printStackTrace();
+            return "404";
+        }finally {
+            delFolder(uploadPath+"/"+ fname.split("/")[0]);
+            delAllFile(uploadPath);
+            new File(uploadPath).delete();
+        }
+        return "200";
+    }
+
+    public static List<String> getFileLists(String filePath, String filter) {
+        List<String> listPath = new ArrayList<String>();
+        File dir = new File(filePath);
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.getName().contains(filter)&&(file.getName().endsWith(".xls")||file.getName().endsWith(".xlsx"))) {
+                listPath.add(file.getAbsolutePath());
+            }
+        }
+        return listPath;
     }
 
 

@@ -24,6 +24,7 @@ public class TAutoTxlEntity {
         this.pName = null;
         this.pNumber1 = null;
         this.pNumber2 = null;
+        this.aj_id=0;
     }
 
     @Id
@@ -146,5 +147,20 @@ public class TAutoTxlEntity {
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
         result = 31 * result + (pNumber2 != null ? pNumber2.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoTxlEntity{" +
+                "id=" + id +
+                ", uName='" + uName + '\'' +
+                ", uNumber='" + uNumber + '\'' +
+                ", pName='" + pName + '\'' +
+                ", pNumber1='" + pNumber1 + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", pNumber2='" + pNumber2 + '\'' +
+                ", aj_id=" + aj_id +
+                '}';
     }
 }

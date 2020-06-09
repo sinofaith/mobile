@@ -131,6 +131,7 @@ TAutoQqZhxxEntity {
         this.mima = null;
         this.birthday = null;
         this.gxqm = null;
+        this.aj_id = 0;
     }
 
     @Override
@@ -257,5 +258,27 @@ TAutoQqZhxxEntity {
             zhxxs1.add(zhxx);
         }
         return zhxxs1;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoQqZhxxEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sfzhm='" + sfzhm + '\'' +
+                ", sjhm='" + sjhm + '\'' +
+                ", sex='" + sex + '\'' +
+                ", qq='" + qq + '\'' +
+                ", nicheng='" + nicheng + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", glzh='" + glzh + '\'' +
+                ", age='" + age + '\'' +
+                ", szd='" + szd + '\'' +
+                ", mima='" + mima + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", gxqm='" + gxqm + '\'' +
+                ", aj_id=" + aj_id +
+                '}';
     }
 }

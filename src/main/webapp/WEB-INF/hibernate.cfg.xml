@@ -23,5 +23,6 @@
         <mapping class="cn.com.sinofaith.bean.RegionEntity"/>
         <mapping class="cn.com.sinofaith.bean.AreaEntity"/>
         <mapping class="cn.com.sinofaith.bean.RoleEntity"/>
+        <mapping class="cn.com.sinofaith.bean.UserEntity"/>
     </session-factory>
 </hibernate-configuration>

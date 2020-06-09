@@ -151,6 +151,7 @@ public class WxFriendChatxxController {
         // 从session域中取出数据
         Page page = wfcService.getFriendChat(pageNo,pageSize,seach.toString());
         Gson gson = new GsonBuilder().serializeNulls().create();
+        System.out.println(gson.toJson(page));
         return gson.toJson(page);
     }
 

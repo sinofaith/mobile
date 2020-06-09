@@ -29,6 +29,8 @@
 <script src="<c:url value="/resources/thirdparty/gojs/js/jquery/jquery-ui.min.js"/> "></script>
 <script src="<c:url value="/resources/js/bootstrap.js"/> "></script>
 <script src="<c:url value="/resources/js/case/caseRegion.js"/>" type="text/javascript"></script>
+<link href="<c:url value="/resources/css/bootstrap-select.css"/>" rel="stylesheet" media="screen">
+<script src="<c:url value="/resources/js/bootstrap-select.js"/> "></script>
 
 <%--详情模块脚本--%>
 <script type="text/javascript">
@@ -155,6 +157,8 @@
                                        data-target="#myModal">新增人员</button>
                                <button class="sideBar_r_button" data-toggle="modal"
                                        data-target="#filemyModal">取证报告数据导入</button>
+                               <button class="sideBar_r_button" data-toggle="modal"
+                                       data-target="#myModalUp">微信Excel聊天记录导入</button>
 
                        </span>
                                     </div>
@@ -275,6 +279,55 @@
             <div class="modal-footer">
                 <input type="submit" name="submit" class="btn" value="上传"
                        onclick="UploadQZ()" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+<div class="modal fade" id="myModalUp" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel1">文件上传进度</h4>
+            </div>
+            <div class="modal-body">
+                <progress id="progressBar1" value="0" max="100"
+                          style="width: 100%;height: 20px; "> </progress>
+                <span id="percentage1" style="color:blue;"></span> <br>
+                <br>
+                <div class="file-box">
+                    文&nbsp;&nbsp;件&nbsp;&nbsp;夹:<input type='text' name='textfield1' id='textfield1' class='txt'/>
+                    <input type='button' class='btn' value='浏览...' />
+                    <input
+                            type="file" name="file1" webkitdirectory class="file" id="file1" size="28" data-toggle="tooltip" data-placement="top"
+                            onchange="document.getElementById('textfield1').value=this.value;destroyTooltip('file')"/>
+                    <br>
+                    机  &nbsp;主  &nbsp;名:<select id="jzm1" name="jzm1" class="selectpicker" title="请选择人员" onchange="destroyTooltip('selectpicker')"></select>
+                    <br>
+                    <input type="hidden" id="unitId1" value="${brand.brandId}">
+                    品  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌:<input type="text" name = 'brandname1' id ='brandname1' value="${brand.brandName}"
+                                                                    readonly="readonly"  class='txt brandname'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    立案单位:<input type="text" name = 'unitname1' id ='unitname1' value="${brand.unitName}"
+                                readonly="readonly"    class='txt unitname'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    案  &nbsp;件  &nbsp;名:<input type="text" name = 'caseName1' id ='caseName1' value="${caseName}"
+                                               readonly="readonly"    class='txt caseName'  data-toggle="tooltip" data-placement="top">
+                    <br>
+                    区  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域:<input type="text" name = 'regionName1' id ='regionName1' value="${regionName}"
+                                                                    readonly="readonly"    class='txt regionName'  data-toggle="tooltip" data-placement="top">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" name="submit" class="btn" value="上传"
+                       onclick="UploadExcel()" />
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
             </div>

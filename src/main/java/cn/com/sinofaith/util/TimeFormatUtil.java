@@ -2,6 +2,8 @@ package cn.com.sinofaith.util;
 
 
 
+import cn.com.sinofaith.bean.RoleEntity;
+
 import java.text.SimpleDateFormat;
 
 /**
@@ -28,5 +30,15 @@ public class TimeFormatUtil {
     }
 
     public static void main(String[] args) {
+
+        RoleEntity e = new RoleEntity();
+        String [] a = e.toString().split(",");
+        for(int i =0 ; i<a.length;i++){
+            System.out.println(a[i]);
+        }
+
+//        String a = "http://15.6.13.9:90//datacache///019154//groupmonitor//20181108/v11gvOc0Lyq0UbjZwISlxNDGSl8avLK142JNubOmTveInkcvB01ZpwaOdyvCzokhT.jpg";
+//
+//        System.out.println(a.substring(a.lastIndexOf("/"),a.length()));
     }
 }

@@ -41,7 +41,7 @@ public class TAutoQqLtjlEntity {
         this.lujing = null;
         this.uName=null;
         this.uNumber=null;
-        this.aj_id = -1;
+        this.aj_id = 0;
         this.zhxx = null;
         this.zhnc = null;
         this.dszh = null;
@@ -291,5 +291,26 @@ public class TAutoQqLtjlEntity {
 
     public void setQunzhxx(String qunzhxx) {
         this.qunzhxx = qunzhxx;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoQqLtjlEntity{" +
+                "id=" + id +
+                ", fstime='" + fstime + '\'' +
+                ", fslx='" + fslx + '\'' +
+                ", lujing='" + lujing + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", uName='" + uName + '\'' +
+                ", uNumber='" + uNumber + '\'' +
+                ", aj_id=" + aj_id +
+                ", fsfx='" + fsfx + '\'' +
+                ", zhxx='" + zhxx + '\'' +
+                ", zhnc='" + zhnc + '\'' +
+                ", dszh='" + dszh + '\'' +
+                ", dsnc='" + dsnc + '\'' +
+                ", qunzhxx='" + qunzhxx + '\'' +
+                '}';
     }
 }

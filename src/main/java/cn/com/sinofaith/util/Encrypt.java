@@ -91,4 +91,8 @@ public class Encrypt {
         return sb.toString();
     }
 
+    public static void main(String[] args) {
+        System.out.println(md5("127.0.0.1"));
+    }
+
 }

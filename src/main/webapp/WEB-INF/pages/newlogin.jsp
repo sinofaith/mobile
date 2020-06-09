@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>手机取证报告采集分析系统</title>
+    <title>手机取证数据分析系统</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -44,7 +44,7 @@
                                 <div class="widget-main">
                                     <h4 class="header blue lighter bigger icon_login">
 
-                                        <b>线索数据分析</b>
+                                        <b>手机取证数据分析系统</b>
                                     </h4>
 
                                     <div class="space-6"></div>

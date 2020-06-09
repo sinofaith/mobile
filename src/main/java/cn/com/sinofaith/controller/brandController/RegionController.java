@@ -90,6 +90,13 @@ public class RegionController {
         return "redirect:/caseRegion/seach?pageNo=1";
     }
 
+    @RequestMapping(value = "/getJzm",method = RequestMethod.GET,produces = "text/pain;charset=UTF-8")
+    @ResponseBody
+    public String getJzm(HttpSession session){
+        Integer regionId = (Integer) session.getAttribute("regionId");
+        return rs.getRoleByRegionId(regionId);
+    }
+
     /**
      * 获取已有人员名
      * @param term

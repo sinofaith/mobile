@@ -208,6 +208,7 @@
       <version>RELEASE</version>
     </dependency>
 
+
     <!--<dependency>-->
     <!--<groupId>org.hibernate</groupId>-->
     <!--<artifactId>hibernate-annotations</artifactId>-->
@@ -218,7 +219,7 @@
   </dependencies>
 
   <build>
-    <finalName>autoimport</finalName>
+    <finalName>mobile</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>

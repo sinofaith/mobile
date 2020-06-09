@@ -108,7 +108,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>mvc-dispatcher</servlet-name>
-    <url-pattern>/caseBrand</url-pattern>
+    <url-pattern>/homepage</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>mvc-dispatcher</servlet-name>
@@ -116,6 +116,6 @@
   </servlet-mapping>
 
   <welcome-file-list>
-    <welcome-file>caseBrand</welcome-file>
+    <welcome-file>homepage</welcome-file>
   </welcome-file-list>
 </web-app>

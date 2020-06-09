@@ -38,6 +38,7 @@ public class TAutoWechatFriendsxxEntity {
         this.friendqm = null;
         this.friendszd = null;
         this.friendqh = null;
+        this.aj_id = 0;
     }
 
     @Id
@@ -236,5 +237,27 @@ public class TAutoWechatFriendsxxEntity {
 
     public void setAj_id(long aj_id) {
         this.aj_id = aj_id;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoWechatFriendsxxEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sfzhm='" + sfzhm + '\'' +
+                ", sjhm='" + sjhm + '\'' +
+                ", sex='" + sex + '\'' +
+                ", wechatno='" + wechatno + '\'' +
+                ", fdwechatno='" + fdwechatno + '\'' +
+                ", friendnc='" + friendnc + '\'' +
+                ", friendsex='" + friendsex + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", friendbz='" + friendbz + '\'' +
+                ", friendqm='" + friendqm + '\'' +
+                ", friendszd='" + friendszd + '\'' +
+                ", friendqh='" + friendqh + '\'' +
+                ", aj_id=" + aj_id +
+                '}';
     }
 }

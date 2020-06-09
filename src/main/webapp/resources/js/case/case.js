@@ -72,7 +72,6 @@ function getCaseName() {
     $( "#casename" ).autocomplete({
         source: "/mobile/case/getCaseName",
         minLength: 2
-
     });
 };
 

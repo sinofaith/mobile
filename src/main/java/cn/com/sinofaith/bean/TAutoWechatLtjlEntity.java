@@ -1,7 +1,13 @@
 package cn.com.sinofaith.bean;
 
+import org.apache.commons.io.FileUtils;
+
 import javax.persistence.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by ryw on 2016/11/20.
@@ -41,7 +47,7 @@ public class TAutoWechatLtjlEntity {
         this.lujing = null;
         this.uName=null;
         this.uNumber=null;
-        this.aj_id = -1;
+        this.aj_id = 0;
         this.zhxx = null;
         this.zhnc = null;
         this.dszh = null;
@@ -278,5 +284,89 @@ public class TAutoWechatLtjlEntity {
 
     public void setQunzhxx(String qunzhxx) {
         this.qunzhxx = qunzhxx;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoWechatLtjlEntity{" +
+                "id=" + id +
+                ", fstime='" + fstime + '\'' +
+                ", fslx='" + fslx + '\'' +
+                ", lujing='" + lujing + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", uNumber='" + uNumber + '\'' +
+                ", uName='" + uName + '\'' +
+                ", aj_id=" + aj_id +
+                ", fsfx='" + fsfx + '\'' +
+                ", zhxx='" + zhxx + '\'' +
+                ", zhnc='" + zhnc + '\'' +
+                ", dszh='" + dszh + '\'' +
+                ", dsnc='" + dsnc + '\'' +
+                ", qunzhxx='" + qunzhxx + '\'' +
+                '}';
+    }
+
+    public static TAutoWechatLtjlEntity mapToObj(Map<Integer,Object> map, Map<String,Integer> title, String dmtPath, String path){
+        TAutoWechatLtjlEntity b = new TAutoWechatLtjlEntity();
+        String zhid = path.substring(path.lastIndexOf("\\"),path.length()).split("_")[2];
+        try{
+                if(zhid.equals(map.get(title.get("fsfnbid")))){
+                    b.setFsfx("发送");
+                    b.setZhxx(map.get(title.get("fsfzh")).toString());
+                    b.setDszh(map.get(title.get("jsfzh")).toString());
+                }else{
+                    b.setFsfx("接收");
+                    b.setZhxx(map.get(title.get("jsfzh")).toString());
+                    b.setDszh(map.get(title.get("fsfzh")).toString());
+                }
+                b.setFstime(map.get(title.get("fssj")).toString());
+                String dmt = map.get(title.get("dmt")).toString();
+                String ltnr = map.get(title.get("ltnr")).toString();
+                if("附件".equals(dmt)){
+                    b.setFslx(ltnr.substring(ltnr.lastIndexOf(".")+1,ltnr.length()));
+                    b.setLujing(dmtPath+(ltnr.substring(ltnr.lastIndexOf("/"),ltnr.length())));
+                    OutputStream os = new FileOutputStream(b.getLujing());
+                    FileUtils.copyFile(new File(path.substring(0,path.lastIndexOf("\\"))
+                            +(ltnr.substring(ltnr.lastIndexOf("/"),ltnr.length()))), os);
+                    os.close();
+                }else{
+                    b.setFslx("文字");
+                    b.setLujing(ltnr);
+                }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return b;
+    }
+
+    public static TAutoWechatLtjlEntity mapToObjQun(Map<Integer,Object> map, Map<String,Integer> title,String dmtPath,String path){
+        TAutoWechatLtjlEntity b = new TAutoWechatLtjlEntity();
+        try{
+            if(map.get(title.get("qh")).toString()!=null) {
+                b.setQunzhxx(map.get(title.get("qh")).toString()+"@chatroom");
+                b.setFsfx("接收");
+                b.setDszh(map.get(title.get("fsfzh")).toString());
+                b.setDsnc(map.get(title.get("fsfnc")).toString());
+                b.setZhxx("Excel文件导入未知账户");
+                b.setFstime(map.get(title.get("xxfcsj")).toString());
+                String dmt = map.get(title.get("dmt")).toString();
+                String ltnr = map.get(title.get("ltnr")).toString();
+                if("附件".equals(dmt)){
+                    b.setFslx(ltnr.substring(ltnr.lastIndexOf(".")+1,ltnr.length()));
+                    b.setLujing(dmtPath+(ltnr.substring(ltnr.lastIndexOf("/"),ltnr.length())));
+                    OutputStream os = new FileOutputStream(b.getLujing());
+                    FileUtils.copyFile(new File(path+(ltnr.substring(ltnr.lastIndexOf("/"),ltnr.length()))), os);
+                    os.close();
+                }else{
+                    b.setFslx("文字");
+                    b.setLujing(ltnr);
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return b;
     }
 }

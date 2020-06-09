@@ -38,6 +38,7 @@ public class TAutoQqFriendsxxEntity {
         this.qqfriendgxqm = null;
         this.qqfriendqh = null;
         this.qqfriendqshf = null;
+        this.aj_id = 0;
     }
 
     @Id
@@ -236,5 +237,27 @@ public class TAutoQqFriendsxxEntity {
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
         result = 31 * result + (insertTime != null ? insertTime.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoQqFriendsxxEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sfzhm='" + sfzhm + '\'' +
+                ", sjhm='" + sjhm + '\'' +
+                ", sex='" + sex + '\'' +
+                ", qq='" + qq + '\'' +
+                ", fdqq='" + fdqq + '\'' +
+                ", friendqqnc='" + friendqqnc + '\'' +
+                ", friendqqsex='" + friendqqsex + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", qqfriendbz='" + qqfriendbz + '\'' +
+                ", qqfriendgxqm='" + qqfriendgxqm + '\'' +
+                ", qqfriendqh='" + qqfriendqh + '\'' +
+                ", qqfriendqshf='" + qqfriendqshf + '\'' +
+                ", aj_id=" + aj_id +
+                '}';
     }
 }

@@ -22,6 +22,9 @@
 <script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/qq.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
+<%--<script src="<c:url value="/resources/js/pdf/canvg2.js"/>" type="text/javascript"></script>--%>
+<script src="<c:url value="/resources/js/pdf/html2canvas-0.4.1.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/resources/js/pdf/jspdf.debug.js"/>" type="text/javascript"></script>
 
 <div class="tab_div">
     <%@include file="title.jsp" %>
@@ -43,23 +46,23 @@
                                         </td>
                                     </tr>
                                     <tr align="center">
-                                        <td width="5%">序号</td>
-                                        <td width="9%">QQ号</td>
-                                        <td width="15%">QQ昵称</td>
-                                        <td width="9%">对方QQ号</td>
-                                        <td width="15%">对方QQ昵称</td>
-                                        <td width="9%">机主姓名</td>
-                                        <td width="10%"><a href="${pageContext.request.contextPath}/phoneqqFriendChat/order?orderby=num">聊天总记录数</a></td>
-                                        <td width="5%">详情</td>
+                                        <td width="3%">序号</td>
+                                        <td width="4%">QQ号</td>
+                                        <td width="4%">QQ昵称</td>
+                                        <td width="4%">对方QQ号</td>
+                                        <td width="4%">对方QQ昵称</td>
+                                        <%--<td width="9%">机主姓名</td>--%>
+                                        <td width="6%"><a href="${pageContext.request.contextPath}/phoneqqFriendChat/order?orderby=num">聊天次数</a></td>
+                                        <td width="6%">详情</td>
                                     </tr>
                                     <c:forEach items="${detailinfo}" var="item" varStatus="st">
                                         <tr class="${st.index%2==1 ? '':'odd' }">
                                             <td align="center">${item.id}</td>
-                                            <td align="center">${item.zhxx}</td>
-                                            <td align="center">${item.zhnc}</td>
-                                            <td align="center">${item.dszh}</td>
-                                            <td align="center">${item.dsnc}</td>
-                                            <td align="center">${item.u_name}</td>
+                                            <td align="center" title='${item.zhxx}'><div style="width:120px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.zhxx}</div></td>
+                                            <td align="center" title='${item.zhnc}'><div style="width:200px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.zhnc}</div></td>
+                                            <td align="center" title='${item.dszh}'><div style="width:120px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.dszh}</div></td>
+                                            <td align="center" title='${item.dsnc}'><div style="width:200px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.dsnc}</div></td>
+                                            <%--<td align="center">${item.u_name}</td>--%>
                                             <td align="center">${item.num}</td>
                                             <td align="center">
                                                 <button  data-toggle="modal" data-target="#myModal" onclick="getQqFirendDetails(this)">详情</button></td>
@@ -198,11 +201,11 @@
                     <input type="hidden" id="project-id">
                 </div>
             </div>
-            <div class="modal-body" style="max-height: 580px">
+            <div class="modal-body" >
                 <input name="label" id="zhxx" hidden="hidden" value="">
                 <input name="label" id="dszh" hidden="hidden" value="">
                 <input name="label" id="allRow" hidden="hidden" value="">
-                <div class="mobile-page" id="qqContent" onscroll="scrollF()">
+                <div class="mobile-page pdf" id="qqContent" onscroll="scrollF()">
                     <%--<div class="admin-group">
                         <img class="admin-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
                         <div class="admin-msg"><div class="time"><span class="time">2018-11-30 12:12:12</span></div>
@@ -220,7 +223,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <%--<button type="button" class="btn btn-default" onclick="exportReportTemplet()">导出</button>--%>
+                <button type="button" class="btn btn-default" id="downloadPdf" onclick="cnm()">导出</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>

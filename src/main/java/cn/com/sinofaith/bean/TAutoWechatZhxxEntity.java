@@ -44,6 +44,7 @@ public class TAutoWechatZhxxEntity {
         this.shi = null;
         this.wxh = null;
         this.gxqm = null;
+        this.aj_id = 0;
     }
 
     @Id
@@ -280,5 +281,29 @@ public class TAutoWechatZhxxEntity {
             zhxxs1.add(zhxx);
         }
         return zhxxs1;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoWechatZhxxEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sfzhm='" + sfzhm + '\'' +
+                ", sjhm='" + sjhm + '\'' +
+                ", sex='" + sex + '\'' +
+                ", wechatno='" + wechatno + '\'' +
+                ", nicheng='" + nicheng + '\'' +
+                ", qq='" + qq + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", miyao='" + miyao + '\'' +
+                ", mysflx='" + mysflx + '\'' +
+                ", email='" + email + '\'' +
+                ", sheng='" + sheng + '\'' +
+                ", shi='" + shi + '\'' +
+                ", wxh='" + wxh + '\'' +
+                ", gxqm='" + gxqm + '\'' +
+                ", aj_id=" + aj_id +
+                '}';
     }
 }

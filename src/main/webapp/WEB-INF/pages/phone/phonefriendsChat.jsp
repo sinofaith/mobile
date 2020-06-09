@@ -186,7 +186,7 @@
                 <input type="hidden" id="project-id">
             </div>
             </div>
-            <div class="modal-body" style="max-height: 580px">
+            <div class="modal-body" style="max-height: 80%">
                 <input name="label" id="zhxx" hidden="hidden" value="">
                 <input name="label" id="dszh" hidden="hidden" value="">
                 <input name="label" id="allRow" hidden="hidden" value="">

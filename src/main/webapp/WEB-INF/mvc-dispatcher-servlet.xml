@@ -34,14 +34,14 @@
         </bean>
     </mvc:interceptors>
 
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<mvc:exclude-mapping path="/homepage/**"/>-->
-            <!--<mvc:exclude-mapping path="/login/**"/>-->
-            <!--<bean class="cn.com.sinofaith.util.LoginInterceptor" />-->
-            <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/homepage/**"/>
+            <mvc:exclude-mapping path="/login/**"/>
+            <bean class="cn.com.sinofaith.util.LoginInterceptor" />
+            </mvc:interceptor>
+    </mvc:interceptors>
 
     <!--<mvc:interceptors>-->
         <!--<bean class="cn.com.sinofaith.controller.LoginInterceptor" />-->

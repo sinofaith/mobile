@@ -5,6 +5,31 @@ $(function () {
     $( "#role" ).autocomplete({
 
     });
+
+
+    $("#jzm1").selectpicker({
+        noneResultsText:"未搜索人员{0}",
+        noneSelectedText:"请选择人员",
+        width:"176px",
+        liveSearch:true,
+        style:"background-color: white"
+    });
+
+    $.ajax({
+        type: 'Get',
+        url: '/mobile/caseRegion/getJzm',
+        dataType: "Json",
+        success: function (data) {
+            var str = "";
+            for(var i = 0;i<data.length;i++){
+                str+="<option value=\"" + data[i].role_id + "\">" + data[i].role_name + "</option>"
+            }
+            $("#jzm1").append(str);
+            $('.selectpicker').selectpicker('refresh');
+            $('.selectpicker').selectpicker('render');
+        }
+    });
+
 })
 
 function getRole_nameOnfocus() {
@@ -224,6 +249,71 @@ function caseSkip(a){
     }
 }
 
+function UploadExcel(){
+    try {
+        $(".btn").attr("disabled", "true");
+        var fileObj = document.getElementById("file1");// js 获取文件对象
+        var file = $("#file1").val();
+        var flag = true;
+        if (file == '') {
+            $("#file1").attr('data-original-title', "请选择Excel聊天记录文件夹").tooltip('show');
+            flag = false;
+        }
+        var regionId = $("#regionId1").val();
+        if (regionId == '') {
+            $("#fregionName1").attr('data-original-title', "区域不能为空,请从区域列表选择后添加取证报告").tooltip('show');
+            flag = false;
+        }
+        var myjzm = $("#jzm1").val();
+        if (myjzm == '') {
+            $("#jzm1").attr('data-original-title', "机主名不能为空").tooltip('show');
+            flag = false;
+        }
+        if (!flag) {
+            $(".btn").removeAttr("disabled", "disabled");
+            return;
+        }
+        var FileController = "/mobile/Upload/importExcel"; // 接收上传文件的后台地址
+        var form = new FormData();
+        form.append("roleId", myjzm);
+        form.append("roleName",$("#jzm1").find("option:selected").text())
+        for (i = 0; i < fileObj.files.length; i++) {
+            form.append("file", fileObj.files[i]);
+            // 文件对象
+        }
+        var xhr = new XMLHttpRequest();                // XMLHttpRequest 对象
+        xhr.open("POST", FileController, true);
+        xhr.onload = function (e) {
+            if ((this.status == 200 || this.status == 304)) {
+                var responseText = xhr.responseText;
+                alertify.set('notifier', 'position', 'top-center');
+                if (responseText == '200') {
+                    alertify.success("导入完成!");
+                    $('#myModalUp').modal('hide');
+                    setTimeout(function () {
+                        document.getElementById("seachDetail").submit()
+                    }, 1500);
+                } else if (responseText == '500') {
+                    $(".btn").removeAttr("disabled", "disabled");
+                    alertify.error("未找到Excel聊天文件");
+                } else if (responseText == '404') {
+                    $(".btn").removeAttr("disabled", "disabled");
+                    alertify.error("错误!请联系管理员")
+                }
+            } else {
+                $(".btn").removeAttr("disabled", "disabled");
+                alertify.error("错误!请联系管理员")
+                return
+            }
+        };
+        xhr.upload.addEventListener("progress", progressFunction1, false);
+        xhr.send(form);
+    }catch (e){
+        console.log(e.name + ": " + e.message);
+        $(".btn").attr("disabled", "false");
+    }
+}
+
 
 function UploadQZ() {
     try {
@@ -300,6 +390,28 @@ function UploadQZ() {
     }catch (e){
         console.log(e.name + ": " + e.message);
         $(".btn").attr("disabled", "false");
+    }
+}
+
+function progressFunction1(evt) {
+
+    var progressBar = document.getElementById("progressBar1");
+
+    var percentageDiv = document.getElementById("percentage1");
+
+    if (evt.lengthComputable) {
+
+        progressBar.max = evt.total;
+
+        progressBar.value = evt.loaded;
+
+        percentageDiv.innerHTML = Math.round(evt.loaded / evt.total * 100)+ "%";
+
+        if((evt.loaded/evt.total) ==1){
+            alertify.set('notifier','position', 'top-center');
+            alertify.set('notifier','delay', 0);
+            alertify.success("文件上传成功\n请等待数据导入...");
+        }
     }
 }
 

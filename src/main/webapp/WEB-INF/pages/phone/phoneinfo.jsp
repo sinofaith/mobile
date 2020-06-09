@@ -63,7 +63,7 @@
                                             <td align="center">${item.sex}</td>
                                             <td align="center">${item.age}</td>
                                             <td align="center">${item.birthday}</td>
-                                            <td align="center">${item.szd}</td>
+                                            <td align="center" title="${item.szd}"><div style="width:80px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.szd}</div></td>
                                             <td align="center">${item.dataType}</td>
                                             <td align="center" title="${item.gxqm}"><div style="width:160px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">${item.gxqm}</div></td>
                                         </tr>

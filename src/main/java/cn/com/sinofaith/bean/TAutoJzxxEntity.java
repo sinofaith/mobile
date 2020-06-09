@@ -57,6 +57,7 @@ public class TAutoJzxxEntity {
         this.gsd = null;
         this.insertTime = null;
         this.iccid = null;
+        this.aj_id=0;
     }
 
     public String getIccid() {
@@ -368,4 +369,5 @@ public class TAutoJzxxEntity {
         result = 31 * result + (insertTime != null ? insertTime.hashCode() : 0);
         return result;
     }
+
 }

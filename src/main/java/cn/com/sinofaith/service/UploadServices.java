@@ -3,6 +3,8 @@ package cn.com.sinofaith.service;
 import cn.com.sinofaith.bean.*;
 import cn.com.sinofaith.service.brand.RegionService;
 import cn.com.sinofaith.util.Amr2Mp3;
+import cn.com.sinofaith.util.DBUtil;
+import cn.com.sinofaith.util.ReadExcelUtils;
 import cn.com.sinofaith.util.TimeFormatUtil;
 import org.apache.commons.io.CopyUtils;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +19,7 @@ import org.springframework.util.FileCopyUtils;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.Timestamp;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +46,140 @@ public class UploadServices {
             return a[3];
         }
         return "";
+    }
+
+    public int insertWxlt(List<String> listPath, int roleId,String roleName){
+        // List<TAutoWechatLtjlEntity> wxltjl = new ArrayList<>();
+        int total = 0;
+        for (String path : listPath) {
+            try {
+                ReadExcelUtils excelReader = new ReadExcelUtils(path);
+                String[] titles = excelReader.readExcelTitle();
+                List<String> strTitle = new ArrayList<>(Arrays.asList(titles));
+                Map<String, Integer> title = new HashMap<>();
+                for (int i = 0; i < strTitle.size(); i++) {
+                    String str = strTitle.get(i);
+                    String lb = "";
+                    if (str != null && str.length() > 0) {
+                        if (str.contains("SENDAPPID")) {
+                            lb = "fsfzh";
+                        } else if (str.contains("SENDUSERID")) {
+                            lb = "fsfnbid";
+                        } else if (str.contains("SENDIP")) {
+                            lb = "fsfip";
+                        } else if (str.contains("SENDIPSTRAREA")) {
+                            lb = "fsfgsd";
+                        } else if (str.contains("RECEIVERAPPID")) {
+                            lb = "jsfzh";
+                        } else if (str.contains("RECEIVERUSERID")) {
+                            lb = "jsfnbid";
+                        } else if (str.contains("CAPTURETIME")) {
+                            lb = "fssj";
+                        } else if (str.contains("CONTENT")) {
+                            lb = "ltnr";
+                        } else if (str.contains("MULTIRESOURCE")) {
+                            lb = "dmt";
+                        }
+                        if (!"".endsWith(lb)) {
+                            title.put(lb, i);
+                        }
+                    }
+                }
+                String dmtPath= FILEPATH+roleName+System.currentTimeMillis();
+                File dmtPathf = new File(dmtPath);
+                if(!dmtPathf.exists()){
+                    dmtPathf.mkdirs();
+                }
+                Connection conn = DBUtil.getConnection();
+                Map<Integer, Map<Integer, Object>> map = excelReader.readExcelContent();
+
+                for (int i = 1; i <= map.size(); i++) {
+                    TAutoWechatLtjlEntity a = TAutoWechatLtjlEntity.mapToObj(map.get(i), title,dmtPathf.getAbsolutePath(),path);
+                    // if (!wxltjl.contains(a)) {
+                        a.setAj_id(roleId);
+                        // wxltjl.add(a);
+                        insertWechatLtjl(a, conn);
+                        total+=1;
+                    // }
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println("未找到指定路径的文件!");
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return total;
+    }
+
+    public int insertWxqlt(List<String> listPath,int roleId,String roleName){
+        List<TAutoWechatLtjlEntity> wxltjl = new ArrayList<>();
+        int total = 0;
+        for (String path : listPath) {
+            try {
+                ReadExcelUtils excelReader = new ReadExcelUtils(path);
+                String[] titles = excelReader.readExcelTitle();
+                List<String> strTitle = new ArrayList<>(Arrays.asList(titles));
+                Map<String, Integer> title = new HashMap<>();
+                for (int i = 0; i < strTitle.size(); i++) {
+                    String str = strTitle.get(i);
+                    String lb = "";
+                    if (str != null && str.length() > 0) {
+                        if (str.contains("GROUPID")) {
+                            lb = "qh";
+                        } else if (str.contains("GROUPPRIID")) {
+                            lb = "qnb";
+                        } else if (str.contains("SENDAPPID")) {
+                            lb = "fsfzh";
+                        } else if (str.contains("SENDIP")) {
+                            lb = "fsfip";
+                        } else if (str.contains("SENDIPSTRAREA")) {
+                            lb = "fsfipgsd";
+                        } else if (str.contains("SENDUSERID")) {
+                            lb = "fsfzhnbid";
+                        } else if (str.contains("SENDREMARKNAME")) {
+                            lb = "fsfnc";
+                        } else if (str.contains("CAPTURETIME")) {
+                            lb = "xxfcsj";
+                        } else if (str.contains("CONTENT")) {
+                            lb = "ltnr";
+                        }else if (str.contains("MULTIRESOURCE")) {
+                            lb = "dmt";
+                        }
+                        if (!"".endsWith(lb)) {
+                            title.put(lb, i);
+                        }
+                    }
+                }
+                String dmtPath= FILEPATH+roleName+System.currentTimeMillis();
+                File dmtPathf = new File(dmtPath);
+                if(!dmtPathf.exists()){
+                    dmtPathf.mkdirs();
+                }
+                Connection conn = DBUtil.getConnection();
+                Map<Integer, Map<Integer, Object>> map = excelReader.readExcelContent();
+
+                for (int i = 1; i <= map.size(); i++) {
+                    TAutoWechatLtjlEntity a = TAutoWechatLtjlEntity.mapToObjQun(map.get(i), title,dmtPathf.getAbsolutePath(),path.substring(0,path.lastIndexOf("\\")));
+                    if (!wxltjl.contains(a)) {
+                        a.setAj_id(roleId);
+                        wxltjl.add(a);
+                        insertWechatLtjl(a, conn);
+                        total+=1;
+                    }
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println("未找到指定路径的文件!");
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return total;
     }
 
     public  void zjxxParser(String ai, String filePath, TZjxxEntity zjxx, Connection con) throws IOException {
@@ -645,8 +781,7 @@ public class UploadServices {
     }
 
     //    获取qq微信账号
-    public  void
-    qqWechatParser(String ai, TAutoJzxxEntity jzxx, TAutoQqZhxxEntity qqZhxxEntity, TAutoWechatZhxxEntity wechatZhxxEntity, String filePath, PrintStream p,Connection conn) throws IOException {
+    public  void qqWechatParser(String ai, TAutoJzxxEntity jzxx, TAutoQqZhxxEntity qqZhxxEntity, TAutoWechatZhxxEntity wechatZhxxEntity, String filePath, PrintStream p,Connection conn) throws IOException {
         String herf[] = jumpPage("帐号信息", ai).split("#");
         if (herf.length == 2) {
 //                读取查找表格的文件
@@ -1801,13 +1936,13 @@ public class UploadServices {
                                                                         qqLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,qqLtjlEntity.getFslx());
                                                                     }
-                                                                    qqLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
+                                                                    qqLtjlEntity.setLujing("E:"+File.separator+"BLOB文件路径"+File.separator+jzxxEntity.getName()+File.separator+lujing);
                                                                 }else {
                                                                     if(fslx.length>1){
                                                                         wechatLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,wechatLtjlEntity.getFslx());
                                                                     }
-                                                                    wechatLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
+                                                                    wechatLtjlEntity.setLujing("E:"+File.separator+"BLOB文件路径"+File.separator+jzxxEntity.getName()+File.separator+lujing);
                                                                 }
                                                                 String sblob=filePath+lujing;
                                                                 String endPath= FILEPATH+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","").replace("-","").replace(" ","");
@@ -1820,32 +1955,32 @@ public class UploadServices {
                                                                         //将文件读入到byte[]中
 //                                                                        inputStream.read(buf);
                                                                         if (ai.contains("27_301~349.ico")) {
-                                                                            File endFile = new File(endPath+"\\qq");
+                                                                            File endFile = new File(endPath+File.separator+"qq");
                                                                             if(!endFile.exists()){
                                                                                 endFile.mkdirs();
                                                                             }
                                                                             if(file.getName().endsWith(".amr")){
-                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
-                                                                                qqLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + File.separator + file.getName().replace(".amr",".mp3"));
+                                                                                qqLtjlEntity.setLujing(endFile + File.separator + file.getName().replace(".amr",".mp3"));
                                                                             }else {
-                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + File.separator + file.getName());
                                                                                 FileUtils.copyFile(file, os);
-                                                                                qqLtjlEntity.setLujing(endFile+"\\" + file.getName());
+                                                                                qqLtjlEntity.setLujing(endFile+File.separator+ file.getName());
                                                                                 os.close();
                                                                             }
 //                                                                            qqLtjlEntity.setFanr(buf);
                                                                         } else {
-                                                                            File endFile = new File(endPath+"\\wechat");
+                                                                            File endFile = new File(endPath+File.separator+"wechat");
                                                                             if(!endFile.exists()){
                                                                                 endFile.mkdirs();
                                                                             }
                                                                             if(file.getName().endsWith(".amr")){
-                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
-                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + File.separator + file.getName().replace(".amr",".mp3"));
+                                                                                wechatLtjlEntity.setLujing(endFile + File.separator + file.getName().replace(".amr",".mp3"));
                                                                             }else {
-                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + File.separator + file.getName());
                                                                                 FileUtils.copyFile(file, os);
-                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName());
+                                                                                wechatLtjlEntity.setLujing(endFile + File.separator + file.getName());
 //                                                                            wechatLtjlEntity.setFanr(buf);
                                                                                 os.close();
                                                                             }
@@ -2026,13 +2161,13 @@ public class UploadServices {
                                                                         qqLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,qqLtjlEntity.getFslx());
                                                                     }
-                                                                    qqLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
+                                                                    qqLtjlEntity.setLujing("E:"+File.separator+"BLOB文件路径"+File.separator+jzxxEntity.getName()+File.separator+lujing);
                                                                 }else {
                                                                     if(fslx.length>1){
                                                                         wechatLtjlEntity.setFslx(fslx[fslx.length-1].replace("amr","mp3"));
 //                                                                        message(p,wechatLtjlEntity.getFslx());
                                                                     }
-                                                                    wechatLtjlEntity.setLujing("E:\\BLOB文件路径\\"+jzxxEntity.getName()+"\\"+lujing);
+                                                                    wechatLtjlEntity.setLujing("E:"+File.separator+"BLOB文件路径"+File.separator+jzxxEntity.getName()+File.separator+lujing);
                                                                 }
                                                                 String sblob=filePath+lujing;
                                                                 String endPath= FILEPATH+jzxxEntity.getName()+jzxxEntity.getInsertTime().replace(":","").replace("-","").replace(" ","");
@@ -2045,32 +2180,32 @@ public class UploadServices {
                                                                         //将文件读入到byte[]中
 //                                                                        inputStream.read(buf);
                                                                         if (ai.contains("27_301~349.ico")) {
-                                                                            File endFile = new File(endPath+"\\qq");
+                                                                            File endFile = new File(endPath+File.separator+"qq");
                                                                             if(!endFile.exists()){
                                                                                 endFile.mkdirs();
                                                                             }
                                                                             if(file.getName().endsWith(".amr")){
-                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
-                                                                                qqLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + File.separator + file.getName().replace(".amr",".mp3"));
+                                                                                qqLtjlEntity.setLujing(endFile + File.separator + file.getName().replace(".amr",".mp3"));
                                                                             }else {
-                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + File.separator + file.getName());
                                                                                 FileUtils.copyFile(file, os);
-                                                                                qqLtjlEntity.setLujing(endFile+"\\" + file.getName());
+                                                                                qqLtjlEntity.setLujing(endFile+ File.separator + file.getName());
                                                                                 os.close();
                                                                             }
 //                                                                            qqLtjlEntity.setFanr(buf);
                                                                         } else {
-                                                                            File endFile = new File(endPath+"\\wechat");
+                                                                            File endFile = new File(endPath+File.separator+"wechat");
                                                                             if(!endFile.exists()){
                                                                                 endFile.mkdirs();
                                                                             }
                                                                             if(file.getName().endsWith(".amr")){
-                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + "\\" + file.getName().replace(".amr",".mp3"));
-                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName().replace(".amr",".mp3"));
+                                                                                Amr2Mp3.changeToMp3(file.getAbsolutePath(),endFile.getAbsolutePath() + File.separator + file.getName().replace(".amr",".mp3"));
+                                                                                wechatLtjlEntity.setLujing(endFile + File.separator + file.getName().replace(".amr",".mp3"));
                                                                             }else {
-                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + "\\" + file.getName());
+                                                                                os = new FileOutputStream(endFile.getAbsolutePath() + File.separator + file.getName());
                                                                                 FileUtils.copyFile(file, os);
-                                                                                wechatLtjlEntity.setLujing(endFile + "\\" + file.getName());
+                                                                                wechatLtjlEntity.setLujing(endFile + File.separator + file.getName());
 //                                                                            wechatLtjlEntity.setFanr(buf);
                                                                                 os.close();
                                                                             }

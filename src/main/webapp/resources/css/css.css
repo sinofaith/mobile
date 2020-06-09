@@ -66,7 +66,7 @@ a:hover{ transition: color 0.2s;}
 .tab dd { padding:10px 0; width: 100%;   }
 .tab dt a.tabActive{ background:#403d74; color:#fff ;}
 /*����*/
-.dropdown-menu > li > a{ position: relative;}
+.dropdown-menu > li > a{ position: relative; color: white}
 .dropdown-menu > li > a> small{ padding: 0 0 0 5px; color: #fff;  position: absolute; right: 10px; top:10px; }
 .dropdown > a> i{ color:#333;}
 .dropdown-menu > li{font-size:12px;text-align: left; }
@@ -368,4 +368,16 @@ a:hover{ transition: color 0.2s;}
     overflow-y: auto;
     /* 防止水平滚动条 */
     overflow-x: hidden;
+}
+/* 聊天记录检索 样式*/
+xmp{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    white-space:normal;
+    font-family: 'Microsoft YaHei UI';
+    display:inline;
+}
+
+.seachL{
+    background-color: orangered;
 }

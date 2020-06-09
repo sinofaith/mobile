@@ -50,9 +50,9 @@ public class WxForm {
         WxForm zzf = new WxForm();
         zzf.setRn( map.get("RN").toString());
         if("发送".equals((String) map.get("FSFX"))){
-            zzf.setNickname((String) map.get("ZHNC"));
+            zzf.setNickname(map.get("ZHNC")!=null ? (String) map.get("ZHNC"): (String) map.get("ZHXX"));
         }else{
-            zzf.setNickname((String) map.get("DSNC"));
+            zzf.setNickname(map.get("DSNC")!=null ? (String) map.get("DSNC"):(String) map.get("DSZH"));
         }
         zzf.setFstime((String)map.get("FSTIME"));
         zzf.setLabel((String)map.get("LUJING"));

@@ -21,10 +21,11 @@
 <script src="<c:url value="/resources/js/aj.js"/> "></script>
 <script src="<c:url value="/resources/js/qq/wx.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/jquery-form/jquery.form.js"/>" type="text/javascript"></script>
-
+<script src="<c:url value="/resources/js/pdf/html2canvas-0.4.1.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/resources/js/pdf/jspdf.debug.js"/>" type="text/javascript"></script>
 <style>
     .ui-autocomplete {
-        max-height: 300px; //默认最大高度150像素
+        max-height: 100px; //默认最大高度150像素
     overflow-y: auto; //添加滚动条
         /* prevent horizontal scrollbar */
     overflow-x: auto;
@@ -143,27 +144,28 @@
                                 </form>
                             </div>
 
-                            <%--
-                            <div class="width100" style="margin-top: 10px;float: left;">
+                            <%--<div class="width100" style="margin-top: 10px;float: left;">--%>
+                                <%--<span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">导入/导出</span>--%>
 
-                                <span style="margin-left: 10px;color: #444;padding-bottom: 10px;margin-top: 20px;">导入/导出</span>
-                                &lt;%&ndash;<div class="demo">&ndash;%&gt;
-                                &lt;%&ndash;<div class="drag-area" id="upload-area">&ndash;%&gt;
-                                &lt;%&ndash;<strong>将Word文件拖拽到这里</strong>&ndash;%&gt;
-                                &lt;%&ndash;<br>&ndash;%&gt;
-                                &lt;%&ndash;<strong>(10个以内)</strong>&ndash;%&gt;
-                                &lt;%&ndash;</div>&ndash;%&gt;
-                                &lt;%&ndash;</div>&ndash;%&gt;
-                                <div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">
-                                    <div class="if_tel width100">
-                                       <span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">
-                                            <button class="sideBar_r_button" data-toggle="modal" data-target="#myModal">文件夹导入</button>
-                                            <button  type="button"  class="sideBar_r_button"  onclick="location.href='${pageContext.request.contextPath}/qqFriend/download'" >数据导出</button>
-                                       </span>
-                                    </div>
+                            <%--
+                                    &lt;%&ndash;<div class="demo">&ndash;%&gt;
+                                    &lt;%&ndash;<div class="drag-area" id="upload-area">&ndash;%&gt;
+                                    &lt;%&ndash;<strong>将Word文件拖拽到这里</strong>&ndash;%&gt;
+                                    &lt;%&ndash;<br>&ndash;%&gt;
+                                    &lt;%&ndash;<strong>(10个以内)</strong>&ndash;%&gt;
+                                    &lt;%&ndash;</div>&ndash;%&gt;
+                                    &lt;%&ndash;</div>&ndash;%&gt;
+                                 --%>
+
+                                <%--<div class="form-group_search loadFile width100" style="margin-top: 5px;height: auto;">--%>
+                                        <%--<div class="if_tel width100">--%>
+                                           <%--<span class="fl_l width100 " style="padding-bottom: 10px;margin-top: 10px;">--%>
+                                                <%--<button class="sideBar_r_button" data-toggle="modal" data-target="#myModalUp">Excel聊天记录文件夹导入</button>--%>
+                                                <%--&lt;%&ndash;<button  type="button"  class="sideBar_r_button"  onclick="location.href='${pageContext.request.contextPath}/qqFriend/download'" >数据导出</button>&ndash;%&gt;--%>
+                                           <%--</span>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
                                 </div>
-                            </div>
-                            --%>
                         </div>
                     </div>
                 </div>
@@ -179,6 +181,7 @@
         </div>
     </ul>
 </div>
+
 <script src="<c:url value="/resources/js/bootstrap.js"/> "></script>
 <script src="<c:url value="/resources/thirdparty/alertify/js/alertify.min.js"/> "></script>
 <%--详情模块脚本--%>
@@ -200,16 +203,17 @@
                         aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel" style="font-weight: bold">微信聊天信息详情<span id="title"></span></h4>
                 <div id="project-label" style="font-size: 14px;padding-left: 45%">聊天记录搜索：
-                    <input id="project" type="text"  style="width: 260px;" class="txt ui-autocomplete-input" onfocus="getLtjlOnfocus()" autofocus="autofocus">
+                    <input id="project" type="text"  style="width: 260px;" class="txt
+                    ui-autocomplete-input" onfocus="getLtjlOnfocus()" autofocus="autofocus">
                     <input type="hidden" id="project-id">
                 </div>
                 <p id="project-description"></p>
             </div>
-            <div class="modal-body" style="max-height:80%;">
+            <div class="modal-body" style="max-height: 79%">
                 <input name="label" id="zhxx" hidden="hidden" value="">
                 <input name="label" id="dszh" hidden="hidden" value="">
                 <input name="label" id="allRow" hidden="hidden" value="">
-                <div class="mobile-page" id="wxContent" onscroll="scrollF()" >
+                <div class="mobile-page pdf" id="wxContent" onscroll="scrollF()" >
                     <%--<div class="admin-group">
                         <img class="admin-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
                         <div class="admin-msg"><div class="time"><span class="time">2018-11-30 12:12:12</span></div>
@@ -227,7 +231,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <%--<button type="button" class="btn btn-default" onclick="exportReportTemplet()">导出</button>--%>
+                <button type="button" class="btn btn-default" id="downloadPdf" onclick="cnm()">导出</button>
+            <%--<button type="button" class="btn btn-default" onclick="exportReportTemplet()">导出</button>--%>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
@@ -235,81 +240,4 @@
     </div>
     <!-- /.modal -->
 </div>
-
-
-<%--<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">文件上传进度</h4>
-            </div>
-            <div class="modal-body">
-                <progress id="progressBar" value="0" max="100"
-                          style="width: 100%;height: 20px; "> </progress>
-                <span id="percentage" style="color:blue;"></span> <br>
-                <br>
-                <div class="file-box">
-                    文件夹:<input type='text' name='textfield' id='textfield' class='txt'/>
-                    <input type='button' class='btn' value='浏览...' />
-                    <input
-                            type="file" name="file" webkitdirectory class="file" id="file" size="28"
-                            onchange="document.getElementById('textfield').value=this.value;" />
-                    &lt;%&ndash;<br>&ndash;%&gt;
-                    &lt;%&ndash;案件名:<input type="text" name = 'aj' id ='aj' class='txt' readonly="readonly" value="${aj.aj}">&ndash;%&gt;
-                    <br>
-                    <input type="hidden" id="checkbox1" value="1" >
-                    &lt;%&ndash;<label for="checkbox1" style="padding-top: 8px">导入数据绑定用户</label>&ndash;%&gt;
-                </div>
-            </div>
-            <div class="modal-footer">
-                <input type="submit" name="submit" class="btn" value="上传"
-                       onclick="UploadWord()" />
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal -->
-</div>
-
-
-<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="top: 0%; min-width: 80%;left: 10%;right: 10%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel1">文档列表<span id="title"></span></h4>
-            </div>
-            <div class="modal-body">
-                <table class="table  table-hover table_style table_list1 " style="border-left: 1px solid #ccc; border-right: 1px solid #ccc!important;">
-                    <thead style="display:table;width:100%;table-layout:fixed;width: calc( 100% - 16.5px );">
-                    <tr align="center">
-                        <td width="4%">序号</td>
-                        <td width="15%">文档名</td>
-                        <td width="5%">导入时间</td>
-                    </tr>
-                    <input name="label" id="hm" hidden="hidden" value="">
-                    <input name="label" id="allRow" hidden="hidden" value="">
-                    </thead>
-                    <tbody id="result" style="display:block;height:340px;overflow-y:scroll;" onscroll="scrollH()">
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" onclick="deleteWord()">删除</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal -->
-</div>--%>
-
 <%@include file="../template/newfooter.jsp" %>

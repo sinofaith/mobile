@@ -46,4 +46,14 @@ public class TZjxxEntity {
     public void setInserttime(String inserttime) {
         this.inserttime = inserttime;
     }
+
+    @Override
+    public String toString() {
+        return "TZjxxEntity{" +
+                "id=" + id +
+                ", zjm='" + zjm + '\'' +
+                ", zjbb='" + zjbb + '\'' +
+                ", inserttime='" + inserttime + '\'' +
+                '}';
+    }
 }

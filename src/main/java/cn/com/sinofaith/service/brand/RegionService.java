@@ -6,6 +6,7 @@ import cn.com.sinofaith.dao.brand.RegionDao;
 import cn.com.sinofaith.dao.brand.RoleDao;
 import cn.com.sinofaith.page.Page;
 import cn.com.sinofaith.util.TimeFormatUtil;
+import com.google.gson.Gson;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,12 @@ public class RegionService {
         return page;
     }
 
+    public String getRoleByRegionId(long regionId){
+        Gson gson = new Gson();
+        return gson.toJson(rd.find("from RoleEntity where region_id = "+regionId));
+
+    }
+
     /**
      * json数据获取
      * @param currentPage
@@ -89,6 +96,11 @@ public class RegionService {
             }
         }
         return role_names;
+    }
+
+    public String getRole(DetachedCriteria dc){
+
+        return  "";
     }
 
     public int getRoleRowBySFZHM(DetachedCriteria dc) {

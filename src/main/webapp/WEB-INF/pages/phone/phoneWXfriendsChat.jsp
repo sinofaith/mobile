@@ -199,11 +199,11 @@
                     <input type="hidden" id="project-id">
                 </div>
             </div>
-            <div class="modal-body" style="max-height: 580px">
+            <div class="modal-body" style="max-height: 79%">
                 <input name="label" id="zhxx" hidden="hidden" value="">
                 <input name="label" id="dszh" hidden="hidden" value="">
                 <input name="label" id="allRow" hidden="hidden" value="">
-                <div class="mobile-page" id="wxContent" onscroll="scrollF()">
+                <div class="mobile-page pdf" id="wxContent" onscroll="scrollF()">
                     <%--<div class="admin-group">
                         <img class="admin-img" src="${pageContext.request.contextPath}/resources/image/qq.png"/>
                         <div class="admin-msg"><div class="time"><span class="time">2018-11-30 12:12:12</span></div>

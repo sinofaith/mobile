@@ -28,6 +28,7 @@ public class TAutoDxEntity {
         this.content = null;
         this.sendTime = null;
         this.sendType = null;
+        this.aj_id=0;
     }
 
     @Id
@@ -174,5 +175,22 @@ public class TAutoDxEntity {
         result = 31 * result + (sendType != null ? sendType.hashCode() : 0);
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoDxEntity{" +
+                "id=" + id +
+                ", uName='" + uName + '\'' +
+                ", uNumber='" + uNumber + '\'' +
+                ", pName='" + pName + '\'' +
+                ", pNumber='" + pNumber + '\'' +
+                ", content='" + content + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", sendTime='" + sendTime + '\'' +
+                ", sendType='" + sendType + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", aj_id=" + aj_id +
+                '}';
     }
 }

@@ -32,6 +32,7 @@ public class TAutoThqdEntity {
         this.uName = null;
         this.pName = null;
         this.flg = null;
+        this.aj_id=0;
     }
 
     @Id
@@ -202,5 +203,24 @@ public class TAutoThqdEntity {
         result = 31 * result + (insertTime != null ? insertTime.hashCode() : 0);
         result = 31 * result + (flg != null ? flg.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TAutoThqdEntity{" +
+                "id=" + id +
+                ", uNumber='" + uNumber + '\'' +
+                ", pNumber='" + pNumber + '\'' +
+                ", callDate='" + callDate + '\'' +
+                ", callTime='" + callTime + '\'' +
+                ", callValue='" + callValue + '\'' +
+                ", callType='" + callType + '\'' +
+                ", uName='" + uName + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", pName='" + pName + '\'' +
+                ", insertTime='" + insertTime + '\'' +
+                ", flg='" + flg + '\'' +
+                ", aj_id=" + aj_id +
+                '}';
     }
 }

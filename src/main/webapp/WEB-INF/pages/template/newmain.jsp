@@ -164,7 +164,7 @@
         </ul>
     </div>--%>
         <span class="fl_r font_075 padd_r_30">
-            <%--<span>${user.username}</span>，您已登录&nbsp;<a id="btnLogout" href="/word/logout" style="color:  #6698ce" class="color_black">退出系统</a>--%>
+            <span>${user.username}</span>，您已登录&nbsp;<a id="btnLogout" href="/mobile/logout" style="color:  #6698ce" class="color_black">退出系统</a>
         </span>
 
 

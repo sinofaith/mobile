@@ -63,8 +63,6 @@ body .mobile-page {
 /*}*/
 .mobile-page{
     max-width: 100%;
-    max-height: 77%;
-    overflow-y:scroll;
     background-color: #F5F5F5;
     margin: 0 auto;
 }
@@ -104,6 +102,7 @@ i.triangle-admin,i.triangle-user{
     -webkit-justify-content: flex-end;
 }
 .mobile-page .admin-reply, .mobile-page .user-reply{
+    max-width: 80%;
     display: inline-block;
     padding: 8px;
     border-radius: 4px;
@@ -128,4 +127,11 @@ i.triangle-admin,i.triangle-user{
 .time{
     font-size: 12px;
     color: gray;
+}
+.pdf{
+    max-height: 77%;
+    overflow-y:scroll;
+}
+.ui-autocomplete {
+    max-height: 300px; //默认最大高度150像素
 }
